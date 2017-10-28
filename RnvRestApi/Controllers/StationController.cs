@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RnvRestApi.DomainDtos;
-using RnvRestApi.rnvAdapter;
+using RnvRestApi.RnvAdapter;
 
 namespace RnvRestApi.Controllers
 {

@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using RnvRestApi.rnvAdapter;
+using RnvRestApi.RnvAdapter;
+using RnvRestApi.RnvAdapter.Mapper;
 
 namespace RnvRestApi
 {

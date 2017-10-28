@@ -1,0 +1,33 @@
+<Trias version="1.0" xmlns="trias" xmlns:siri="http://www.siri.org.uk/siri" xmlns:mw="http://services.mentzdv.de/2010/07/middleware">
+    <ServiceDelivery>
+        <siri:ResponseTimestamp>2017-10-28T21:47:47</siri:ResponseTimestamp>
+        <siri:ProducerRef>VRN</siri:ProducerRef>
+        <siri:ResponseMessageIdentifier>21-47-45-147</siri:ResponseMessageIdentifier>
+        <DeliveryPayload>
+            <LocationInformationResponse>
+                <Location>
+                    <Location>
+                        <StopPoint>
+                            <StopPointRef>de:08222:2417</StopPointRef>
+                            <StopPointName>
+                                <Text>Mannheim, Hauptbahnhof</Text>
+                                <Language>de</Language>
+                            </StopPointName>
+                            <LocalityRef>de:8222000:18</LocalityRef>
+                        </StopPoint>
+                        <LocationName>
+                            <Text>Mannheim</Text>
+                            <Language>de</Language>
+                        </LocationName>
+                        <GeoPosition>
+                            <Longitude>8.46994</Longitude>
+                            <Latitude>49.47975</Latitude>
+                        </GeoPosition>
+                    </Location>
+                    <Complete>true</Complete>
+                    <Probability>0.905</Probability>
+                </Location>
+            </LocationInformationResponse>
+        </DeliveryPayload>
+    </ServiceDelivery>
+</Trias>

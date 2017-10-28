@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
 using RnvRestApi.DomainDtos;
+using RnvRestApi.RnvAdapter.Mapper;
+using RnvRestApi.RnvAdapter.RnvCommands;
 
-namespace RnvRestApi.rnvAdapter
+namespace RnvRestApi.RnvAdapter
 {
     public class RnvRepository : IRnvRepository
     {

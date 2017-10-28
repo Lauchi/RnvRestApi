@@ -1,6 +1,6 @@
 ﻿using RnvRestApi.DomainDtos;
 
-namespace RnvRestApi.rnvAdapter
+namespace RnvRestApi.RnvAdapter.Mapper
 {
     public interface IStationMapper
     {

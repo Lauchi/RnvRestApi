@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace RnvRestApi.rnvAdapter
+namespace RnvRestApi.RnvAdapter
 {
     public class RnvResponse
     {

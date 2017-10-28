@@ -1,8 +1,9 @@
 ﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using RnvRestApi.RnvAdapter.RnvCommands;
 
-namespace RnvRestApi.rnvAdapter
+namespace RnvRestApi.RnvAdapter
 {
     public class RnvClient
     {
@@ -13,7 +14,7 @@ namespace RnvRestApi.rnvAdapter
             _client = client;
         }
 
-        public async Task<RnvResponse> SendRequest(IRnvCommand rnvCommand)
+        public async Task<RnvResponse> SendRequest(RnvCommand rnvCommand)
         {
             var httpRequestMessage = new HttpRequestMessage();
             httpRequestMessage.Method = HttpMethod.Post;

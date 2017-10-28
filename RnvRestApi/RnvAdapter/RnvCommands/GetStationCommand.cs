@@ -1,8 +1,8 @@
 ﻿using RnvRestApi.DomainDtos;
 
-namespace RnvRestApi.rnvAdapter
+namespace RnvRestApi.RnvAdapter.RnvCommands
 {
-    public class GetStationCommand : IRnvCommand
+    public class GetStationCommand : RnvCommand
     {
         private readonly StationId _stationId;
 
@@ -11,7 +11,7 @@ namespace RnvRestApi.rnvAdapter
             _stationId = stationId;
         }
 
-        public string GetXmlRepresentation()
+        public override string GetXmlRepresentation()
         {
             return "je";
         }

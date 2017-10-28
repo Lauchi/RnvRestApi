@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using RnvRestApi.DomainDtos;
 
-namespace RnvRestApi.rnvAdapter
+namespace RnvRestApi.RnvAdapter
 {
     public interface IRnvRepository
     {
