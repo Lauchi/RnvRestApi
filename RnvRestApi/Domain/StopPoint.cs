@@ -1,6 +1,7 @@
 ﻿using System;
+using RnvRestApi.DomainDtos;
 
-namespace RnvRestApi.DomainDtos
+namespace RnvRestApi.Domain
 {
     public class StopPointDto
     {

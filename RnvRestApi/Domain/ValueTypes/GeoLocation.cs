@@ -1,4 +1,4 @@
-﻿namespace RnvRestApi.DomainDtos
+﻿namespace RnvRestApi.Domain.ValueTypes
 {
     public class GeoLocation
     {

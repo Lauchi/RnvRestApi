@@ -1,4 +1,8 @@
-﻿namespace RnvRestApi.DomainDtos
+﻿using RnvRestApi.Domain;
+using RnvRestApi.Domain.ValueTypes;
+using RnvRestApi.Domain.ValueTypes.Ids;
+
+namespace RnvRestApi.DomainDtos
 {
     public class StationDto
     {

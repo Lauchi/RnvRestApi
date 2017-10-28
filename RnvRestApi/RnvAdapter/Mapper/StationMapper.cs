@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using RnvRestApi.Domain;
+using RnvRestApi.Domain.ValueTypes;
+using RnvRestApi.Domain.ValueTypes.Ids;
 using RnvRestApi.DomainDtos;
 
 namespace RnvRestApi.RnvAdapter.Mapper

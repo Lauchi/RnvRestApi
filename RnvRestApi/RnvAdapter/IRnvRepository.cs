@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using RnvRestApi.Domain;
+using RnvRestApi.Domain.ValueTypes.Ids;
 using RnvRestApi.DomainDtos;
 
 namespace RnvRestApi.RnvAdapter
