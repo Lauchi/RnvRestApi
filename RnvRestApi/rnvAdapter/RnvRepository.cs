@@ -3,28 +3,28 @@ using RnvRestApi.DomainDtos;
 
 namespace RnvRestApi.rnvAdapter
 {
-    public class RnvRepository
+    public class RnvRepository : IRnvRepository
     {
         private readonly RnvClient _rnvClient;
-        private readonly StationMapper _stationMapper;
+        private readonly IStationMapper _stationMapper;
 
-        public RnvRepository(RnvClient rnvClient, StationMapper stationMapper)
+        public RnvRepository(RnvClient rnvClient, IStationMapper stationMapper)
         {
             _rnvClient = rnvClient;
             _stationMapper = stationMapper;
         }
 
-        public async Task<StationDto> getStation(StationId stationId)
+        public async Task<StationDto> GetStation(StationId stationId)
         {
-            _rnvClient.RnvCommand = new GetStationCommand(stationId);
-            var rnvResponse = await _rnvClient.SendRequest();
+            var getStationCommand = new GetStationCommand(stationId);
+            var rnvResponse = await _rnvClient.SendRequest(getStationCommand);
             return _stationMapper.MapToStation(rnvResponse);
         }
 
-        public async Task<StationDto> searchStation(string stationName)
+        public async Task<StationDto> SearchStation(string stationName)
         {
-            _rnvClient.RnvCommand = new SearchStationCommand(stationName);
-            var rnvResponse = await _rnvClient.SendRequest();
+            var searchStationCommand = new SearchStationCommand(stationName);
+            var rnvResponse = await _rnvClient.SendRequest(searchStationCommand);
             return _stationMapper.MapToStation(rnvResponse);
         }
     }

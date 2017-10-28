@@ -10,8 +10,8 @@
         <e p="appsettings.json" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="Controllers" t="Include">
-          <e p="LocationController.cs" t="Include" />
           <e p="RouteController.cs" t="Include" />
+          <e p="StationController.cs" t="Include" />
         </e>
         <e p="DomainDtos" t="Include">
           <e p="GeoLocation.cs" t="Include" />
@@ -29,6 +29,8 @@
         </e>
         <e p="Program.cs" t="Include" />
         <e p="rnvAdapter" t="Include">
+          <e p="IRnvRepository.cs" t="Include" />
+          <e p="IStationMapper.cs" t="Include" />
           <e p="RnvClient.cs" t="Include" />
           <e p="RnvCommands" t="Include">
             <e p="GetStationCommand.cs" t="Include" />

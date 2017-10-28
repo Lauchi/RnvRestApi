@@ -13,13 +13,11 @@ namespace RnvRestApi.rnvAdapter
             _client = client;
         }
 
-        public IRnvCommand RnvCommand { get; set; }
-
-        public async Task<RnvResponse> SendRequest()
+        public async Task<RnvResponse> SendRequest(IRnvCommand rnvCommand)
         {
             var httpRequestMessage = new HttpRequestMessage();
             httpRequestMessage.Method = HttpMethod.Post;
-            var xmlRepresentation = Encoding.UTF8.GetBytes(RnvCommand.GetXmlRepresentation());
+            var xmlRepresentation = Encoding.UTF8.GetBytes(rnvCommand.GetXmlRepresentation());
             httpRequestMessage.Content = new ByteArrayContent(xmlRepresentation);
             var httpResponseMessage = await _client.SendAsync(httpRequestMessage);
             return new RnvResponse(httpResponseMessage);

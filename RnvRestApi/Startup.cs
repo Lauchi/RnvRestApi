@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Net.Http;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using RnvRestApi.rnvAdapter;
 
 namespace RnvRestApi
 {
@@ -9,7 +13,14 @@ namespace RnvRestApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://trias.vrn.de/Middleware/Data/trias");
+            var rnvClient = new RnvClient(httpClient);
+
+            services.AddSingleton(rnvClient)
+                .AddSingleton<IStationMapper, StationMapper>()
+                .AddSingleton<IRnvRepository, RnvRepository>()
+                .AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

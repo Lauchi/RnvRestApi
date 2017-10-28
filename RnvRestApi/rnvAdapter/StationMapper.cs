@@ -2,7 +2,7 @@
 
 namespace RnvRestApi.rnvAdapter
 {
-    public class StationMapper
+    public class StationMapper : IStationMapper
     {
         public StationDto MapToStation(RnvResponse station)
         {
