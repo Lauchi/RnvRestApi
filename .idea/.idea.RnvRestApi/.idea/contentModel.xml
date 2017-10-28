@@ -28,9 +28,19 @@
           </e>
         </e>
         <e p="Program.cs" t="Include" />
+        <e p="rnvAdapter" t="Include">
+          <e p="RnvClient.cs" t="Include" />
+          <e p="RnvCommands" t="Include">
+            <e p="GetStationCommand.cs" t="Include" />
+            <e p="IRnvCommand.cs" t="Include" />
+            <e p="SearchStationCommand.cs" t="Include" />
+          </e>
+          <e p="rnVRepository.cs" t="Include" />
+          <e p="RnvResponse.cs" t="Include" />
+          <e p="StationMapper.cs" t="Include" />
+        </e>
         <e p="RnvRestApi.csproj" t="IncludeRecursive" />
         <e p="Startup.cs" t="Include" />
-        <e p="wwwroot" t="Include" />
       </e>
       <e p="RnvRestApi.sln" t="IncludeFlat" />
     </e>
