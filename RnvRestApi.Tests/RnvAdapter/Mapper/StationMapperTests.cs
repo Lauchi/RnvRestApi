@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -35,7 +34,10 @@ namespace RnvRestApi.Tests.RnvAdapter.Mapper
             httpResponseMessage.Content = new StringContent(SuccessContentMultipleLocations);
             var parsedStation = await stationMapper.MapToStation(new RnvResponse(httpResponseMessage));
 
-            parsedStation.Count().Should().Be(2);
+            var stationDtos = parsedStation as StationDto[] ?? parsedStation.ToArray();
+            stationDtos.Length.Should().Be(2);
+            stationDtos[0].StationId.Id.Should().BeEquivalentTo("de:08222:6004");
+            stationDtos[1].StationId.Id.Should().BeEquivalentTo("de:08222:2462");
         }
 
         private string SuccessContent => File.ReadAllText("RnvAdapter/Mapper/Responses/SuccesResponse.xml");
