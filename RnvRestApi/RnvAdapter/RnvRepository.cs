@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using RnvRestApi.DomainDtos;
 using RnvRestApi.RnvAdapter.Mapper;
 using RnvRestApi.RnvAdapter.RnvCommands;
@@ -20,10 +22,11 @@ namespace RnvRestApi.RnvAdapter
         {
             var getStationCommand = new GetStationCommand(stationId);
             var rnvResponse = await _rnvClient.SendRequest(getStationCommand);
-            return await _stationMapper.MapToStation(rnvResponse);
+            var stationDtos = await _stationMapper.MapToStation(rnvResponse);
+            return stationDtos.SingleOrDefault();
         }
 
-        public async Task<StationDto> SearchStation(string stationName)
+        public async Task<IEnumerable<StationDto>> SearchStation(string stationName)
         {
             var searchStationCommand = new SearchStationCommand(stationName);
             var rnvResponse = await _rnvClient.SendRequest(searchStationCommand);

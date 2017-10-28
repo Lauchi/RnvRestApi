@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RnvRestApi.DomainDtos;
 using RnvRestApi.RnvAdapter;
@@ -16,13 +17,13 @@ namespace RnvRestApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<StationDto> Get(StationId id)
+        public async Task<StationDto> Get(string id)
         {
-            return await _repository.GetStation(id);
+            return await _repository.GetStation(new StationId(id));
         }
 
         [HttpGet]
-        public async Task<StationDto> SearchStation([FromQuery] string name)
+        public async Task<IEnumerable<StationDto>> SearchStation([FromQuery] string name)
         {
             return await _repository.SearchStation(name);
         }

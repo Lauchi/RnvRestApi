@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,21 +11,30 @@ namespace RnvRestApi.RnvAdapter.Mapper
 {
     public class StationMapper : IStationMapper
     {
-        public async Task<StationDto> MapToStation(RnvResponse station)
+        public async Task<IEnumerable<StationDto>> MapToStation(RnvResponse station)
         {
             var readAsByteArrayAsync = await station.Content.ReadAsByteArrayAsync();
             var encodedCondent = Encoding.UTF8.GetString(readAsByteArrayAsync);
             var xml = XDocument.Parse(encodedCondent);
 
-            var locationInformation  = xml.Descendants().Where(d => d.Name == "{trias}LocationInformationResponse").ToList();
-            var stopPointName = locationInformation.Descendants().Where(d => d.Name == "{trias}StopPointName");
-            var stationName = stopPointName.Descendants().SingleOrDefault(d => d.Name == "{trias}Text");
-            var staionId = locationInformation.Descendants().SingleOrDefault(d => d.Name == "{trias}StopPointRef");
-            var stationLongitude = locationInformation.Descendants().SingleOrDefault(d => d.Name == "{trias}Longitude");
-            var stationLatitude = locationInformation.Descendants().SingleOrDefault(d => d.Name == "{trias}Latitude");
+            var root  = xml.Descendants().SingleOrDefault(d => d.Name == "{trias}LocationInformationResponse");
+            var stationList = new Collection<StationDto>();
+            if (root == null) return stationList;
 
-            return new StationDto(new StationId(staionId?.Value), stationName?.Value,
-                new GeoLocation(Convert.ToDouble(stationLongitude?.Value), Convert.ToDouble(stationLatitude?.Value)));
+            var locations = root.Descendants().Where(d => d.Name == "{trias}Location" && d.Parent == root ).ToList();
+            foreach (var location in locations)
+            {
+                var stopPoint = location.Descendants().Where(d => d.Name == "{trias}StopPointName");
+                var stationName = stopPoint.Descendants().SingleOrDefault(d => d.Name == "{trias}Text");
+                var staionId = location.Descendants().SingleOrDefault(d => d.Name == "{trias}StopPointRef");
+                var stationLongitude = location.Descendants().SingleOrDefault(d => d.Name == "{trias}Longitude");
+                var stationLatitude = location.Descendants().SingleOrDefault(d => d.Name == "{trias}Latitude");
+
+                stationList.Add(new StationDto(new StationId(staionId?.Value), stationName?.Value,
+                    new GeoLocation(Convert.ToDouble(stationLongitude?.Value), Convert.ToDouble(stationLatitude?.Value))));
+            }
+
+            return stationList;
         }
     }
 }

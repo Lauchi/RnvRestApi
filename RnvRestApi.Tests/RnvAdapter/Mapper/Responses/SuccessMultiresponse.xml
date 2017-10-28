@@ -1,0 +1,55 @@
+<Trias version="1.0" xmlns="trias" xmlns:siri="http://www.siri.org.uk/siri" xmlns:mw="http://services.mentzdv.de/2010/07/middleware">
+    <ServiceDelivery>
+        <siri:ResponseTimestamp>2017-10-29T00:31:56</siri:ResponseTimestamp>
+        <siri:ProducerRef>VRN</siri:ProducerRef>
+        <siri:ResponseMessageIdentifier>00-31-56-137</siri:ResponseMessageIdentifier>
+        <DeliveryPayload>
+            <LocationInformationResponse>
+                <Location>
+                    <Location>
+                        <StopPoint>
+                            <StopPointRef>de:08222:6004</StopPointRef>
+                            <StopPointName>
+                                <Text>Mannheim, Mensa am Schloss</Text>
+                                <Language>de</Language>
+                            </StopPointName>
+                            <LocalityRef>de:8222000:18</LocalityRef>
+                        </StopPoint>
+                        <LocationName>
+                            <Text>Mannheim</Text>
+                            <Language>de</Language>
+                        </LocationName>
+                        <GeoPosition>
+                            <Longitude>8.45916</Longitude>
+                            <Latitude>49.48656</Latitude>
+                        </GeoPosition>
+                    </Location>
+                    <Complete>true</Complete>
+                    <Probability>0.228</Probability>
+                </Location>
+                <Location>
+                    <Location>
+                        <StopPoint>
+                            <StopPointRef>de:08222:2462</StopPointRef>
+                            <StopPointName>
+                                <Text>Mannheim, Schloss</Text>
+                                <Language>de</Language>
+                            </StopPointName>
+                            <LocalityRef>de:8222000:18</LocalityRef>
+                        </StopPoint>
+                        <LocationName>
+                            <Text>Mannheim</Text>
+                            <Language>de</Language>
+                        </LocationName>
+                        <GeoPosition>
+                            <Longitude>8.46344</Longitude>
+                            <Latitude>49.48478</Latitude>
+                        </GeoPosition>
+                    </Location>
+                    <Complete>true</Complete>
+                    <Probability>0.438</Probability>
+                </Location>
+            </LocationInformationResponse>
+        </DeliveryPayload>
+    </ServiceDelivery>
+</Trias>

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using RnvRestApi.DomainDtos;
 
 namespace RnvRestApi.RnvAdapter
@@ -6,6 +7,6 @@ namespace RnvRestApi.RnvAdapter
     public interface IRnvRepository
     {
         Task<StationDto> GetStation(StationId stationId);
-        Task<StationDto> SearchStation(string stationName);
+        Task<IEnumerable<StationDto>> SearchStation(string stationName);
     }
 }
