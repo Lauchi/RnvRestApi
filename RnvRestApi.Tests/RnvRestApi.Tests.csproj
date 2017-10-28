@@ -13,5 +13,8 @@
       <Project>{93B11064-3B7F-4330-A7DA-1973462337FB}</Project>
       <Name>RnvRestApi</Name>
     </ProjectReference>
+    <Content Include="RnvAdapter\Mapper\Responses\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

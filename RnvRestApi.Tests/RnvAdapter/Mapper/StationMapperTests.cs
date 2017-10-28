@@ -1,5 +1,6 @@
 using System.IO;
 using System.Net.Http;
+using System.Threading.Tasks;
 using RnvRestApi.DomainDtos;
 using RnvRestApi.RnvAdapter;
 using RnvRestApi.RnvAdapter.Mapper;
@@ -10,23 +11,19 @@ namespace RnvRestApi.Tests.RnvAdapter.Mapper
     public class StationMapperTests
     {
         [Fact]
-        public void MapToStation_HappyPath()
+        public async Task MapToStation_HappyPath()
         {
             var stationMapper = new StationMapper();
             var httpResponseMessage = new HttpResponseMessage();
             httpResponseMessage.Content = new StringContent(SuccessContent);
-            var mapToStation = stationMapper.MapToStation(new RnvResponse(httpResponseMessage));
+            var mapToStation = await stationMapper.MapToStation(new RnvResponse(httpResponseMessage));
 
-            StationDto successExpected = new StationDto()
-            {
-                StationId = new StationId("de:8222000:18"),
-                GeoLocation = new GeoLocation(8.46994, 49.47975),
-                Name = "Mannheim, Hauptbahnhof"
-            };
+            StationDto successExpected = new StationDto(new StationId("de:8222000:18"), "Mannheim, Hauptbahnhof",
+                new GeoLocation(8.46994, 49.47975));
 
             Assert.Equal(successExpected, mapToStation);
         }
 
-        private string SuccessContent => File.ReadAllText("RnvRestApi.Tests/RnvAdapter/Mapper/Responses/SuccesResponse.xml");
+        private string SuccessContent => File.ReadAllText("RnvAdapter/Mapper/Responses/SuccesResponse.xml");
     }
 }

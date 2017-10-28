@@ -1,12 +1,28 @@
-﻿using RnvRestApi.DomainDtos;
+﻿using System;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+using RnvRestApi.DomainDtos;
 
 namespace RnvRestApi.RnvAdapter.Mapper
 {
     public class StationMapper : IStationMapper
     {
-        public StationDto MapToStation(RnvResponse station)
+        public async Task<StationDto> MapToStation(RnvResponse station)
         {
-            return new StationDto();
+            var readAsByteArrayAsync = await station.Content.ReadAsByteArrayAsync();
+            var encodedCondent = Encoding.UTF8.GetString(readAsByteArrayAsync);
+            var xml = XDocument.Parse(encodedCondent);
+
+            var locationInformation  = xml.Descendants().Where(d => d.Name == "{trias}LocationInformationResponse").ToList();
+            //var stationName = locationInformation.Descendants().SingleOrDefault(d => d.Name == "{trias}Text");
+            var staionId = locationInformation.Descendants().SingleOrDefault(d => d.Name == "{trias}StopPointRef");
+            var stationLongitude = locationInformation.Descendants().SingleOrDefault(d => d.Name == "{trias}Longitude");
+            var stationLatitude = locationInformation.Descendants().SingleOrDefault(d => d.Name == "{trias}Latitude");
+
+            return new StationDto(new StationId(staionId?.Value), "aasd",
+                new GeoLocation(Convert.ToDouble(stationLongitude?.Value), Convert.ToDouble(stationLatitude?.Value)));
         }
     }
 }

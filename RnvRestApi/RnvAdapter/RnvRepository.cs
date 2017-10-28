@@ -20,14 +20,14 @@ namespace RnvRestApi.RnvAdapter
         {
             var getStationCommand = new GetStationCommand(stationId);
             var rnvResponse = await _rnvClient.SendRequest(getStationCommand);
-            return _stationMapper.MapToStation(rnvResponse);
+            return await _stationMapper.MapToStation(rnvResponse);
         }
 
         public async Task<StationDto> SearchStation(string stationName)
         {
             var searchStationCommand = new SearchStationCommand(stationName);
             var rnvResponse = await _rnvClient.SendRequest(searchStationCommand);
-            return _stationMapper.MapToStation(rnvResponse);
+            return await _stationMapper.MapToStation(rnvResponse);
         }
     }
 }
