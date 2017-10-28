@@ -18,5 +18,12 @@ namespace RnvRestApi.Controllers
         {
             return new GameSessionDto();
         }
+
+        [HttpPost("{id}")]
+        public GameSessionDto CreateGameSession()
+        {
+            //save to db, get id
+            return new GameSessionDto();
+        }
     }
 }

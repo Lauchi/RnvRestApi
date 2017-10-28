@@ -1,11 +1,6 @@
 ﻿namespace RnvRestApi.Domain.ValueTypes.Ids
 {
-    public class StationId
+    public class StationId : DomainId
     {
-        public StationId(string id)
-        {
-            Id = id;
-        }
-        public string Id { get; set; }
     }
 }

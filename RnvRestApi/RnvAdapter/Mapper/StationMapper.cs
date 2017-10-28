@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using RnvRestApi.Domain;
 using RnvRestApi.Domain.ValueTypes;
 using RnvRestApi.Domain.ValueTypes.Ids;
 using RnvRestApi.DomainDtos;
@@ -33,7 +32,7 @@ namespace RnvRestApi.RnvAdapter.Mapper
                 var stationLongitude = location.Descendants().SingleOrDefault(d => d.Name == "{trias}Longitude");
                 var stationLatitude = location.Descendants().SingleOrDefault(d => d.Name == "{trias}Latitude");
 
-                stationList.Add(new StationDto(new StationId(staionId?.Value), stationName?.Value,
+                stationList.Add(new StationDto(new StationId { Id = staionId?.Value }, stationName?.Value,
                     new GeoLocation(Convert.ToDouble(stationLongitude?.Value), Convert.ToDouble(stationLatitude?.Value))));
             }
 

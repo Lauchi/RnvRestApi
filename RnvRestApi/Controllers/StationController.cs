@@ -21,7 +21,7 @@ namespace RnvRestApi.Controllers
         [HttpGet("{id}")]
         public async Task<StationDto> Get(string id)
         {
-            return await _repository.GetStation(new StationId(id));
+            return await _repository.GetStation(new StationId() { Id = id });
         }
 
         [HttpGet]

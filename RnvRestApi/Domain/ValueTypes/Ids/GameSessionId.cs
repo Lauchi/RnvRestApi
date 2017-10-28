@@ -1,7 +1,6 @@
 ﻿namespace RnvRestApi.Domain.ValueTypes.Ids
 {
-    public class GameSessionId
+    public class GameSessionId : DomainId
     {
-        public string Id { get; }
     }
 }

@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
+using RnvRestApi.Domain;
 using RnvRestApi.Domain.ValueTypes.Ids;
-using RnvRestApi.DomainDtos;
 
-namespace RnvRestApi.Domain
+namespace RnvRestApi.DomainDtos
 {
-    public class PoliceOfficer
+    public class PoliceOfficerDto
     {
         public PoliceOfficerId PoliceOfficerId { get; }
-        public IEnumerable<StationDto> drivenLocations { get; }
+        public IEnumerable<StationId> drivenLocations { get; }
         public IEnumerable<VehicelType> usedVehicles { get; }
-        public TicketPool TicketPool { get; }
+        public TicketPoolId TicketPoolId { get; }
     }
 }
