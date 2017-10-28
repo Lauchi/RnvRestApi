@@ -1,0 +1,37 @@
+﻿{
+  "version": "1.0.0",
+  "restore": {
+    "projectUniqueName": "/Users/simonheiss/RiderProjects/RnvRestApi/RnvRestApi/RnvRestApi.csproj",
+    "projectName": "RnvRestApi",
+    "projectPath": "/Users/simonheiss/RiderProjects/RnvRestApi/RnvRestApi/RnvRestApi.csproj",
+    "outputPath": "/Users/simonheiss/RiderProjects/RnvRestApi/RnvRestApi/obj/",
+    "projectStyle": "PackageReference",
+    "originalTargetFrameworks": [
+      "netcoreapp2.0"
+    ],
+    "frameworks": {
+      "netcoreapp2.0": {
+        "projectReferences": {}
+      }
+    }
+  },
+  "frameworks": {
+    "netcoreapp2.0": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "target": "Package",
+          "version": "2.0.0-preview2-25407-01"
+        },
+        "Microsoft.AspNetCore.All": {
+          "target": "Package",
+          "version": "2.0.0-preview2-final"
+        }
+      },
+      "imports": [
+        "net461"
+      ],
+      "assetTargetFallback": true,
+      "warn": true
+    }
+  }
+}
