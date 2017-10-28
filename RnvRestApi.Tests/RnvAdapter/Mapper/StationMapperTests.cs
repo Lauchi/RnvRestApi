@@ -1,6 +1,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using FluentAssertions;
 using RnvRestApi.DomainDtos;
 using RnvRestApi.RnvAdapter;
 using RnvRestApi.RnvAdapter.Mapper;
@@ -16,12 +17,12 @@ namespace RnvRestApi.Tests.RnvAdapter.Mapper
             var stationMapper = new StationMapper();
             var httpResponseMessage = new HttpResponseMessage();
             httpResponseMessage.Content = new StringContent(SuccessContent);
-            var mapToStation = await stationMapper.MapToStation(new RnvResponse(httpResponseMessage));
+            var parsedStation = await stationMapper.MapToStation(new RnvResponse(httpResponseMessage));
 
-            StationDto successExpected = new StationDto(new StationId("de:8222000:18"), "Mannheim, Hauptbahnhof",
+            StationDto expectedStation = new StationDto(new StationId("de:08222:2417"), "Mannheim, Hauptbahnhof",
                 new GeoLocation(8.46994, 49.47975));
 
-            Assert.Equal(successExpected, mapToStation);
+            expectedStation.Should().BeEquivalentTo(parsedStation);
         }
 
         private string SuccessContent => File.ReadAllText("RnvAdapter/Mapper/Responses/SuccesResponse.xml");

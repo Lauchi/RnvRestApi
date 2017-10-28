@@ -16,12 +16,13 @@ namespace RnvRestApi.RnvAdapter.Mapper
             var xml = XDocument.Parse(encodedCondent);
 
             var locationInformation  = xml.Descendants().Where(d => d.Name == "{trias}LocationInformationResponse").ToList();
-            //var stationName = locationInformation.Descendants().SingleOrDefault(d => d.Name == "{trias}Text");
+            var stopPointName = locationInformation.Descendants().Where(d => d.Name == "{trias}StopPointName");
+            var stationName = stopPointName.Descendants().SingleOrDefault(d => d.Name == "{trias}Text");
             var staionId = locationInformation.Descendants().SingleOrDefault(d => d.Name == "{trias}StopPointRef");
             var stationLongitude = locationInformation.Descendants().SingleOrDefault(d => d.Name == "{trias}Longitude");
             var stationLatitude = locationInformation.Descendants().SingleOrDefault(d => d.Name == "{trias}Latitude");
 
-            return new StationDto(new StationId(staionId?.Value), "aasd",
+            return new StationDto(new StationId(staionId?.Value), stationName?.Value,
                 new GeoLocation(Convert.ToDouble(stationLongitude?.Value), Convert.ToDouble(stationLatitude?.Value)));
         }
     }
