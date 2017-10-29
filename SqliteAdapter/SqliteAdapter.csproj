@@ -18,4 +18,7 @@
       <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="rnvScotlandYard.db" />
+  </ItemGroup>
 </Project>

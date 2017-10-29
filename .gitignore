@@ -306,3 +306,7 @@ __pycache__/
 # OpenCover UI analysis results
 OpenCover/
 
+/SqliteAdapter/rnvScotlandYard.db
+ClassLibrary/
+ConsoleApplication/
+SqliteAdapter/rnvScotlandYard.db
