@@ -33,13 +33,14 @@ namespace SqliteAdapter.Repositories
         {
             using (var db = new RnvScotlandYardContext())
             {
-                return db.GameSessions.Select(GameSessionMapper());
+                var gameSessions = db.GameSessions.Select(GameSessionMapper()).ToList();
+                return gameSessions;
             }
         }
 
         private static Expression<Func<GameSessionDb, GameSession>> GameSessionMapper()
         {
-            return gameSession =>
+            Expression<Func<GameSessionDb, GameSession>> gameSessionMapper = gameSession =>
                 new GameSession(
                     gameSession.Name,
                     new GameSessionId(gameSession.GameSessionId),
@@ -47,6 +48,7 @@ namespace SqliteAdapter.Repositories
                     new MrX(new MrXId(gameSession.Mrx.MrxId)),
                     gameSession.PoliceOfficers.Select(officer =>
                         new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId))).ToList());
+            return gameSessionMapper;
         }
 
         public GameSession GetSession(GameSessionId searchId)
