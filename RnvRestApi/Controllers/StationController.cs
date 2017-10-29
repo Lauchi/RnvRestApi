@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using RnvRestApi.Domain;
 using RnvRestApi.Domain.ValueTypes.Ids;
 using RnvRestApi.DomainDtos;
 using RnvRestApi.RnvAdapter;
@@ -21,7 +20,7 @@ namespace RnvRestApi.Controllers
         [HttpGet("{id}")]
         public async Task<StationDto> Get(string id)
         {
-            return await _repository.GetStation(new StationId() { Id = id });
+            return await _repository.GetStation(new StationId(id));
         }
 
         [HttpGet]

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RnvRestApi.Domain;
 using RnvRestApi.Domain.ValueTypes.Ids;
-using RnvRestApi.DomainDtos;
 
 namespace RnvRestApi.Controllers
 {

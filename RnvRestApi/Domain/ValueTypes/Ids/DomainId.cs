@@ -1,10 +1,11 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-
-namespace RnvRestApi.Domain.ValueTypes.Ids
+﻿namespace RnvRestApi.Domain.ValueTypes.Ids
 {
     public class DomainId
     {
-        public string Id { get; set; }
+        public DomainId(string id)
+        {
+            Id = id;
+        }
+        public string Id { get; }
     }
 }

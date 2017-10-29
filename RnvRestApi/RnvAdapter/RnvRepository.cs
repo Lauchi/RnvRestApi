@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using RnvRestApi.Domain;
 using RnvRestApi.Domain.ValueTypes.Ids;
 using RnvRestApi.DomainDtos;
 using RnvRestApi.RnvAdapter.Mapper;
