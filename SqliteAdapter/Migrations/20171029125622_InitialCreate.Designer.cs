@@ -10,7 +10,7 @@ using System;
 namespace SqliteAdapter.Migrations
 {
     [DbContext(typeof(RnvScotlandYardContext))]
-    [Migration("20171029113516_InitialCreate")]
+    [Migration("20171029125622_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,11 +24,7 @@ namespace SqliteAdapter.Migrations
                     b.Property<int>("GameSessionId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("MrxId");
-
                     b.HasKey("GameSessionId");
-
-                    b.HasIndex("MrxId");
 
                     b.ToTable("GameSessions");
                 });
@@ -56,13 +52,17 @@ namespace SqliteAdapter.Migrations
                     b.Property<string>("MrxId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("GameSessionDbGameSessionId");
+
                     b.Property<string>("Name");
 
-                    b.Property<string>("TicketPoolId");
+                    b.Property<string>("TicketPoolDbTicketPoolId");
 
                     b.HasKey("MrxId");
 
-                    b.HasIndex("TicketPoolId");
+                    b.HasIndex("GameSessionDbGameSessionId");
+
+                    b.HasIndex("TicketPoolDbTicketPoolId");
 
                     b.ToTable("MrXs");
                 });
@@ -74,17 +74,15 @@ namespace SqliteAdapter.Migrations
 
                     b.Property<int?>("GameSessionDbGameSessionId");
 
-                    b.Property<string>("GameSessionId");
-
                     b.Property<string>("Name");
 
-                    b.Property<string>("TicketPoolId");
+                    b.Property<string>("TicketPoolDbTicketPoolId");
 
                     b.HasKey("PoliceOfficerId");
 
                     b.HasIndex("GameSessionDbGameSessionId");
 
-                    b.HasIndex("TicketPoolId");
+                    b.HasIndex("TicketPoolDbTicketPoolId");
 
                     b.ToTable("PoliceOfficers");
                 });
@@ -93,6 +91,16 @@ namespace SqliteAdapter.Migrations
                 {
                     b.Property<string>("TicketPoolId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("BlackTickets");
+
+                    b.Property<int>("BusTickets");
+
+                    b.Property<int>("DoubleTickets");
+
+                    b.Property<int>("MetroTickets");
+
+                    b.Property<int>("TaxiTickets");
 
                     b.HasKey("TicketPoolId");
 
@@ -111,13 +119,6 @@ namespace SqliteAdapter.Migrations
                     b.ToTable("VehicleTypes");
                 });
 
-            modelBuilder.Entity("SqliteAdapter.GameSessionDb", b =>
-                {
-                    b.HasOne("SqliteAdapter.MrxDb", "Mrx")
-                        .WithMany()
-                        .HasForeignKey("MrxId");
-                });
-
             modelBuilder.Entity("SqliteAdapter.MovementsDb", b =>
                 {
                     b.HasOne("SqliteAdapter.VehicleTypeDb", "VehicleType")
@@ -128,20 +129,24 @@ namespace SqliteAdapter.Migrations
 
             modelBuilder.Entity("SqliteAdapter.MrxDb", b =>
                 {
+                    b.HasOne("SqliteAdapter.GameSessionDb", "GameSessionDb")
+                        .WithMany("Mrx")
+                        .HasForeignKey("GameSessionDbGameSessionId");
+
                     b.HasOne("SqliteAdapter.TicketPoolDb", "TicketPoolDb")
                         .WithMany()
-                        .HasForeignKey("TicketPoolId");
+                        .HasForeignKey("TicketPoolDbTicketPoolId");
                 });
 
             modelBuilder.Entity("SqliteAdapter.PoliceOfficerDb", b =>
                 {
                     b.HasOne("SqliteAdapter.GameSessionDb", "GameSessionDb")
-                        .WithMany("PosPoliceOfficersts")
+                        .WithMany("PoliceOfficers")
                         .HasForeignKey("GameSessionDbGameSessionId");
 
                     b.HasOne("SqliteAdapter.TicketPoolDb", "TicketPoolDb")
                         .WithMany()
-                        .HasForeignKey("TicketPoolId");
+                        .HasForeignKey("TicketPoolDbTicketPoolId");
                 });
 #pragma warning restore 612, 618
         }

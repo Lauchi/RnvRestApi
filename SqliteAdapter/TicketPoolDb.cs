@@ -7,10 +7,10 @@ namespace SqliteAdapter
         [Key]
         public string TicketPoolId { get; set; }
 
-        public int TaxiTickets;
-        public int BusTickets;
-        public int MetroTickets;
-        public int DoubleTickets;
-        public int BlackTickets;
+        public int TaxiTickets { get; set; }
+        public int BusTickets { get; set; }
+        public int MetroTickets { get; set; }
+        public int DoubleTickets { get; set; }
+        public int BlackTickets { get; set; }
     }
 }
