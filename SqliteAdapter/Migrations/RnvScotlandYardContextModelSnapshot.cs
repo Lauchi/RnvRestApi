@@ -9,8 +9,8 @@ using System;
 
 namespace SqliteAdapter.Migrations
 {
-    [DbContext(typeof(RnvContext))]
-    partial class RnvContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(RnvScotlandYardContext))]
+    partial class RnvScotlandYardContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -20,12 +20,14 @@ namespace SqliteAdapter.Migrations
 
             modelBuilder.Entity("SqliteAdapter.GameSessionDb", b =>
                 {
-                    b.Property<string>("GameSessionId")
+                    b.Property<int>("GameSessionId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Url");
+                    b.Property<string>("MrxId");
 
                     b.HasKey("GameSessionId");
+
+                    b.HasIndex("MrxId");
 
                     b.ToTable("GameSessions");
                 });
@@ -53,16 +55,11 @@ namespace SqliteAdapter.Migrations
                     b.Property<string>("MrxId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("GameSessionId");
-
                     b.Property<string>("Name");
 
                     b.Property<string>("TicketPoolId");
 
                     b.HasKey("MrxId");
-
-                    b.HasIndex("GameSessionId")
-                        .IsUnique();
 
                     b.HasIndex("TicketPoolId");
 
@@ -74,6 +71,8 @@ namespace SqliteAdapter.Migrations
                     b.Property<string>("PoliceOfficerId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("GameSessionDbGameSessionId");
+
                     b.Property<string>("GameSessionId");
 
                     b.Property<string>("Name");
@@ -82,7 +81,7 @@ namespace SqliteAdapter.Migrations
 
                     b.HasKey("PoliceOfficerId");
 
-                    b.HasIndex("GameSessionId");
+                    b.HasIndex("GameSessionDbGameSessionId");
 
                     b.HasIndex("TicketPoolId");
 
@@ -111,6 +110,13 @@ namespace SqliteAdapter.Migrations
                     b.ToTable("VehicleTypes");
                 });
 
+            modelBuilder.Entity("SqliteAdapter.GameSessionDb", b =>
+                {
+                    b.HasOne("SqliteAdapter.MrxDb", "Mrx")
+                        .WithMany()
+                        .HasForeignKey("MrxId");
+                });
+
             modelBuilder.Entity("SqliteAdapter.MovementsDb", b =>
                 {
                     b.HasOne("SqliteAdapter.VehicleTypeDb", "VehicleType")
@@ -121,10 +127,6 @@ namespace SqliteAdapter.Migrations
 
             modelBuilder.Entity("SqliteAdapter.MrxDb", b =>
                 {
-                    b.HasOne("SqliteAdapter.GameSessionDb", "GameSessionDb")
-                        .WithOne("Mrx")
-                        .HasForeignKey("SqliteAdapter.MrxDb", "GameSessionId");
-
                     b.HasOne("SqliteAdapter.TicketPoolDb", "TicketPoolDb")
                         .WithMany()
                         .HasForeignKey("TicketPoolId");
@@ -134,7 +136,7 @@ namespace SqliteAdapter.Migrations
                 {
                     b.HasOne("SqliteAdapter.GameSessionDb", "GameSessionDb")
                         .WithMany("PosPoliceOfficersts")
-                        .HasForeignKey("GameSessionId");
+                        .HasForeignKey("GameSessionDbGameSessionId");
 
                     b.HasOne("SqliteAdapter.TicketPoolDb", "TicketPoolDb")
                         .WithMany()

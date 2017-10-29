@@ -2,7 +2,7 @@
 
 namespace SqliteAdapter
 {
-    public class RnvContext : DbContext
+    public class RnvScotlandYardContext : DbContext
     {
         public DbSet<GameSessionDb> GameSessions { get; set; }
         public DbSet<MrxDb> MrXs { get; set; }
@@ -13,7 +13,7 @@ namespace SqliteAdapter
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=blogging.db");
+            optionsBuilder.UseSqlite("Data Source=rnvScotlangYard.db");
         }
     }
 }

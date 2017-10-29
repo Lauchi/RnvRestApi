@@ -9,18 +9,6 @@ namespace SqliteAdapter.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "GameSessions",
-                columns: table => new
-                {
-                    GameSessionId = table.Column<string>(type: "TEXT", nullable: false),
-                    Url = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GameSessions", x => x.GameSessionId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TicketPools",
                 columns: table => new
                 {
@@ -49,7 +37,6 @@ namespace SqliteAdapter.Migrations
                 columns: table => new
                 {
                     MrxId = table.Column<string>(type: "TEXT", nullable: false),
-                    GameSessionId = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     TicketPoolId = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -57,39 +44,7 @@ namespace SqliteAdapter.Migrations
                 {
                     table.PrimaryKey("PK_MrXs", x => x.MrxId);
                     table.ForeignKey(
-                        name: "FK_MrXs_GameSessions_GameSessionId",
-                        column: x => x.GameSessionId,
-                        principalTable: "GameSessions",
-                        principalColumn: "GameSessionId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_MrXs_TicketPools_TicketPoolId",
-                        column: x => x.TicketPoolId,
-                        principalTable: "TicketPools",
-                        principalColumn: "TicketPoolId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PoliceOfficers",
-                columns: table => new
-                {
-                    PoliceOfficerId = table.Column<string>(type: "TEXT", nullable: false),
-                    GameSessionId = table.Column<string>(type: "TEXT", nullable: true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    TicketPoolId = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PoliceOfficers", x => x.PoliceOfficerId);
-                    table.ForeignKey(
-                        name: "FK_PoliceOfficers_GameSessions_GameSessionId",
-                        column: x => x.GameSessionId,
-                        principalTable: "GameSessions",
-                        principalColumn: "GameSessionId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PoliceOfficers_TicketPools_TicketPoolId",
                         column: x => x.TicketPoolId,
                         principalTable: "TicketPools",
                         principalColumn: "TicketPoolId",
@@ -116,16 +71,61 @@ namespace SqliteAdapter.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "GameSessions",
+                columns: table => new
+                {
+                    GameSessionId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    MrxId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GameSessions", x => x.GameSessionId);
+                    table.ForeignKey(
+                        name: "FK_GameSessions_MrXs_MrxId",
+                        column: x => x.MrxId,
+                        principalTable: "MrXs",
+                        principalColumn: "MrxId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PoliceOfficers",
+                columns: table => new
+                {
+                    PoliceOfficerId = table.Column<string>(type: "TEXT", nullable: false),
+                    GameSessionDbGameSessionId = table.Column<int>(type: "INTEGER", nullable: true),
+                    GameSessionId = table.Column<string>(type: "TEXT", nullable: true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    TicketPoolId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PoliceOfficers", x => x.PoliceOfficerId);
+                    table.ForeignKey(
+                        name: "FK_PoliceOfficers_GameSessions_GameSessionDbGameSessionId",
+                        column: x => x.GameSessionDbGameSessionId,
+                        principalTable: "GameSessions",
+                        principalColumn: "GameSessionId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PoliceOfficers_TicketPools_TicketPoolId",
+                        column: x => x.TicketPoolId,
+                        principalTable: "TicketPools",
+                        principalColumn: "TicketPoolId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GameSessions_MrxId",
+                table: "GameSessions",
+                column: "MrxId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Movements_VehicleTypeId",
                 table: "Movements",
                 column: "VehicleTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MrXs_GameSessionId",
-                table: "MrXs",
-                column: "GameSessionId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_MrXs_TicketPoolId",
@@ -133,9 +133,9 @@ namespace SqliteAdapter.Migrations
                 column: "TicketPoolId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PoliceOfficers_GameSessionId",
+                name: "IX_PoliceOfficers_GameSessionDbGameSessionId",
                 table: "PoliceOfficers",
-                column: "GameSessionId");
+                column: "GameSessionDbGameSessionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PoliceOfficers_TicketPoolId",
@@ -149,9 +149,6 @@ namespace SqliteAdapter.Migrations
                 name: "Movements");
 
             migrationBuilder.DropTable(
-                name: "MrXs");
-
-            migrationBuilder.DropTable(
                 name: "PoliceOfficers");
 
             migrationBuilder.DropTable(
@@ -159,6 +156,9 @@ namespace SqliteAdapter.Migrations
 
             migrationBuilder.DropTable(
                 name: "GameSessions");
+
+            migrationBuilder.DropTable(
+                name: "MrXs");
 
             migrationBuilder.DropTable(
                 name: "TicketPools");
