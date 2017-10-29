@@ -31,15 +31,24 @@ namespace RestAdapter.Controllers
         public IActionResult GetGameSession(string id)
         {
             var gameSession = _gameSessionRepository.GetSession(new GameSessionId(id));
+            if (gameSession == null)
+            {
+                return NotFound();
+            }
             var gameSessionHto = new GameSessionHto(gameSession);
             return Ok(gameSessionHto);
         }
 
         [HttpPost]
-        public async Task<GameSessionHto> CreateGameSession([FromQuery] string sessionName)
+        public async Task<IActionResult> CreateGameSession([FromQuery] string sessionName)
         {
             var gameSession = await _gameSessionRepository.Add(new GameSession(sessionName));
-            return new GameSessionHto(gameSession);
+            if (gameSession == null)
+            {
+                return BadRequest();
+            }
+            var gameSessionHto = new GameSessionHto(gameSession);
+            return Ok(gameSessionHto);
         }
     }
 }

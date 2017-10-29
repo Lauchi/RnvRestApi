@@ -40,7 +40,7 @@ namespace SqliteAdapter.Repositories
 
         private static Expression<Func<GameSessionDb, GameSession>> GameSessionMapper()
         {
-            Expression<Func<GameSessionDb, GameSession>> gameSessionMapper = gameSession =>
+            return gameSession =>
                 new GameSession(
                     gameSession.Name,
                     new GameSessionId(gameSession.GameSessionId),
@@ -48,7 +48,6 @@ namespace SqliteAdapter.Repositories
                     new MrX(new MrXId(gameSession.Mrx.MrxId)),
                     gameSession.PoliceOfficers.Select(officer =>
                         new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId))).ToList());
-            return gameSessionMapper;
         }
 
         public GameSession GetSession(GameSessionId searchId)
@@ -56,7 +55,8 @@ namespace SqliteAdapter.Repositories
             using (var db = new RnvScotlandYardContext())
             {
                 var equalGameSessions = db.GameSessions.Where(session => session.GameSessionId == searchId.Id);
-                return equalGameSessions.Select(GameSessionMapper()).FirstOrDefault();
+                var firstOrDefault = equalGameSessions.Select(GameSessionMapper()).FirstOrDefault();
+                return firstOrDefault;
             }
         }
     }
