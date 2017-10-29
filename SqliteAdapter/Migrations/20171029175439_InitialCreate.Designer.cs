@@ -11,7 +11,7 @@ using System;
 namespace SqliteAdapter.Migrations
 {
     [DbContext(typeof(RnvScotlandYardContext))]
-    [Migration("20171029165559_InitialCreate")]
+    [Migration("20171029175439_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,7 +57,7 @@ namespace SqliteAdapter.Migrations
                     b.Property<string>("MrxId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("GameSessionDbGameSessionId");
+                    b.Property<string>("GameSessionDbId");
 
                     b.Property<string>("Name");
 
@@ -65,7 +65,8 @@ namespace SqliteAdapter.Migrations
 
                     b.HasKey("MrxId");
 
-                    b.HasIndex("GameSessionDbGameSessionId");
+                    b.HasIndex("GameSessionDbId")
+                        .IsUnique();
 
                     b.HasIndex("TicketPoolDbTicketPoolId");
 
@@ -134,9 +135,9 @@ namespace SqliteAdapter.Migrations
 
             modelBuilder.Entity("SqliteAdapter.Model.MrxDb", b =>
                 {
-                    b.HasOne("SqliteAdapter.Model.GameSessionDb", "GameSessionDb")
-                        .WithMany("Mrx")
-                        .HasForeignKey("GameSessionDbGameSessionId");
+                    b.HasOne("SqliteAdapter.Model.GameSessionDb")
+                        .WithOne("Mrx")
+                        .HasForeignKey("SqliteAdapter.Model.MrxDb", "GameSessionDbId");
 
                     b.HasOne("SqliteAdapter.Model.TicketPoolDb", "TicketPoolDb")
                         .WithMany()

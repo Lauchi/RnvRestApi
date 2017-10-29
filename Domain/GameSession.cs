@@ -11,16 +11,26 @@ namespace Domain
         public GameSession(string name)
         {
             Name = name;
+            PoliceOfficers = new Collection<PoliceOfficer>();
             GameSessionId = new GameSessionId(Guid.NewGuid().ToString());
             StartTime = DateTimeOffset.Now;
             MrX = MrX.NullValue();
+        }
+
+        public GameSession(string name, GameSessionId id, DateTimeOffset startTime, MrX mrX, ICollection<PoliceOfficer> policeOfficers)
+        {
+            Name = name;
+            GameSessionId = id;
+            StartTime = startTime;
+            MrX = mrX;
+            PoliceOfficers = policeOfficers;
         }
 
         public GameSessionId GameSessionId { get; }
         public string Name { get; set; }
         public DateTimeOffset StartTime { get; set; }
         public MrX MrX { get; private set; }
-        public ICollection<PoliceOfficer> PoliceOfficers { get; } = new Collection<PoliceOfficer>();
+        public ICollection<PoliceOfficer> PoliceOfficers { get; }
 
         public void OnMrXDriven(VehicelType type, Station stationHto, Player player)
         {

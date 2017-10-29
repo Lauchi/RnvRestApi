@@ -12,6 +12,6 @@ namespace SqliteAdapter.Model
         public DateTimeOffset StartTime { get; set; }
 
         public ICollection<PoliceOfficerDb> PoliceOfficers { get; set; }
-        public ICollection<MrxDb> Mrx { get; set; }
+        public MrxDb Mrx { get; set; }
     }
 }

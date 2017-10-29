@@ -55,7 +55,7 @@ namespace SqliteAdapter.Migrations
                 columns: table => new
                 {
                     MrxId = table.Column<string>(type: "TEXT", nullable: false),
-                    GameSessionDbGameSessionId = table.Column<string>(type: "TEXT", nullable: true),
+                    GameSessionDbId = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     TicketPoolDbTicketPoolId = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -63,8 +63,8 @@ namespace SqliteAdapter.Migrations
                 {
                     table.PrimaryKey("PK_MrXs", x => x.MrxId);
                     table.ForeignKey(
-                        name: "FK_MrXs_GameSessions_GameSessionDbGameSessionId",
-                        column: x => x.GameSessionDbGameSessionId,
+                        name: "FK_MrXs_GameSessions_GameSessionDbId",
+                        column: x => x.GameSessionDbId,
                         principalTable: "GameSessions",
                         principalColumn: "GameSessionId",
                         onDelete: ReferentialAction.Restrict);
@@ -128,9 +128,10 @@ namespace SqliteAdapter.Migrations
                 column: "VehicleTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MrXs_GameSessionDbGameSessionId",
+                name: "IX_MrXs_GameSessionDbId",
                 table: "MrXs",
-                column: "GameSessionDbGameSessionId");
+                column: "GameSessionDbId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_MrXs_TicketPoolDbTicketPoolId",
