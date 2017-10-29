@@ -2,6 +2,8 @@
 {
     public enum VehicelType
     {
-        Taxi, Bus, Metro
+        Taxi, Bus, Metro,
+        DoubleTicket,
+        BlackTicket
     }
 }

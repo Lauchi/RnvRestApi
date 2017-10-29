@@ -4,11 +4,14 @@ using RnvRestApi.DomainDtos;
 
 namespace RnvRestApi.Domain
 {
-    public class PoliceOfficer
+    public class PoliceOfficer : Player
     {
         public PoliceOfficerId PoliceOfficerId { get; }
         public IEnumerable<StationDto> drivenLocations { get; }
         public IEnumerable<VehicelType> usedVehicles { get; }
-        public TicketPool TicketPool { get; }
+
+        public PoliceOfficer(Tickets tickets) : base(tickets)
+        {
+        }
     }
 }

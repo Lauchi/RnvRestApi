@@ -24,7 +24,7 @@ namespace RnvRestApi.Controllers
 
     public class GangsterDto
     {
-        public GangsterId GangsterId { get; }
+        public MrXId MrXId { get; }
         public IEnumerable<StationId> showedLocations { get; }
         public IEnumerable<VehicelType> usedVehicles { get; }
         public TicketPoolId TicketPoolId { get; }

@@ -6,7 +6,7 @@ namespace RnvRestApi.DomainDtos
     public class GameSessionDto
     {
         public GameSessionId GameSessionId { get; }
-        public GangsterId GangsterId { get; }
+        public MrXId MrXId { get; }
         public IEnumerable<PoliceOfficerId> PoliceOfficers { get; }
     }
 }
