@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using RnvRestApi.DomainHtos;
+using RestAdapter.DomainHtos;
 using RnvTriasAdapter;
 using RnvTriasAdapter.DomainDtos;
 
-namespace RnvRestApi.Controllers
+namespace RestAdapter.Controllers
 {
     [Route("station")]
     public class StationController : Controller

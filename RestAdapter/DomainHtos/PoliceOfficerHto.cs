@@ -3,7 +3,7 @@ using RnvRestApi.Domain;
 using RnvRestApi.Domain.ValueTypes.Ids;
 using RnvTriasAdapter.DomainDtos;
 
-namespace RnvRestApi.DomainHtos
+namespace RestAdapter.DomainHtos
 {
     public class PoliceOfficerHto
     {

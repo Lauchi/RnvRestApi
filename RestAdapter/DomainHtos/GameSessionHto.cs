@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using RnvRestApi.Domain.ValueTypes.Ids;
 
-namespace RnvRestApi.DomainHtos
+namespace RestAdapter.DomainHtos
 {
     public class GameSessionHto
     {

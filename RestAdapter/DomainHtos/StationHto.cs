@@ -1,6 +1,6 @@
 ﻿using RnvTriasAdapter.DomainDtos;
 
-namespace RnvRestApi.DomainHtos
+namespace RestAdapter.DomainHtos
 {
     public class StationHto
     {

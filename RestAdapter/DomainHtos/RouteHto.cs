@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using RnvRestApi.Domain;
 using RnvTriasAdapter.DomainDtos;
 
-namespace RnvRestApi.DomainHtos
+namespace RestAdapter.DomainHtos
 {
     public class RouteHto
     {

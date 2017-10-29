@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using RnvRestApi.Domain.ValueTypes.Ids;
-using RnvRestApi.DomainHtos;
 
 namespace RnvRestApi.Domain
 {
@@ -12,12 +11,12 @@ namespace RnvRestApi.Domain
         public MrX MrX { get; private set; }
         public ICollection<PoliceOfficer> PoliceOfficers { get; } = new Collection<PoliceOfficer>();
 
-        public void OnMrXDriven(VehicelType type, StationHto stationHto, Player player)
+        public void OnMrXDriven(VehicelType type, Station stationHto, Player player)
         {
             //speichern der bewegungen
         }
 
-        public void OnPoliceOfficerDriven(VehicelType type, StationHto stationHto, Player player)
+        public void OnPoliceOfficerDriven(VehicelType type, Station stationHto, Player player)
         {
 
             //speichern der bewegungen

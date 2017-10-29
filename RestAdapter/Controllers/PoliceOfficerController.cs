@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RnvRestApi.DomainHtos;
+using RestAdapter.DomainHtos;
 
-namespace RnvRestApi.Controllers
+namespace RestAdapter.Controllers
 {
     [Route("police-officer")]
     public class PoliceOfficerController : Controller

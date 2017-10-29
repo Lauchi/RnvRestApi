@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
-using RnvRestApi.DomainHtos;
 using RnvTriasAdapter.DomainDtos;
 using RnvTriasAdapter.Mapper;
 using Xunit;
@@ -20,7 +19,7 @@ namespace RnvTriasAdapter.Tests.RnvAdapter.Mapper
             httpResponseMessage.Content = new StringContent(SuccessContent);
             var parsedStation = (await stationMapper.MapToStation(new RnvResponse(httpResponseMessage))).SingleOrDefault();
 
-            StationHto expectedStation = new StationHto(new StationId("de:08222:2417"), "Mannheim, Hauptbahnhof",
+            StationDto expectedStation = new StationDto(new StationId("de:08222:2417"), "Mannheim, Hauptbahnhof",
                 new GeoLocation(8.46994, 49.47975));
 
             expectedStation.Should().BeEquivalentTo(parsedStation);

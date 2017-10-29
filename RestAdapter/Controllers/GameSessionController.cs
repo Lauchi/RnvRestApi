@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using RnvRestApi.DomainHtos;
+using RestAdapter.DomainHtos;
 
-namespace RnvRestApi.Controllers
+namespace RestAdapter.Controllers
 {
     [Route("game-session")]
     public class GameSessionController : Controller
