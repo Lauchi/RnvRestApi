@@ -20,17 +20,19 @@ namespace RestAdapter.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<GameSessionHto> GetGameSessions()
+        public IActionResult GetGameSessions()
         {
             var gameSessions = _gameSessionRepository.GetSessions();
-            return gameSessions.Select(session => new GameSessionHto(session));
+            var gameSessionHtos = gameSessions.Select(session => new GameSessionHto(session));
+            return Ok(gameSessionHtos);
         }
 
         [HttpGet("{id}")]
-        public GameSessionHto GetGameSession(string id)
+        public IActionResult GetGameSession(string id)
         {
             var gameSession = _gameSessionRepository.GetSession(new GameSessionId(id));
-            return new GameSessionHto(gameSession);
+            var gameSessionHto = new GameSessionHto(gameSession);
+            return Ok(gameSessionHto);
         }
 
         [HttpPost]
