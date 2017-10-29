@@ -11,7 +11,7 @@ using System;
 namespace SqliteAdapter.Migrations
 {
     [DbContext(typeof(RnvScotlandYardContext))]
-    [Migration("20171029163640_InitialCreate")]
+    [Migration("20171029165559_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
