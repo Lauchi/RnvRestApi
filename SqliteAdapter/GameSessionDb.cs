@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SqliteAdapter
 {
     public class GameSessionDb
     {
+        [Key]
         public string GameSessionId { get; set; }
         public string Url { get; set; }
 

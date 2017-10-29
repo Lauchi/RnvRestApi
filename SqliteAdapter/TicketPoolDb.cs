@@ -1,7 +1,10 @@
-﻿namespace SqliteAdapter
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SqliteAdapter
 {
     public class TicketPoolDb
     {
+        [Key]
         public string TicketPoolId { get; set; }
 
         public int TaxiTickets;

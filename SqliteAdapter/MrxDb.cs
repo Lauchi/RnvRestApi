@@ -1,7 +1,10 @@
-﻿namespace SqliteAdapter
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SqliteAdapter
 {
     public class MrxDb
     {
+        [Key]
         public string MrxId { get; set; }
         public string Name { get; set; }
 

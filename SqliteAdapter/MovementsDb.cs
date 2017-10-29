@@ -1,7 +1,10 @@
-﻿namespace SqliteAdapter
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SqliteAdapter
 {
     public class MovementsDb
     {
+        [Key]
         public string MovementId { get; set; }
         public string FromStationId { get; set; }
         public string ToStationId { get; set; }
