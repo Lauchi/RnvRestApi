@@ -1,4 +1,4 @@
-﻿namespace RnvRestApi.Domain
+﻿namespace Domain
 {
     public enum VehicelType
     {

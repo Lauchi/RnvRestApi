@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
+using System.Collections.Generic;
 
 namespace SqliteAdapter.Migrations
 {
@@ -10,8 +12,9 @@ namespace SqliteAdapter.Migrations
                 name: "GameSessions",
                 columns: table => new
                 {
-                    GameSessionId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
+                    GameSessionId = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    StartTime = table.Column<DateTimeOffset>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,7 +55,7 @@ namespace SqliteAdapter.Migrations
                 columns: table => new
                 {
                     MrxId = table.Column<string>(type: "TEXT", nullable: false),
-                    GameSessionDbGameSessionId = table.Column<int>(type: "INTEGER", nullable: true),
+                    GameSessionDbGameSessionId = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     TicketPoolDbTicketPoolId = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -78,7 +81,7 @@ namespace SqliteAdapter.Migrations
                 columns: table => new
                 {
                     PoliceOfficerId = table.Column<string>(type: "TEXT", nullable: false),
-                    GameSessionDbGameSessionId = table.Column<int>(type: "INTEGER", nullable: true),
+                    GameSessionDbGameSessionId = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     TicketPoolDbTicketPoolId = table.Column<string>(type: "TEXT", nullable: true)
                 },

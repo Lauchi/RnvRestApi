@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SqliteAdapter
+namespace SqliteAdapter.Model
 {
     public class TicketPoolDb
     {

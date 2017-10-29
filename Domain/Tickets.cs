@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using RestAdapter.Ids;
+using Domain.ValueTypes.Ids;
 
-namespace RnvRestApi.Domain
+namespace Domain
 {
     public class Tickets
     {

@@ -1,4 +1,6 @@
-﻿namespace RnvTriasAdapter.DomainDtos
+﻿using Domain.ValueTypes.Ids;
+
+namespace RnvTriasAdapter.DomainDtos
 {
     public class StationDto
     {

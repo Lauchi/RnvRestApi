@@ -1,4 +1,4 @@
-﻿namespace RestAdapter.Ids
+﻿namespace Domain.ValueTypes.Ids
 {
     public class MrXId : DomainId
     {

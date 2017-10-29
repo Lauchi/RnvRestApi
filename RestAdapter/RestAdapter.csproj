@@ -7,6 +7,10 @@
       <Project>{DBBB5AAF-F199-43DB-B94D-18E500389DD4}</Project>
       <Name>RnvTriasAdapter</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SqliteAdapter\SqliteAdapter.csproj">
+      <Project>{28B5DC9E-3C22-4D83-AA67-63EE678EB470}</Project>
+      <Name>SqliteAdapter</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />

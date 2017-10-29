@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using RestAdapter.Ids;
-using RnvTriasAdapter.DomainDtos;
+using Domain.ValueTypes.Ids;
 
 namespace RestAdapter.DomainHtos
 {

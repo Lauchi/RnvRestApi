@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using RnvTriasAdapter;
 using RnvTriasAdapter.Mapper;
+using SqliteAdapter.Model;
+using SqliteAdapter.Repositories;
 
 namespace RnvRestApi
 {
@@ -17,9 +19,12 @@ namespace RnvRestApi
             httpClient.BaseAddress = new Uri("https://trias.vrn.de/Middleware/Data/trias");
             var rnvClient = new RnvClient(httpClient);
 
+            var rnvScotlandYardContext = new RnvScotlandYardContext();
+
             services.AddSingleton(rnvClient)
                 .AddSingleton<IStationMapper, StationMapper>()
                 .AddSingleton<IRnvRepository, RnvRepository>()
+                .AddSingleton<IGameSessionRepository, GameSessionRepository>()
                 .AddMvc();
         }
 

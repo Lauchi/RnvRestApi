@@ -1,13 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using RestAdapter.Ids;
+using Domain.ValueTypes.Ids;
 
-namespace RnvRestApi.Domain
+namespace Domain
 {
     public class GameSession
     {
+        public GameSession(string name)
+        {
+            Name = name;
+            GameSessionId = new GameSessionId(Guid.NewGuid().ToString());
+            StartTime = DateTimeOffset.Now;
+            MrX = MrX.NullValue();
+        }
+
         public GameSessionId GameSessionId { get; }
+        public string Name { get; set; }
+        public DateTimeOffset StartTime { get; set; }
         public MrX MrX { get; private set; }
         public ICollection<PoliceOfficer> PoliceOfficers { get; } = new Collection<PoliceOfficer>();
 
@@ -18,7 +29,6 @@ namespace RnvRestApi.Domain
 
         public void OnPoliceOfficerDriven(VehicelType type, Station stationHto, Player player)
         {
-
             //speichern der bewegungen
             MrX.Tickets.Add(type);
             SaveGameSession();

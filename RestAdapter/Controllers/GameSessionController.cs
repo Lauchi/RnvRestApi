@@ -1,12 +1,22 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 using RestAdapter.DomainHtos;
+using SqliteAdapter.Repositories;
 
 namespace RestAdapter.Controllers
 {
     [Route("game-session")]
     public class GameSessionController : Controller
     {
+        private IGameSessionRepository _gameSessionRepository;
+
+        public GameSessionController(IGameSessionRepository gameSessionRepository)
+        {
+            _gameSessionRepository = gameSessionRepository;
+        }
+
         [HttpGet]
         public IEnumerable<GameSessionHto> GetGameSessions()
         {
@@ -16,14 +26,14 @@ namespace RestAdapter.Controllers
         [HttpGet("{id}")]
         public GameSessionHto GetGameSession(int id)
         {
-            return new GameSessionHto();
+            return new GameSessionHto(null);
         }
 
-        [HttpPost("{id}")]
-        public GameSessionHto CreateGameSession()
+        [HttpPost("{sessionName}")]
+        public async Task<GameSessionHto> CreateGameSession(string sessionName)
         {
-            //save to db, get id
-            return new GameSessionHto();
+            var gameSession = await _gameSessionRepository.Add(new GameSession(sessionName));
+            return new GameSessionHto(gameSession);
         }
     }
 }

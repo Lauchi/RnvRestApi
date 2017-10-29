@@ -12,4 +12,10 @@
   <ItemGroup>
     <Folder Include="Migrations" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{5C8C87B6-F290-4DE8-A509-EAC02AD652E1}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

@@ -10,6 +10,10 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{5C8C87B6-F290-4DE8-A509-EAC02AD652E1}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RnvRestApi\RnvRestApi.csproj">
       <Project>{93B11064-3B7F-4330-A7DA-1973462337FB}</Project>
       <Name>RnvRestApi</Name>

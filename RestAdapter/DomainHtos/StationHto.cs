@@ -1,4 +1,5 @@
-﻿using RnvTriasAdapter.DomainDtos;
+﻿using Domain.ValueTypes.Ids;
+using RnvTriasAdapter.DomainDtos;
 
 namespace RestAdapter.DomainHtos
 {

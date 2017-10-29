@@ -20,7 +20,4 @@
       <Name>RnvTriasAdapter</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Domain\ValueTypes" />
-  </ItemGroup>
 </Project>

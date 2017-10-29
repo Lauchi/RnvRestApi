@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Domain.ValueTypes.Ids;
 using RnvTriasAdapter.DomainDtos;
-using StationId = RnvTriasAdapter.DomainDtos.StationId;
 
 namespace RnvTriasAdapter
 {

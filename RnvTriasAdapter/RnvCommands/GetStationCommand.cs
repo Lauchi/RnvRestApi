@@ -1,4 +1,4 @@
-﻿using RnvTriasAdapter.DomainDtos;
+﻿using Domain.ValueTypes.Ids;
 
 namespace RnvTriasAdapter.RnvCommands
 {

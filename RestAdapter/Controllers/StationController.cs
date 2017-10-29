@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.ValueTypes.Ids;
 using Microsoft.AspNetCore.Mvc;
 using RestAdapter.DomainHtos;
 using RnvTriasAdapter;
-using RnvTriasAdapter.DomainDtos;
 
 namespace RestAdapter.Controllers
 {

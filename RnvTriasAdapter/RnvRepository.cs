@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.ValueTypes.Ids;
 using RnvTriasAdapter.DomainDtos;
 using RnvTriasAdapter.Mapper;
 using RnvTriasAdapter.RnvCommands;
-using StationId = RnvTriasAdapter.DomainDtos.StationId;
 
 namespace RnvTriasAdapter
 {
