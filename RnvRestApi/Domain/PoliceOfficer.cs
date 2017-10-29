@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using RnvRestApi.Domain.ValueTypes.Ids;
+using RestAdapter.Ids;
 
 namespace RnvRestApi.Domain
 {

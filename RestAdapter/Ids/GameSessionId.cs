@@ -1,4 +1,4 @@
-﻿namespace RnvRestApi.Domain.ValueTypes.Ids
+﻿namespace RestAdapter.Ids
 {
     public class GameSessionId : DomainId
     {

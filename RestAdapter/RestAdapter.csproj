@@ -3,13 +3,12 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RnvRestApi\RnvRestApi.csproj">
-      <Project>{93B11064-3B7F-4330-A7DA-1973462337FB}</Project>
-      <Name>RnvRestApi</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RnvTriasAdapter\RnvTriasAdapter.csproj">
       <Project>{DBBB5AAF-F199-43DB-B94D-18E500389DD4}</Project>
       <Name>RnvTriasAdapter</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
   </ItemGroup>
 </Project>

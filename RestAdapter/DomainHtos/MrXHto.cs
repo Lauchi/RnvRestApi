@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using RnvRestApi.Domain;
-using RnvRestApi.Domain.ValueTypes.Ids;
+using RestAdapter.Ids;
 using RnvTriasAdapter.DomainDtos;
 
 namespace RestAdapter.DomainHtos
@@ -9,7 +8,7 @@ namespace RestAdapter.DomainHtos
     {
         public MrXId MrXId { get; }
         public IEnumerable<StationId> showedLocations { get; }
-        public IEnumerable<VehicelType> usedVehicles { get; }
+        public IEnumerable<VehicelTypeHto> usedVehicles { get; }
         public TicketPoolId TicketPoolId { get; }
     }
 }

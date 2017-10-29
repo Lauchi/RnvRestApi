@@ -4,16 +4,23 @@
     <UserSecretsId>aspnet-RnvRestApi-D4D1FC91-4F77-461B-B75B-29CE0482DF14</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0-preview2-final" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0-preview2-final" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RestAdapter\RestAdapter.csproj">
+      <Project>{1A14AACF-7847-4063-9B78-405549A069F4}</Project>
+      <Name>RestAdapter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RnvTriasAdapter\RnvTriasAdapter.csproj">
       <Project>{DBBB5AAF-F199-43DB-B94D-18E500389DD4}</Project>
       <Name>RnvTriasAdapter</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Domain\ValueTypes" />
   </ItemGroup>
 </Project>

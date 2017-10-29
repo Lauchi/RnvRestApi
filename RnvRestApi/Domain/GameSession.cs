@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using RnvRestApi.Domain.ValueTypes.Ids;
+using RestAdapter.Ids;
 
 namespace RnvRestApi.Domain
 {
