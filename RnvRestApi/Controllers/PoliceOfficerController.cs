@@ -7,13 +7,13 @@ namespace RnvRestApi.Controllers
     public class PoliceOfficerController : Controller
     {
         [HttpGet("{id}")]
-        public PoliceOfficerDto GetGameSession(int id)
+        public PoliceOfficerDto GetPoliceOfficer(int id)
         {
             return new PoliceOfficerDto();
         }
 
         [HttpPost("{id}")]
-        public PoliceOfficerDto CreateGameSession()
+        public PoliceOfficerDto PostPoliceOfficer()
         {
             //save to db, get id
             return new PoliceOfficerDto();

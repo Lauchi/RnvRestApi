@@ -10,13 +10,13 @@ namespace RnvRestApi.Controllers
     public class GangsterController : Controller
     {
         [HttpGet("{id}")]
-        public GangsterDto GetGameSession(int id)
+        public GangsterDto GetGangster(int id)
         {
             return new GangsterDto();
         }
 
         [HttpPost("{id}")]
-        public GangsterDto CreateGameSession()
+        public GangsterDto PostGangster()
         {
             //save to db, get id
             return new GangsterDto();

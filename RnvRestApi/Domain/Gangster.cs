@@ -11,12 +11,4 @@ namespace RnvRestApi.Domain
         public IEnumerable<VehicelType> usedVehicles { get; }
         public TicketPool TicketPool { get; }
     }
-
-    public class TicketPool
-    {
-        public TicketPoolId TicketPoolId { get; }
-        public int TaxiTicket { get; }
-        public int BusTicket { get; }
-        public int MetroTicket { get; }
-    }
 }
