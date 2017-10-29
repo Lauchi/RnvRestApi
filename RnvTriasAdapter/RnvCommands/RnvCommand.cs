@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RnvRestApi.RnvAdapter.RnvCommands
+namespace RnvTriasAdapter.RnvCommands
 {
     public abstract class RnvCommand
     {

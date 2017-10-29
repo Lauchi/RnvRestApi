@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using RnvRestApi.Domain;
 using RnvRestApi.Domain.ValueTypes.Ids;
+using RnvTriasAdapter.DomainDtos;
 
-namespace RnvRestApi.DomainDtos
+namespace RnvRestApi.DomainHtos
 {
-    public class PoliceOfficerDto
+    public class PoliceOfficerHto
     {
         public PoliceOfficerId PoliceOfficerId { get; }
         public IEnumerable<StationId> drivenLocations { get; }

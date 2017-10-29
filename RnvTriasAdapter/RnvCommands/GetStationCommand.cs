@@ -1,6 +1,6 @@
-﻿using RnvRestApi.Domain.ValueTypes.Ids;
+﻿using RnvTriasAdapter.DomainDtos;
 
-namespace RnvRestApi.RnvAdapter.RnvCommands
+namespace RnvTriasAdapter.RnvCommands
 {
     public class GetStationCommand : RnvCommand
     {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RnvRestApi.DomainDtos;
+using RnvRestApi.DomainHtos;
 
 namespace RnvRestApi.Controllers
 {
@@ -7,9 +7,9 @@ namespace RnvRestApi.Controllers
     public class RouteController : Controller
     {
         [HttpGet]
-        public RouteDto SearchStation()
+        public RouteHto SearchStation()
         {
-            return new RouteDto();
+            return new RouteHto();
         }
     }
 }

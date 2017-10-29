@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using RnvRestApi.Domain.ValueTypes;
-using RnvRestApi.Domain.ValueTypes.Ids;
-using RnvRestApi.DomainDtos;
+using RnvTriasAdapter.DomainDtos;
+using StationId = RnvTriasAdapter.DomainDtos.StationId;
 
-namespace RnvRestApi.RnvAdapter.Mapper
+namespace RnvTriasAdapter.Mapper
 {
     public class StationMapper : IStationMapper
     {

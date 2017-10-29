@@ -1,7 +1,4 @@
-﻿using RnvRestApi.Domain.ValueTypes;
-using RnvRestApi.Domain.ValueTypes.Ids;
-
-namespace RnvRestApi.DomainDtos
+﻿namespace RnvTriasAdapter.DomainDtos
 {
     public class StationDto
     {

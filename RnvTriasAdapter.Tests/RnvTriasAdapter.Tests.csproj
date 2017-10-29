@@ -17,5 +17,9 @@
     <Content Include="RnvAdapter\Mapper\Responses\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <ProjectReference Include="..\RnvTriasAdapter\RnvTriasAdapter.csproj">
+      <Project>{DBBB5AAF-F199-43DB-B94D-18E500389DD4}</Project>
+      <Name>RnvTriasAdapter</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

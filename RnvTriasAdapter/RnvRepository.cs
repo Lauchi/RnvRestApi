@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using RnvRestApi.Domain.ValueTypes.Ids;
-using RnvRestApi.DomainDtos;
-using RnvRestApi.RnvAdapter.Mapper;
-using RnvRestApi.RnvAdapter.RnvCommands;
+using RnvTriasAdapter.DomainDtos;
+using RnvTriasAdapter.Mapper;
+using RnvTriasAdapter.RnvCommands;
+using StationId = RnvTriasAdapter.DomainDtos.StationId;
 
-namespace RnvRestApi.RnvAdapter
+namespace RnvTriasAdapter
 {
     public class RnvRepository : IRnvRepository
     {

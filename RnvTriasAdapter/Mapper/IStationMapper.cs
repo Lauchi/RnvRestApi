@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using RnvRestApi.DomainDtos;
+using RnvTriasAdapter.DomainDtos;
 
-namespace RnvRestApi.RnvAdapter.Mapper
+namespace RnvTriasAdapter.Mapper
 {
     public interface IStationMapper
     {

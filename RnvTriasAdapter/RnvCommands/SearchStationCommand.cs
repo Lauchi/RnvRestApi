@@ -1,4 +1,4 @@
-﻿namespace RnvRestApi.RnvAdapter.RnvCommands
+﻿namespace RnvTriasAdapter.RnvCommands
 {
     internal class SearchStationCommand : RnvCommand
     {

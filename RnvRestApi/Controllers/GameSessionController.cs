@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using RnvRestApi.DomainDtos;
+using RnvRestApi.DomainHtos;
 
 namespace RnvRestApi.Controllers
 {
@@ -8,22 +8,22 @@ namespace RnvRestApi.Controllers
     public class GameSessionController : Controller
     {
         [HttpGet]
-        public IEnumerable<GameSessionDto> GetGameSessions()
+        public IEnumerable<GameSessionHto> GetGameSessions()
         {
-            return new List<GameSessionDto>();
+            return new List<GameSessionHto>();
         }
 
         [HttpGet("{id}")]
-        public GameSessionDto GetGameSession(int id)
+        public GameSessionHto GetGameSession(int id)
         {
-            return new GameSessionDto();
+            return new GameSessionHto();
         }
 
         [HttpPost("{id}")]
-        public GameSessionDto CreateGameSession()
+        public GameSessionHto CreateGameSession()
         {
             //save to db, get id
-            return new GameSessionDto();
+            return new GameSessionHto();
         }
     }
 }

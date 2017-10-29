@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
 
-namespace RnvRestApi.RnvAdapter
+namespace RnvTriasAdapter
 {
     public class RnvResponse
     {

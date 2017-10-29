@@ -1,9 +1,9 @@
 ﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using RnvRestApi.RnvAdapter.RnvCommands;
+using RnvTriasAdapter.RnvCommands;
 
-namespace RnvRestApi.RnvAdapter
+namespace RnvTriasAdapter
 {
     public class RnvClient
     {

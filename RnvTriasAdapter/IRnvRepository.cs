@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using RnvRestApi.Domain.ValueTypes.Ids;
-using RnvRestApi.DomainDtos;
+using RnvTriasAdapter.DomainDtos;
+using StationId = RnvTriasAdapter.DomainDtos.StationId;
 
-namespace RnvRestApi.RnvAdapter
+namespace RnvTriasAdapter
 {
     public interface IRnvRepository
     {

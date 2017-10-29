@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RnvRestApi.DomainDtos;
+using RnvRestApi.DomainHtos;
 
 namespace RnvRestApi.Controllers
 {
@@ -7,16 +7,16 @@ namespace RnvRestApi.Controllers
     public class PoliceOfficerController : Controller
     {
         [HttpGet("{id}")]
-        public PoliceOfficerDto GetPoliceOfficer(int id)
+        public PoliceOfficerHto GetPoliceOfficer(int id)
         {
-            return new PoliceOfficerDto();
+            return new PoliceOfficerHto();
         }
 
         [HttpPost("{id}")]
-        public PoliceOfficerDto PostPoliceOfficer()
+        public PoliceOfficerHto PostPoliceOfficer()
         {
             //save to db, get id
-            return new PoliceOfficerDto();
+            return new PoliceOfficerHto();
         }
     }
 }

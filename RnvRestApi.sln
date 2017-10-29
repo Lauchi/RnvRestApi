@@ -5,11 +5,15 @@ VisualStudioVersion = 12.0.0.0
 MinimumVisualStudioVersion = 10.0.0.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RnvRestApi", "RnvRestApi/RnvRestApi.csproj", "{93B11064-3B7F-4330-A7DA-1973462337FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RnvRestApi.Tests", "RnvRestApi.Tests\RnvRestApi.Tests.csproj", "{759979FB-EF64-41B4-A058-E1AF8948D662}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RnvTriasAdapter.Tests", "RnvTriasAdapter.Tests\RnvTriasAdapter.Tests.csproj", "{759979FB-EF64-41B4-A058-E1AF8948D662}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqliteAdapter", "SqliteAdapter\SqliteAdapter.csproj", "{28B5DC9E-3C22-4D83-AA67-63EE678EB470}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RnvTriasAdapter", "RnvTriasAdapter\RnvTriasAdapter.csproj", "{DBBB5AAF-F199-43DB-B94D-18E500389DD4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TriasAdapter", "TriasAdapter", "{05DD570F-1DA3-4261-AC69-15EFF13883BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SqliteAdapter", "SqliteAdapter", "{DE515EE0-4EF7-4666-A50D-87C77BB1F484}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,5 +40,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DBBB5AAF-F199-43DB-B94D-18E500389DD4} = {05DD570F-1DA3-4261-AC69-15EFF13883BF}
+		{759979FB-EF64-41B4-A058-E1AF8948D662} = {05DD570F-1DA3-4261-AC69-15EFF13883BF}
+		{28B5DC9E-3C22-4D83-AA67-63EE678EB470} = {DE515EE0-4EF7-4666-A50D-87C77BB1F484}
 	EndGlobalSection
 EndGlobal

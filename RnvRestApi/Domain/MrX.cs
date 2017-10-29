@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using RnvRestApi.Domain.ValueTypes.Ids;
-using RnvRestApi.DomainDtos;
+using RnvRestApi.DomainHtos;
 
 namespace RnvRestApi.Domain
 {
     public class MrX : Player
     {
         public MrXId MrXId { get; }
-        public IEnumerable<StationDto> showedLocations { get; }
+        public IEnumerable<StationHto> showedLocations { get; }
         public IEnumerable<VehicelType> usedVehicles { get; }
 
         public MrX(Tickets tickets) : base(tickets)
@@ -24,12 +24,12 @@ namespace RnvRestApi.Domain
         {
             Tickets = tickets;
         }
-        public event Action<VehicelType, StationDto, Player> VehicleDrivenEvent;
+        public event Action<VehicelType, StationHto, Player> VehicleDrivenEvent;
         public event Action<VehicelType, Player> VehicleEmpty;
 
         public Tickets Tickets { get; }
 
-        public void drive(VehicelType type, StationDto station)
+        public void drive(VehicelType type, StationHto station)
         {
             if (Tickets.GetAmmount(type) <= 0)
             {

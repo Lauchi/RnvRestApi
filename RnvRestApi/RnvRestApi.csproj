@@ -10,4 +10,10 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0-preview2-final" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RnvTriasAdapter\RnvTriasAdapter.csproj">
+      <Project>{DBBB5AAF-F199-43DB-B94D-18E500389DD4}</Project>
+      <Name>RnvTriasAdapter</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

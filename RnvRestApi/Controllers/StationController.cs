@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using RnvRestApi.Domain.ValueTypes.Ids;
-using RnvRestApi.DomainDtos;
-using RnvRestApi.RnvAdapter;
+using RnvRestApi.DomainHtos;
+using RnvTriasAdapter;
+using RnvTriasAdapter.DomainDtos;
 
 namespace RnvRestApi.Controllers
 {
@@ -18,15 +19,17 @@ namespace RnvRestApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<StationDto> Get(string id)
+        public async Task<StationHto> Get(string id)
         {
-            return await _repository.GetStation(new StationId(id));
+            var stationDto = await _repository.GetStation(new StationId(id));
+            return new StationHto(stationDto);
         }
 
         [HttpGet]
-        public async Task<IEnumerable<StationDto>> SearchStation([FromQuery] string name)
+        public async Task<IEnumerable<StationHto>> SearchStation([FromQuery] string name)
         {
-            return await _repository.SearchStation(name);
+            var stationDtos = await _repository.SearchStation(name);
+            return stationDtos.Select(dto => new StationHto(dto));
         }
     }
 }

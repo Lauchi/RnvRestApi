@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using RnvRestApi.Domain.ValueTypes.Ids;
 
-namespace RnvRestApi.DomainDtos
+namespace RnvRestApi.DomainHtos
 {
-    public class GameSessionDto
+    public class GameSessionHto
     {
         public GameSessionId GameSessionId { get; }
         public MrXId MrXId { get; }
