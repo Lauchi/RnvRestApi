@@ -19,7 +19,7 @@ namespace SqliteAdapter.Repositories
             }
         }
 
-        public MrX AddMrX(MrX mrXPost, GameSessionId gameSessionId)
+        public MrX AddOrUpdateMrX(MrX mrXPost, GameSessionId gameSessionId)
         {
             using (var db = new RnvScotlandYardContext())
             {

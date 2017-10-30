@@ -6,6 +6,6 @@ namespace SqliteAdapter.Repositories
     public interface IMrXRepository
     {
         MrX GetMrX(GameSessionId gameSessionId);
-        MrX AddMrX(MrX mrXPost, GameSessionId gameSessionId);
+        MrX AddOrUpdateMrX(MrX mrXPost, GameSessionId gameSessionId);
     }
 }

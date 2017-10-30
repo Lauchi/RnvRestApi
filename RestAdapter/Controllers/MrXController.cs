@@ -28,7 +28,7 @@ namespace RestAdapter.Controllers
         [HttpPost("{gameSessionId}/mr-x")]
         public IActionResult PostMrX(int gameSessionId, [FromBody] PlayerHtoPost playerPost)
         {
-            var mrX = _mrXRepository.AddMrX(new MrX(playerPost.Name), new GameSessionId(gameSessionId));
+            var mrX = _mrXRepository.AddOrUpdateMrX(new MrX(playerPost.Name), new GameSessionId(gameSessionId));
             if (mrX == null)
             {
                 return BadRequest();
