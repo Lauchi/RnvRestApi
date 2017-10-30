@@ -8,42 +8,39 @@ namespace SqliteAdapter.Repositories
 {
     public class MrXRepository : IMrXRepository
     {
+        private readonly RnvScotlandYardContext _db;
+
+        public MrXRepository(RnvScotlandYardContext db)
+        {
+            _db = db;
+        }
+
         public MrX GetMrX(GameSessionId gameSessionId)
         {
-            using (var db = new RnvScotlandYardContext())
-            {
-                var gameSession = db.GameSessions.FirstOrDefault(gs => gs.GameSessionId == gameSessionId.Id);
-                var gameSessionMrx = gameSession.Mrx;
-                if (gameSessionMrx == null) return null;
-                var mrX = new MrX(new MrXId(gameSessionMrx.MrxId), gameSessionMrx.Name);
-                return mrX;
-            }
+            var gameSession = _db.GameSessions.FirstOrDefault(gs => gs.GameSessionId == gameSessionId.Id);
+            var gameSessionMrx = gameSession.Mrx;
+            if (gameSessionMrx == null) return null;
+            var mrX = new MrX(new MrXId(gameSessionMrx.MrxId), gameSessionMrx.Name);
+            return mrX;
         }
 
         public MrX AddOrUpdateMrX(MrX mrXPost, GameSessionId gameSessionId)
         {
-            using (var db = new RnvScotlandYardContext())
-            {
-                var gameSessionDbs = db.GameSessions.Include(gs => gs.Mrx);
-                var gameSession = gameSessionDbs.FirstOrDefault(gs => gs.GameSessionId == gameSessionId.Id);
-                if (gameSession.Mrx == null) {
-                    gameSession.Mrx = new MrxDb
-                    {
-                        Name = mrXPost.Name,
-                        TicketPoolDb = new TicketPoolDb()
-                    };
-
-                }
-                else
+            var gameSessionDbs = _db.GameSessions.Include(gs => gs.Mrx);
+            var gameSession = gameSessionDbs.FirstOrDefault(gs => gs.GameSessionId == gameSessionId.Id);
+            if (gameSession.Mrx == null)
+                gameSession.Mrx = new MrxDb
                 {
-                    gameSession.Mrx.Name = mrXPost.Name;
-                }
-                db.SaveChanges();
+                    Name = mrXPost.Name,
+                    TicketPoolDb = new TicketPoolDb()
+                };
+            else
+                gameSession.Mrx.Name = mrXPost.Name;
+            _db.SaveChanges();
 
-                var gameSessionMrx = gameSession.Mrx;
-                var mrX = new MrX(new MrXId(gameSessionMrx.MrxId), gameSessionMrx.Name);
-                return mrX;
-            }
+            var gameSessionMrx = gameSession.Mrx;
+            var mrX = new MrX(new MrXId(gameSessionMrx.MrxId), gameSessionMrx.Name);
+            return mrX;
         }
     }
 }

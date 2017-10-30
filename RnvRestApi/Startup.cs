@@ -2,9 +2,11 @@
 using System.Net.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RnvTriasAdapter;
 using RnvTriasAdapter.Mapper;
+using SqliteAdapter.Model;
 using SqliteAdapter.Repositories;
 
 namespace RnvRestApi
@@ -19,6 +21,7 @@ namespace RnvRestApi
             var rnvClient = new RnvClient(httpClient);
 
             services.AddSingleton(rnvClient)
+                .AddDbContext<RnvScotlandYardContext>(options => options.UseSqlite("Data Source=rnvScotlandYard.db"))
                 .AddSingleton<IStationMapper, StationMapper>()
                 .AddSingleton<IRnvRepository, RnvRepository>()
                 .AddSingleton<IGameSessionRepository, GameSessionRepository>()

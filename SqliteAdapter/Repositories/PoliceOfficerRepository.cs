@@ -9,11 +9,16 @@ namespace SqliteAdapter.Repositories
 {
     public class PoliceOfficerRepository : IPoliceOfficerRepository
     {
+        private RnvScotlandYardContext _db;
+
+        public PoliceOfficerRepository(RnvScotlandYardContext db)
+        {
+            _db = db;
+        }
+
         public PoliceOfficer AddPoliceOfficer(PoliceOfficer policeOfficerToAdd, GameSessionId gameSessionId)
         {
-            using (var db = new RnvScotlandYardContext())
-            {
-                var gameSession = db.GameSessions.Include(gs => gs.PoliceOfficers).FirstOrDefault(gs => gs.GameSessionId == gameSessionId.Id);
+                var gameSession = _db.GameSessions.Include(gs => gs.PoliceOfficers).FirstOrDefault(gs => gs.GameSessionId == gameSessionId.Id);
                 var officerDb = new PoliceOfficerDb
                 {
                     Name = policeOfficerToAdd.Name,
@@ -21,24 +26,20 @@ namespace SqliteAdapter.Repositories
                 };
                 gameSession.PoliceOfficers.Add(officerDb);
 
-                db.SaveChanges();
+                _db.SaveChanges();
 
                 var policeOfficer = new PoliceOfficer(new PoliceOfficerId(officerDb.PoliceOfficerId), officerDb.Name);
                 return policeOfficer;
-            }
         }
 
         public IEnumerable<PoliceOfficer> GetPoliceOfficers(GameSessionId gameSessionId)
         {
-            using (var db = new RnvScotlandYardContext())
-            {
-                var gameSessionDbs = db.GameSessions.Include(gs => gs.PoliceOfficers);
+                var gameSessionDbs = _db.GameSessions.Include(gs => gs.PoliceOfficers);
                 var gameSession = gameSessionDbs.FirstOrDefault(gs => gs.GameSessionId == gameSessionId.Id);
                 var policeOfficers = gameSession.PoliceOfficers;
                 var officers = policeOfficers.Select(officer
                     => new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId), officer.Name)).ToList();
                 return officers;
-            }
         }
     }
 }
