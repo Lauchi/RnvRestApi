@@ -26,11 +26,14 @@ namespace RestAdapter.Controllers
         }
 
         [HttpPost("{gameSessionId}/mr-x")]
-        public MrXHto PostMrX(string gameSessionId, [FromBody] MrXHtoPost mrXPost)
+        public IActionResult PostMrX(string gameSessionId, [FromBody] MrXHtoPost mrXPost)
         {
-            var mrxPost = new MrXHto(mrXPost.Name);
             var mrX = _mrXRepository.AddMrX(new MrX(mrXPost.Name), new GameSessionId(gameSessionId));
-            return new MrXHto(mrX);
+            if (mrX == null)
+            {
+                return BadRequest();
+            }
+            return Ok(mrX);
         }
     }
 }

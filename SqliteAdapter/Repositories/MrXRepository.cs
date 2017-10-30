@@ -21,7 +21,21 @@ namespace SqliteAdapter.Repositories
 
         public MrX AddMrX(MrX mrXPost, GameSessionId gameSessionId)
         {
-            throw new System.NotImplementedException();
+            using (var db = new RnvScotlandYardContext())
+            {
+                var gameSession = db.GameSessions.FirstOrDefault(gs => gs.GameSessionId == gameSessionId.Id);
+                gameSession.Mrx = new MrxDb()
+                {
+                    MrxId = mrXPost.MrXId.Id,
+                    Name = mrXPost.Name,
+                    TicketPoolDb = new TicketPoolDb()
+                };
+                db.SaveChanges();
+
+                var gameSessionMrx = gameSession.Mrx;
+                var mrX = new MrX(new MrXId(gameSessionMrx.MrxId), gameSessionMrx.Name);
+                return mrX;
+            }
         }
     }
 }
