@@ -1,12 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Domain;
 
 namespace RestAdapter.DomainHtos
 {
-    public class MrXHto
+    public class MrXHto : PlayerHto
     {
-        public string Id { get; }
-        public IEnumerable<string> locationsVisited { get; }
-        public IEnumerable<VehicelTypeHto> usedVehicles { get; }
-        public string TicketPoolId { get; }
+        public MrXHto(string name) : base(name){}
+
+        public MrXHto(MrX mrX) : base(mrX)
+        {
+            Id = mrX.MrXId.Id;
+            LocationsMadePublic = mrX.VisitedStations.Select(station => station.Id.Id);
+            UsedVehicles = mrX.usedVehicles.Select(vehicle => vehicle.ToString());
+        }
+
+        public IEnumerable<string> LocationsMadePublic { get; }
+        public IEnumerable<string> UsedVehicles { get; }
     }
 }

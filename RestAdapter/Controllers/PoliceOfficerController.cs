@@ -9,14 +9,14 @@ namespace RestAdapter.Controllers
         [HttpGet("{id}")]
         public PoliceOfficerHto GetPoliceOfficer(int id)
         {
-            return new PoliceOfficerHto();
+            return new PoliceOfficerHto(null);
         }
 
         [HttpPost("{id}")]
         public PoliceOfficerHto PostPoliceOfficer()
         {
             //save to db, get id
-            return new PoliceOfficerHto();
+            return new PoliceOfficerHto(null);
         }
     }
 }

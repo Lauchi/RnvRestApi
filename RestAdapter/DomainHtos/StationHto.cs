@@ -8,11 +8,11 @@ namespace RestAdapter.DomainHtos
         {
             StationId = stationDto.StationId.Id;
             Name = stationDto.Name;
-            GeoLocation = stationDto.GeoLocation;
+            GeoLocationDto = stationDto.GeoLocationDto;
         }
 
         public string Name { get; set; }
         public string StationId { get; set; }
-        public GeoLocation GeoLocation { get; set; }
+        public GeoLocationDto GeoLocationDto { get; set; }
     }
 }

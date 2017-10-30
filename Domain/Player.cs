@@ -6,12 +6,17 @@ namespace Domain
 {
     public abstract class Player
     {
+        public Player(string name)
+        {
+            Name = name;
+        }
+
         public string Name { get; set; }
 
         public event Action<VehicelType, Station, Player> VehicleDrivenEvent;
         public event Action<VehicelType, Player> VehicleEmpty;
 
-        public IEnumerable<Station> showedLocations { get; } = new Collection<Station>();
+        public IEnumerable<Station> VisitedStations { get; } = new Collection<Station>();
         public IEnumerable<VehicelType> usedVehicles { get; } = new Collection<VehicelType>();
 
         public Tickets Tickets { get; }

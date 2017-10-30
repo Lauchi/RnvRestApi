@@ -45,9 +45,9 @@ namespace SqliteAdapter.Repositories
                     gameSession.Name,
                     new GameSessionId(gameSession.GameSessionId),
                     gameSession.StartTime,
-                    new MrX(new MrXId(gameSession.Mrx.MrxId)),
+                    new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name),
                     gameSession.PoliceOfficers.Select(officer =>
-                        new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId))).ToList());
+                        new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId), officer.Name)).ToList());
         }
 
         public GameSession GetSession(GameSessionId searchId)

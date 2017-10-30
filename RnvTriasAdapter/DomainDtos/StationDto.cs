@@ -4,14 +4,14 @@ namespace RnvTriasAdapter.DomainDtos
 {
     public class StationDto
     {
-        public StationDto(StationId stationId, string name, GeoLocation geoLocation)
+        public StationDto(StationId stationId, string name, GeoLocationDto geoLocationDto)
         {
             StationId = stationId;
             Name = name;
-            GeoLocation = geoLocation;
+            GeoLocationDto = geoLocationDto;
         }
         public string Name { get; set; }
         public StationId StationId { get; set; }
-        public GeoLocation GeoLocation { get; set; }
+        public GeoLocationDto GeoLocationDto { get; set; }
     }
 }

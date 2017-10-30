@@ -1,8 +1,8 @@
 ﻿namespace RnvTriasAdapter.DomainDtos
 {
-    public class GeoLocation
+    public class GeoLocationDto
     {
-        public GeoLocation(double longitude, double latitude)
+        public GeoLocationDto(double longitude, double latitude)
         {
             Latitude = latitude;
             Longitude = longitude;

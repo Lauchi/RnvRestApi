@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Domain;
 
 namespace RestAdapter.DomainHtos
 {
-    public class PoliceOfficerHto
+    public class PoliceOfficerHto : PlayerHto
     {
-        public string Id { get; }
-        public IEnumerable<string> locationsVisited { get; }
-        public IEnumerable<VehicelTypeHto> usedVehicles { get; }
-        public string TicketPoolId { get; }
+        public IEnumerable<string> VisitedLocations { get; }
+
+        public PoliceOfficerHto(Player player) : base(player)
+        {
+            VisitedLocations = player.VisitedStations.Select(station => station.Id.Id);
+        }
     }
 }

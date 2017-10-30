@@ -1,14 +1,20 @@
-﻿using Domain.ValueTypes.Ids;
+﻿using System;
+using Domain.ValueTypes.Ids;
 
 namespace Domain
 {
     public class PoliceOfficer : Player
     {
-        public PoliceOfficer(PoliceOfficerId policeOfficerId)
+        public PoliceOfficerId PoliceOfficerId { get; }
+
+        public PoliceOfficer(string name) : base(name)
         {
-            PoliceOfficerId = policeOfficerId;
+            PoliceOfficerId = new PoliceOfficerId(Guid.NewGuid().ToString());
         }
 
-        public PoliceOfficerId PoliceOfficerId { get; }
+        public PoliceOfficer(PoliceOfficerId id, string name) : base(name)
+        {
+            PoliceOfficerId = id;
+        }
     }
 }

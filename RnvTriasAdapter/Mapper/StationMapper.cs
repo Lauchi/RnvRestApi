@@ -32,7 +32,7 @@ namespace RnvTriasAdapter.Mapper
                 var stationLatitude = location.Descendants().SingleOrDefault(d => d.Name == "{trias}Latitude");
 
                 stationList.Add(new StationDto(new StationId(staionId?.Value), stationName?.Value,
-                    new GeoLocation(Convert.ToDouble(stationLongitude?.Value), Convert.ToDouble(stationLatitude?.Value))));
+                    new GeoLocationDto(Convert.ToDouble(stationLongitude?.Value), Convert.ToDouble(stationLatitude?.Value))));
             }
 
             return stationList;
