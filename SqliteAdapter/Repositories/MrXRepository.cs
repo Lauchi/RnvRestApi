@@ -24,9 +24,8 @@ namespace SqliteAdapter.Repositories
             using (var db = new RnvScotlandYardContext())
             {
                 var gameSession = db.GameSessions.FirstOrDefault(gs => gs.GameSessionId == gameSessionId.Id);
-                gameSession.Mrx = new MrxDb()
+                gameSession.Mrx = new MrxDb
                 {
-                    MrxId = mrXPost.MrXId.Id,
                     Name = mrXPost.Name,
                     TicketPoolDb = new TicketPoolDb()
                 };

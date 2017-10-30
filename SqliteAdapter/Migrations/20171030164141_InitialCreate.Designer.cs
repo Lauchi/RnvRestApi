@@ -11,7 +11,7 @@ using System;
 namespace SqliteAdapter.Migrations
 {
     [DbContext(typeof(RnvScotlandYardContext))]
-    [Migration("20171030143912_InitialCreate")]
+    [Migration("20171030164141_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,17 +79,17 @@ namespace SqliteAdapter.Migrations
                     b.Property<int>("PoliceOfficerId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("GameSessionDbGameSessionId");
+                    b.Property<int>("GameSessionDbId");
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("TicketPoolDbTicketPoolId");
+                    b.Property<int>("TicketPoolDbId");
 
                     b.HasKey("PoliceOfficerId");
 
-                    b.HasIndex("GameSessionDbGameSessionId");
+                    b.HasIndex("GameSessionDbId");
 
-                    b.HasIndex("TicketPoolDbTicketPoolId");
+                    b.HasIndex("TicketPoolDbId");
 
                     b.ToTable("PoliceOfficers");
                 });
@@ -152,11 +152,13 @@ namespace SqliteAdapter.Migrations
                 {
                     b.HasOne("SqliteAdapter.Model.GameSessionDb", "GameSessionDb")
                         .WithMany("PoliceOfficers")
-                        .HasForeignKey("GameSessionDbGameSessionId");
+                        .HasForeignKey("GameSessionDbId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SqliteAdapter.Model.TicketPoolDb", "TicketPoolDb")
                         .WithMany()
-                        .HasForeignKey("TicketPoolDbTicketPoolId");
+                        .HasForeignKey("TicketPoolDbId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

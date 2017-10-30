@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
+using System.Collections.Generic;
 
 namespace SqliteAdapter.Migrations
 {
@@ -106,25 +107,25 @@ namespace SqliteAdapter.Migrations
                 {
                     PoliceOfficerId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    GameSessionDbGameSessionId = table.Column<int>(type: "INTEGER", nullable: true),
+                    GameSessionDbId = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
-                    TicketPoolDbTicketPoolId = table.Column<int>(type: "INTEGER", nullable: true)
+                    TicketPoolDbId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PoliceOfficers", x => x.PoliceOfficerId);
                     table.ForeignKey(
-                        name: "FK_PoliceOfficers_GameSessions_GameSessionDbGameSessionId",
-                        column: x => x.GameSessionDbGameSessionId,
+                        name: "FK_PoliceOfficers_GameSessions_GameSessionDbId",
+                        column: x => x.GameSessionDbId,
                         principalTable: "GameSessions",
                         principalColumn: "GameSessionId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PoliceOfficers_TicketPools_TicketPoolDbTicketPoolId",
-                        column: x => x.TicketPoolDbTicketPoolId,
+                        name: "FK_PoliceOfficers_TicketPools_TicketPoolDbId",
+                        column: x => x.TicketPoolDbId,
                         principalTable: "TicketPools",
                         principalColumn: "TicketPoolId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -143,14 +144,14 @@ namespace SqliteAdapter.Migrations
                 column: "TicketPoolDbTicketPoolId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PoliceOfficers_GameSessionDbGameSessionId",
+                name: "IX_PoliceOfficers_GameSessionDbId",
                 table: "PoliceOfficers",
-                column: "GameSessionDbGameSessionId");
+                column: "GameSessionDbId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PoliceOfficers_TicketPoolDbTicketPoolId",
+                name: "IX_PoliceOfficers_TicketPoolDbId",
                 table: "PoliceOfficers",
-                column: "TicketPoolDbTicketPoolId");
+                column: "TicketPoolDbId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -10,5 +10,7 @@ namespace Domain
         {
             PoliceOfficerId = id;
         }
+
+        public PoliceOfficer(string name) : base(name) {}
     }
 }

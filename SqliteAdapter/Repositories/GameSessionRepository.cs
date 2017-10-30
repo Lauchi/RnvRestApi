@@ -15,10 +15,8 @@ namespace SqliteAdapter.Repositories
             {
                 var gameSessionDb = new GameSessionDb()
                 {
-                    GameSessionId = gameSession.GameSessionId.Id,
-                    Mrx = null,
                     Name = gameSession.Name,
-                    PoliceOfficers = null,
+                    PoliceOfficers = new List<PoliceOfficerDb>(),
                     StartTime = gameSession.StartTime
                 };
                 db.GameSessions.Add(gameSessionDb);

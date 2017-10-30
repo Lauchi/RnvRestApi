@@ -23,6 +23,7 @@ namespace RnvRestApi
                 .AddSingleton<IRnvRepository, RnvRepository>()
                 .AddSingleton<IGameSessionRepository, GameSessionRepository>()
                 .AddSingleton<IMrXRepository, MrXRepository>()
+                .AddSingleton<IPoliceOfficerRepository, PoliceOfficerRepository>()
                 .AddMvc();
         }
 

@@ -1,22 +1,40 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Domain;
+using Domain.ValueTypes.Ids;
+using Microsoft.AspNetCore.Mvc;
 using RestAdapter.DomainHtos;
+using SqliteAdapter.Repositories;
 
 namespace RestAdapter.Controllers
 {
-    [Route("police-officer")]
+    [Route("game-session")]
     public class PoliceOfficerController : Controller
     {
-        [HttpGet("{id}")]
-        public PoliceOfficerHto GetPoliceOfficer(int id)
+        private readonly IPoliceOfficerRepository _mrXRepository;
+
+        public PoliceOfficerController(IPoliceOfficerRepository mrXRepository)
         {
-            return new PoliceOfficerHto(null);
+            _mrXRepository = mrXRepository;
         }
 
-        [HttpPost("{id}")]
-        public PoliceOfficerHto PostPoliceOfficer()
+        [HttpGet("{gameSessionId}/police-officer/{officerId}")]
+        public IActionResult GetMrX(int gameSessionId, int officerId)
         {
-            //save to db, get id
-            return new PoliceOfficerHto(null);
+            var policeOfficers = _mrXRepository.GetPoliceOfficers(new GameSessionId(gameSessionId));
+            if (policeOfficers == null) return NotFound();
+            var policeOfficerHtos = policeOfficers.Select(policeOfficer => new PoliceOfficerHto(policeOfficer));
+            return Ok(policeOfficerHtos);
+        }
+
+        [HttpPost("{gameSessionId}/police-officer")]
+        public IActionResult PostMrX(int gameSessionId, [FromBody] MrXHtoPost mrXPost)
+        {
+            var policeOfficer = _mrXRepository.AddPoliceOfficer(new PoliceOfficer(mrXPost.Name), new GameSessionId(gameSessionId));
+            if (policeOfficer == null)
+            {
+                return BadRequest();
+            }
+            return Ok(policeOfficer);
         }
     }
 }
