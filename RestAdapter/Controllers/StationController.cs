@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain;
 using Domain.ValueTypes.Ids;
 using Microsoft.AspNetCore.Mvc;
 using RestAdapter.DomainHtos;
 using RnvTriasAdapter;
+using RnvTriasAdapter.DomainDtos;
 
 namespace RestAdapter.Controllers
 {
@@ -26,9 +29,17 @@ namespace RestAdapter.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<StationHto>> SearchStation([FromQuery] string name)
+        public async Task<IEnumerable<StationHto>> SearchStation([FromQuery] string name, [FromQuery] double longitude, [FromQuery] double latitude)
         {
-            var stationDtos = await _repository.SearchStation(name);
+            IEnumerable<StationDto> stationDtos;
+            if (name == null)
+            {
+                stationDtos = await _repository.SearchStation(new GeoLocationDto(longitude, latitude));
+            }
+            else
+            {
+                stationDtos = await _repository.SearchStation(name);
+            }
             return stationDtos.Select(dto => new StationHto(dto));
         }
     }

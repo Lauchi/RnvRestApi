@@ -33,5 +33,12 @@ namespace RnvTriasAdapter
             var rnvResponse = await _rnvClient.SendRequest(searchStationCommand);
             return await _stationMapper.MapToStation(rnvResponse);
         }
+
+        public async Task<IEnumerable<StationDto>> SearchStation(GeoLocationDto geoLocation)
+        {
+            var searchStationCommand = new SearchStationByLocationCommand(geoLocation);
+            var rnvResponse = await _rnvClient.SendRequest(searchStationCommand);
+            return await _stationMapper.MapToStation(rnvResponse);
+        }
     }
 }
