@@ -39,9 +39,9 @@ namespace RestAdapter.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateGameSession([FromQuery] string sessionName)
+        public async Task<IActionResult> CreateGameSession([FromBody] GameSessionHtoPost session)
         {
-            var gameSession = await _gameSessionRepository.Add(new GameSession(sessionName));
+            var gameSession = await _gameSessionRepository.Add(new GameSession(session.Name));
             if (gameSession == null)
             {
                 return BadRequest();
