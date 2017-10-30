@@ -8,7 +8,7 @@ using SqliteAdapter.Repositories;
 
 namespace RestAdapter.Controllers
 {
-    [Route("game-session")]
+    [Route("game-sessions")]
     public class GameSessionController : Controller
     {
         private IGameSessionRepository _gameSessionRepository;

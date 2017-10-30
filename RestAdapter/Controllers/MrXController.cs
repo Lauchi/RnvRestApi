@@ -6,7 +6,7 @@ using SqliteAdapter.Repositories;
 
 namespace RestAdapter.Controllers
 {
-    [Route("game-session")]
+    [Route("game-sessions")]
     public class MrXController : Controller
     {
         private readonly IMrXRepository _mrXRepository;

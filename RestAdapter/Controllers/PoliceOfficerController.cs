@@ -7,7 +7,7 @@ using SqliteAdapter.Repositories;
 
 namespace RestAdapter.Controllers
 {
-    [Route("game-session")]
+    [Route("game-sessions")]
     public class PoliceOfficerController : Controller
     {
         private readonly IPoliceOfficerRepository _mrXRepository;
@@ -17,8 +17,8 @@ namespace RestAdapter.Controllers
             _mrXRepository = mrXRepository;
         }
 
-        [HttpGet("{gameSessionId}/police-officer/{officerId}")]
-        public IActionResult GetMrX(int gameSessionId)
+        [HttpGet("{gameSessionId}/police-officers")]
+        public IActionResult GetPoliceOfficer(int gameSessionId)
         {
             var policeOfficers = _mrXRepository.GetPoliceOfficers(new GameSessionId(gameSessionId));
             if (policeOfficers == null) return NotFound();
@@ -26,8 +26,8 @@ namespace RestAdapter.Controllers
             return Ok(policeOfficerHtos);
         }
 
-        [HttpPost("{gameSessionId}/police-officer/")]
-        public IActionResult PostMrX(int gameSessionId, [FromBody] PlayerHtoPost playerPost)
+        [HttpPost("{gameSessionId}/police-officers")]
+        public IActionResult PostPoliceOfficer(int gameSessionId, [FromBody] PlayerHtoPost playerPost)
         {
             var policeOfficer = _mrXRepository.AddPoliceOfficer(new PoliceOfficer(playerPost.Name), new GameSessionId(gameSessionId));
             if (policeOfficer == null)

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain;
 using Domain.ValueTypes.Ids;
 using Microsoft.AspNetCore.Mvc;
 using RestAdapter.DomainHtos;
@@ -11,7 +9,7 @@ using RnvTriasAdapter.DomainDtos;
 
 namespace RestAdapter.Controllers
 {
-    [Route("station")]
+    [Route("stations")]
     public class StationController : Controller
     {
         private readonly IRnvRepository _repository;

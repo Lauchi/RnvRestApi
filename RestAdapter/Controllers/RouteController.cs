@@ -3,7 +3,7 @@ using RestAdapter.DomainHtos;
 
 namespace RestAdapter.Controllers
 {
-    [Route("route")]
+    [Route("routes")]
     public class RouteController : Controller
     {
         [HttpGet]
