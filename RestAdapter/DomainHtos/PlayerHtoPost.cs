@@ -1,6 +1,6 @@
 ﻿namespace RestAdapter.DomainHtos
 {
-    public class MrXHtoPost
+    public class PlayerHtoPost
     {
         public string Name { get; set; }
     }

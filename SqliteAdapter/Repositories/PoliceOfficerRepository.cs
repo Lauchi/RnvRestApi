@@ -2,6 +2,7 @@
 using System.Linq;
 using Domain;
 using Domain.ValueTypes.Ids;
+using Microsoft.EntityFrameworkCore;
 using SqliteAdapter.Model;
 
 namespace SqliteAdapter.Repositories
@@ -12,11 +13,11 @@ namespace SqliteAdapter.Repositories
         {
             using (var db = new RnvScotlandYardContext())
             {
-                var gameSession = db.GameSessions.FirstOrDefault(gs => gs.GameSessionId == gameSessionId.Id);
-                PoliceOfficerDb officerDb = new PoliceOfficerDb
+                var gameSession = db.GameSessions.Include(gs => gs.PoliceOfficers).FirstOrDefault(gs => gs.GameSessionId == gameSessionId.Id);
+                var officerDb = new PoliceOfficerDb
                 {
                     Name = policeOfficerToAdd.Name,
-                    TicketPoolDb = new TicketPoolDb(),
+                    TicketPoolDb = new TicketPoolDb()
                 };
                 gameSession.PoliceOfficers.Add(officerDb);
 
@@ -31,9 +32,9 @@ namespace SqliteAdapter.Repositories
         {
             using (var db = new RnvScotlandYardContext())
             {
-                var gameSession = db.GameSessions.FirstOrDefault(gs => gs.GameSessionId == gameSessionId.Id);
+                var gameSessionDbs = db.GameSessions.Include(gs => gs.PoliceOfficers);
+                var gameSession = gameSessionDbs.FirstOrDefault(gs => gs.GameSessionId == gameSessionId.Id);
                 var policeOfficers = gameSession.PoliceOfficers;
-                if (policeOfficers == null) return new List<PoliceOfficer>();
                 var officers = policeOfficers.Select(officer
                     => new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId), officer.Name)).ToList();
                 return officers;

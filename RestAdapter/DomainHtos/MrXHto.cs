@@ -12,7 +12,7 @@ namespace RestAdapter.DomainHtos
         {
             Id = mrX.MrXId.Id;
             LocationsMadePublic = mrX.VisitedStations.Select(station => station.Id.Id);
-            UsedVehicles = mrX.usedVehicles.Select(vehicle => vehicle.ToString());
+            UsedVehicles = mrX.UsedVehicles.Select(vehicle => vehicle.ToString());
         }
 
         public IEnumerable<string> LocationsMadePublic { get; }

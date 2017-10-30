@@ -17,7 +17,7 @@ namespace Domain
         public event Action<VehicelType, Player> VehicleEmpty;
 
         public IEnumerable<Station> VisitedStations { get; } = new Collection<Station>();
-        public IEnumerable<VehicelType> usedVehicles { get; } = new Collection<VehicelType>();
+        public IEnumerable<VehicelType> UsedVehicles { get; } = new Collection<VehicelType>();
 
         public Tickets Tickets { get; }
 

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domain;
 using Domain.ValueTypes.Ids;
+using Microsoft.EntityFrameworkCore;
 using SqliteAdapter.Model;
 
 namespace SqliteAdapter.Repositories
@@ -28,7 +29,7 @@ namespace SqliteAdapter.Repositories
         {
             using (var db = new RnvScotlandYardContext())
             {
-                var dbGameSessions = db.GameSessions;
+                var dbGameSessions = db.GameSessions.Include(gs => gs.PoliceOfficers);
                 var gameSessions = dbGameSessions.Select(dbSession => GameSessionMapper(dbSession)).ToList();
                 return gameSessions;
             }
@@ -38,7 +39,8 @@ namespace SqliteAdapter.Repositories
         {
             using (var db = new RnvScotlandYardContext())
             {
-                var equalGameSessions = db.GameSessions.Where(session => session.GameSessionId == searchId.Id);
+                var gameSessionDbs = db.GameSessions.Include(gs => gs.PoliceOfficers);
+                var equalGameSessions = gameSessionDbs.Where(session => session.GameSessionId == searchId.Id);
                 var firstOrDefault = equalGameSessions.Select(dbSession => GameSessionMapper(dbSession)).FirstOrDefault();
                 return firstOrDefault;
             }
@@ -47,8 +49,8 @@ namespace SqliteAdapter.Repositories
         private GameSession GameSessionMapper(GameSessionDb gameSession)
         {
             var mrX = gameSession.Mrx != null ? new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name) : MrX.NullValue();
-            var policeOfficers = gameSession.PoliceOfficers?.Select(officer =>
-                                     new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId), officer.Name)).ToList() ?? new List<PoliceOfficer>();
+            var policeOfficers = gameSession.PoliceOfficers.Select(officer =>
+                new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId), officer.Name)).ToList();
             var session = new GameSession(
                 gameSession.Name,
                 new GameSessionId(gameSession.GameSessionId),
