@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Domain;
 using Domain.ValueTypes.Ids;
@@ -34,21 +32,23 @@ namespace SqliteAdapter.Repositories
             using (var db = new RnvScotlandYardContext())
             {
                 var dbGameSessions = db.GameSessions;
-                var gameSessions = dbGameSessions.Select(GameSessionMapper()).ToList();
+                var gameSessions = dbGameSessions.Select(dbSession => GameSessionMapper(dbSession)).ToList();
                 return gameSessions;
             }
         }
 
-        private static Expression<Func<GameSessionDb, GameSession>> GameSessionMapper()
+        private GameSession GameSessionMapper(GameSessionDb gameSession)
         {
-            return gameSession =>
-                new GameSession(
-                    gameSession.Name,
-                    new GameSessionId(gameSession.GameSessionId),
-                    gameSession.StartTime,
-                    new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name),
-                    gameSession.PoliceOfficers.Select(officer =>
-                        new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId), officer.Name)).ToList());
+            var mrX = gameSession.Mrx != null ? new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name) : MrX.NullValue();
+            var policeOfficers = gameSession.PoliceOfficers?.Select(officer =>
+                                     new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId), officer.Name)).ToList() ?? new List<PoliceOfficer>();
+            var session = new GameSession(
+                gameSession.Name,
+                new GameSessionId(gameSession.GameSessionId),
+                gameSession.StartTime,
+                mrX,
+                policeOfficers);
+            return session;
         }
 
         public GameSession GetSession(GameSessionId searchId)
@@ -56,7 +56,7 @@ namespace SqliteAdapter.Repositories
             using (var db = new RnvScotlandYardContext())
             {
                 var equalGameSessions = db.GameSessions.Where(session => session.GameSessionId == searchId.Id);
-                var firstOrDefault = equalGameSessions.Select(GameSessionMapper()).FirstOrDefault();
+                var firstOrDefault = equalGameSessions.Select(dbSession => GameSessionMapper(dbSession)).FirstOrDefault();
                 return firstOrDefault;
             }
         }

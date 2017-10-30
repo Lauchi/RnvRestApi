@@ -1,5 +1,4 @@
-﻿using System;
-using Domain.ValueTypes.Ids;
+﻿using Domain.ValueTypes.Ids;
 
 namespace Domain
 {
