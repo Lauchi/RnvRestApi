@@ -28,6 +28,9 @@ namespace RnvTriasAdapter.RnvCommands
 										</LocationName>
 									</LocationRef>
 								</InitialInput>
+								<Restrictions>
+                                    <Type>stop</Type>
+                                </Restrictions>
 								</LocationInformationRequest>
 							</RequestPayload>
 						</ServiceRequest>

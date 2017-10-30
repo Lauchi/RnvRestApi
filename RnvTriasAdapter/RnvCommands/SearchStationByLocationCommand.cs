@@ -31,6 +31,9 @@ namespace RnvTriasAdapter.RnvCommands
                                         </Circle>
                                     </GeoRestriction>
                                 </InitialInput>
+                                <Restrictions>
+                                    <Type>stop</Type>
+                                </Restrictions>
                             </LocationInformationRequest>
                         </RequestPayload>
                     </ServiceRequest>

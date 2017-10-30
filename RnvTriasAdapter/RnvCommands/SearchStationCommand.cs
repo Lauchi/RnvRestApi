@@ -21,6 +21,9 @@
                             <InitialInput>
                                 <LocationName>{_stationName}</LocationName>
                             </InitialInput>
+                            <Restrictions>
+                                <Type>stop</Type>
+                            </Restrictions>
                             </LocationInformationRequest>
                         </RequestPayload>
                     </ServiceRequest>
