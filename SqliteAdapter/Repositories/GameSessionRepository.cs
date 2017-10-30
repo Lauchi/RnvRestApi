@@ -13,10 +13,9 @@ namespace SqliteAdapter.Repositories
         {
             using (var db = new RnvScotlandYardContext())
             {
-                var gameSessionDb = new GameSessionDb()
+                var gameSessionDb = new GameSessionDb
                 {
                     Name = gameSession.Name,
-                    PoliceOfficers = new List<PoliceOfficerDb>(),
                     StartTime = gameSession.StartTime
                 };
                 db.GameSessions.Add(gameSessionDb);
@@ -35,6 +34,16 @@ namespace SqliteAdapter.Repositories
             }
         }
 
+        public GameSession GetSession(GameSessionId searchId)
+        {
+            using (var db = new RnvScotlandYardContext())
+            {
+                var equalGameSessions = db.GameSessions.Where(session => session.GameSessionId == searchId.Id);
+                var firstOrDefault = equalGameSessions.Select(dbSession => GameSessionMapper(dbSession)).FirstOrDefault();
+                return firstOrDefault;
+            }
+        }
+
         private GameSession GameSessionMapper(GameSessionDb gameSession)
         {
             var mrX = gameSession.Mrx != null ? new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name) : MrX.NullValue();
@@ -47,16 +56,6 @@ namespace SqliteAdapter.Repositories
                 mrX,
                 policeOfficers);
             return session;
-        }
-
-        public GameSession GetSession(GameSessionId searchId)
-        {
-            using (var db = new RnvScotlandYardContext())
-            {
-                var equalGameSessions = db.GameSessions.Where(session => session.GameSessionId == searchId.Id);
-                var firstOrDefault = equalGameSessions.Select(dbSession => GameSessionMapper(dbSession)).FirstOrDefault();
-                return firstOrDefault;
-            }
         }
     }
 }
