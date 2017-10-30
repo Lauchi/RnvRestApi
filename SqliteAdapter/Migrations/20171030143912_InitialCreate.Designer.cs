@@ -11,7 +11,7 @@ using System;
 namespace SqliteAdapter.Migrations
 {
     [DbContext(typeof(RnvScotlandYardContext))]
-    [Migration("20171029175439_InitialCreate")]
+    [Migration("20171030143912_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,8 +22,10 @@ namespace SqliteAdapter.Migrations
 
             modelBuilder.Entity("SqliteAdapter.Model.GameSessionDb", b =>
                 {
-                    b.Property<string>("GameSessionId")
+                    b.Property<int>("GameSessionId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("MrxId");
 
                     b.Property<string>("Name");
 
@@ -31,12 +33,14 @@ namespace SqliteAdapter.Migrations
 
                     b.HasKey("GameSessionId");
 
+                    b.HasIndex("MrxId");
+
                     b.ToTable("GameSessions");
                 });
 
             modelBuilder.Entity("SqliteAdapter.Model.MovementsDb", b =>
                 {
-                    b.Property<string>("MovementId")
+                    b.Property<int>("MovementId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("FromStationId");
@@ -54,19 +58,16 @@ namespace SqliteAdapter.Migrations
 
             modelBuilder.Entity("SqliteAdapter.Model.MrxDb", b =>
                 {
-                    b.Property<string>("MrxId")
+                    b.Property<int>("MrxId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("GameSessionDbId");
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("TicketPoolDbTicketPoolId");
+                    b.Property<int?>("TicketPoolDbTicketPoolId");
 
                     b.HasKey("MrxId");
-
-                    b.HasIndex("GameSessionDbId")
-                        .IsUnique();
 
                     b.HasIndex("TicketPoolDbTicketPoolId");
 
@@ -75,14 +76,14 @@ namespace SqliteAdapter.Migrations
 
             modelBuilder.Entity("SqliteAdapter.Model.PoliceOfficerDb", b =>
                 {
-                    b.Property<string>("PoliceOfficerId")
+                    b.Property<int>("PoliceOfficerId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("GameSessionDbGameSessionId");
+                    b.Property<int?>("GameSessionDbGameSessionId");
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("TicketPoolDbTicketPoolId");
+                    b.Property<int?>("TicketPoolDbTicketPoolId");
 
                     b.HasKey("PoliceOfficerId");
 
@@ -95,7 +96,7 @@ namespace SqliteAdapter.Migrations
 
             modelBuilder.Entity("SqliteAdapter.Model.TicketPoolDb", b =>
                 {
-                    b.Property<string>("TicketPoolId")
+                    b.Property<int>("TicketPoolId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("BlackTickets");
@@ -125,6 +126,13 @@ namespace SqliteAdapter.Migrations
                     b.ToTable("VehicleTypes");
                 });
 
+            modelBuilder.Entity("SqliteAdapter.Model.GameSessionDb", b =>
+                {
+                    b.HasOne("SqliteAdapter.Model.MrxDb", "Mrx")
+                        .WithMany()
+                        .HasForeignKey("MrxId");
+                });
+
             modelBuilder.Entity("SqliteAdapter.Model.MovementsDb", b =>
                 {
                     b.HasOne("SqliteAdapter.Model.VehicleTypeDb", "VehicleType")
@@ -135,10 +143,6 @@ namespace SqliteAdapter.Migrations
 
             modelBuilder.Entity("SqliteAdapter.Model.MrxDb", b =>
                 {
-                    b.HasOne("SqliteAdapter.Model.GameSessionDb")
-                        .WithOne("Mrx")
-                        .HasForeignKey("SqliteAdapter.Model.MrxDb", "GameSessionDbId");
-
                     b.HasOne("SqliteAdapter.Model.TicketPoolDb", "TicketPoolDb")
                         .WithMany()
                         .HasForeignKey("TicketPoolDbTicketPoolId");

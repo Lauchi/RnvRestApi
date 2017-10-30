@@ -5,7 +5,7 @@ namespace SqliteAdapter.Model
     public class TicketPoolDb
     {
         [Key]
-        public string TicketPoolId { get; set; }
+        public int TicketPoolId { get; set; }
 
         public int TaxiTickets { get; set; }
         public int BusTickets { get; set; }

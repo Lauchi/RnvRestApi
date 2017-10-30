@@ -2,7 +2,7 @@
 {
     public class TicketPoolId : DomainId
     {
-        public TicketPoolId(string id) : base(id)
+        public TicketPoolId(int id) : base(id)
         {
         }
     }

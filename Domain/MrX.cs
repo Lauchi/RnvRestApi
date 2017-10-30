@@ -16,13 +16,13 @@ namespace Domain
         {
             return new MrX("NAN")
             {
-                MrXId = new MrXId("NAN")
+                MrXId = new MrXId(0)
             };
         }
 
         public MrX(string name) : base(name)
         {
-            MrXId = new MrXId(Guid.NewGuid().ToString());
+            MrXId = new MrXId(0);
         }
     }
 }

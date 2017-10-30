@@ -15,8 +15,8 @@ namespace RestAdapter.DomainHtos
             TicketPoolId = player.Tickets.TicketPoolId.Id;
         }
 
-        public string Id { get; protected set; }
+        public int Id { get; protected set; }
         public string Name { get; protected set; }
-        public string TicketPoolId { get; protected set; }
+        public int TicketPoolId { get; protected set; }
     }
 }

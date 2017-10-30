@@ -33,7 +33,8 @@ namespace SqliteAdapter.Repositories
         {
             using (var db = new RnvScotlandYardContext())
             {
-                var gameSessions = db.GameSessions.Select(GameSessionMapper()).ToList();
+                var dbGameSessions = db.GameSessions;
+                var gameSessions = dbGameSessions.Select(GameSessionMapper()).ToList();
                 return gameSessions;
             }
         }

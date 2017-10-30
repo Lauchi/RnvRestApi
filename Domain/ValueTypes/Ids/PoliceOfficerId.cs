@@ -2,7 +2,7 @@
 {
     public class PoliceOfficerId : DomainId
     {
-        public PoliceOfficerId(string id) : base(id)
+        public PoliceOfficerId(int id) : base(id)
         {
         }
     }

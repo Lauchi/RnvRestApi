@@ -7,11 +7,6 @@ namespace Domain
     {
         public PoliceOfficerId PoliceOfficerId { get; }
 
-        public PoliceOfficer(string name) : base(name)
-        {
-            PoliceOfficerId = new PoliceOfficerId(Guid.NewGuid().ToString());
-        }
-
         public PoliceOfficer(PoliceOfficerId id, string name) : base(name)
         {
             PoliceOfficerId = id;

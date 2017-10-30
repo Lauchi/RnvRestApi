@@ -12,7 +12,7 @@ namespace Domain
         {
             Name = name;
             PoliceOfficers = new Collection<PoliceOfficer>();
-            GameSessionId = new GameSessionId(Guid.NewGuid().ToString());
+            GameSessionId = new GameSessionId(0);
             StartTime = DateTimeOffset.Now;
             MrX = MrX.NullValue();
         }

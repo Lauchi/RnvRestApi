@@ -5,7 +5,7 @@ namespace SqliteAdapter.Model
     public class MrxDb
     {
         [Key]
-        public string MrxId { get; set; }
+        public int MrxId { get; set; }
         public string Name { get; set; }
 
         public string GameSessionDbId { get; set; }

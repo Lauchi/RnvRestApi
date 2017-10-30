@@ -27,7 +27,7 @@ namespace RestAdapter.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetGameSession(string id)
+        public IActionResult GetGameSession(int id)
         {
             var gameSession = _gameSessionRepository.GetSession(new GameSessionId(id));
             if (gameSession == null)
