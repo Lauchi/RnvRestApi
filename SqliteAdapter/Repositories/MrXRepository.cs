@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Domain;
 using Domain.ValueTypes.Ids;
+using Microsoft.EntityFrameworkCore;
 using SqliteAdapter.Model;
 
 namespace SqliteAdapter.Repositories
@@ -23,12 +24,20 @@ namespace SqliteAdapter.Repositories
         {
             using (var db = new RnvScotlandYardContext())
             {
-                var gameSession = db.GameSessions.FirstOrDefault(gs => gs.GameSessionId == gameSessionId.Id);
-                gameSession.Mrx = new MrxDb
+                var gameSessionDbs = db.GameSessions.Include(gs => gs.Mrx);
+                var gameSession = gameSessionDbs.FirstOrDefault(gs => gs.GameSessionId == gameSessionId.Id);
+                if (gameSession.Mrx == null) {
+                    gameSession.Mrx = new MrxDb
+                    {
+                        Name = mrXPost.Name,
+                        TicketPoolDb = new TicketPoolDb()
+                    };
+
+                }
+                else
                 {
-                    Name = mrXPost.Name,
-                    TicketPoolDb = new TicketPoolDb()
-                };
+                    gameSession.Mrx.Name = mrXPost.Name;
+                }
                 db.SaveChanges();
 
                 var gameSessionMrx = gameSession.Mrx;
