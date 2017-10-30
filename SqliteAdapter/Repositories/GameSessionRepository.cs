@@ -21,7 +21,8 @@ namespace SqliteAdapter.Repositories
                 };
                 db.GameSessions.Add(gameSessionDb);
                 await db.SaveChangesAsync();
-                return gameSession;
+                var session = new GameSession(gameSessionDb.Name, new GameSessionId(gameSessionDb.GameSessionId),gameSessionDb.StartTime, MrX.NullValue(), new List<PoliceOfficer>());
+                return session;
             }
         }
 
