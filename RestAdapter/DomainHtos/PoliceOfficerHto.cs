@@ -8,8 +8,9 @@ namespace RestAdapter.DomainHtos
     {
         public IEnumerable<string> VisitedLocations { get; }
 
-        public PoliceOfficerHto(Player player) : base(player)
+        public PoliceOfficerHto(PoliceOfficer player) : base(player)
         {
+            Id = player.PoliceOfficerId.Id;
             VisitedLocations = player.VisitedStations.Select(station => station.Id.Id);
         }
     }

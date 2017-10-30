@@ -4,11 +4,6 @@ namespace RestAdapter.DomainHtos
 {
     public abstract class PlayerHto
     {
-        public PlayerHto(string name)
-        {
-            Name = name;
-        }
-
         public PlayerHto(Player player)
         {
             Name = player.Name;

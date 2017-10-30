@@ -6,8 +6,6 @@ namespace RestAdapter.DomainHtos
 {
     public class MrXHto : PlayerHto
     {
-        public MrXHto(string name) : base(name){}
-
         public MrXHto(MrX mrX) : base(mrX)
         {
             Id = mrX.MrXId.Id;
