@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Domain;
-using Domain.ValueTypes.Ids;
 
 namespace RestAdapter.DomainHtos
 {
@@ -10,17 +9,17 @@ namespace RestAdapter.DomainHtos
     {
         public GameSessionHto(GameSession gameSession)
         {
-            GameSessionId = gameSession.GameSessionId;
+            Id = gameSession.GameSessionId.Id;
             Name = gameSession.Name;
             StartTime = gameSession.StartTime;
-            MrXId = gameSession.MrX.MrXId;
-            PoliceOfficers = gameSession.PoliceOfficers.Select(officer => officer.PoliceOfficerId);
+            MrXId = gameSession.MrX.MrXId.Id;
+            PoliceOfficerIds = gameSession.PoliceOfficers.Select(officer => officer.PoliceOfficerId.Id);
         }
 
-        public GameSessionId GameSessionId { get; }
+        public string Id { get; }
         public string Name { get; }
         public DateTimeOffset StartTime { get; }
-        public MrXId MrXId { get; }
-        public IEnumerable<PoliceOfficerId> PoliceOfficers { get; }
+        public string MrXId { get; }
+        public IEnumerable<string> PoliceOfficerIds { get; }
     }
 }

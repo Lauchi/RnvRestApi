@@ -1,26 +1,18 @@
-﻿using Domain.ValueTypes.Ids;
-using RnvTriasAdapter.DomainDtos;
+﻿using RnvTriasAdapter.DomainDtos;
 
 namespace RestAdapter.DomainHtos
 {
     public class StationHto
     {
-        public StationHto(StationId stationId, string name, GeoLocation geoLocation)
-        {
-            StationId = stationId;
-            Name = name;
-            GeoLocation = geoLocation;
-        }
-
         public StationHto(StationDto stationDto)
         {
-            StationId = stationDto.StationId;
+            StationId = stationDto.StationId.Id;
             Name = stationDto.Name;
             GeoLocation = stationDto.GeoLocation;
         }
 
         public string Name { get; set; }
-        public StationId StationId { get; set; }
+        public string StationId { get; set; }
         public GeoLocation GeoLocation { get; set; }
     }
 }

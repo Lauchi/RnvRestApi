@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using RnvTriasAdapter;
 using RnvTriasAdapter.Mapper;
-using SqliteAdapter.Model;
 using SqliteAdapter.Repositories;
 
 namespace RnvRestApi
