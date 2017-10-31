@@ -13,7 +13,7 @@ namespace Domain
         public static event Action<MrX, GameSession> MrxAdded;
         public static event Action<PoliceOfficer, GameSession> PoliceOfficerAdded;
         public static event Action<GameSession> MrXDeleted;
-        public static event Action<PoliceOfficer, GameSession> PoliceOfficerDeleted;
+        public static event Action<PoliceOfficer> PoliceOfficerDeleted;
 
         public static GameSession Create(string name, out DomainValidationResult result)
         {
@@ -56,7 +56,7 @@ namespace Domain
         private void PoliceOfficerOnPoliceOfficerDeleted(PoliceOfficer policeOfficer)
         {
             PoliceOfficers.Remove(policeOfficer);
-            PoliceOfficerDeleted?.Invoke(policeOfficer, this);
+            PoliceOfficerDeleted?.Invoke(policeOfficer);
         }
 
         public MrX AddNewMrX(string mrXName, out DomainValidationResult validationResult)
