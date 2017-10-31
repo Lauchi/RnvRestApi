@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using Domain.Validation;
 using Domain.ValueTypes.Ids;
@@ -9,8 +10,8 @@ namespace Domain
     public class GameSession
     {
         public static event Action<GameSession> GameSessionCreated;
-        public static event Action<MrX, GameSession> MrxAdded;
-        public static event Action<PoliceOfficer, GameSession> PoliceOfficerAdded;
+        public static event Action<GameSession> MrxAdded;
+        public static event Action<GameSession> PoliceOfficerAdded;
 
         public static GameSession Create(string name, out DomainValidationResult result)
         {
@@ -24,7 +25,7 @@ namespace Domain
         {
             Name = name;
             GameSessionId = id;
-            PoliceOfficers = new Collection<PoliceOfficer>();
+            PoliceOfficers = new ImmutableArray<PoliceOfficer>();
             StartTime = DateTimeOffset.Now;
             MrX = null;
         }
@@ -49,21 +50,23 @@ namespace Domain
                 return MrX;
             }
             MrX = mrX;
-            MrxAdded?.Invoke(mrX, this);
+            MrxAdded?.Invoke(this);
             validationResult = DomainValidationResult.OkResult();
             return mrX;
         }
 
-        public DomainValidationResult AddPoliceOfficer(PoliceOfficer officer)
+        public PoliceOfficer AddNewOfficer(string officerName, out DomainValidationResult validationResult)
         {
+            var officer = new PoliceOfficer(officerName);
             PoliceOfficers.Add(officer);
-            PoliceOfficerAdded?.Invoke(officer, this);
-            return DomainValidationResult.OkResult();
+            PoliceOfficerAdded?.Invoke(this);
+            validationResult = DomainValidationResult.OkResult();
+            return officer;
         }
 
         public GameSessionId GameSessionId { get; }
-        public string Name { get; set; }
-        public DateTimeOffset StartTime { get; set; }
+        public string Name { get;  }
+        public DateTimeOffset StartTime { get; }
         public MrX MrX { get; private set; }
         public ICollection<PoliceOfficer> PoliceOfficers { get; }
     }

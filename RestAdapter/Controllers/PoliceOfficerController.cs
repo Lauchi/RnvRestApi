@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using Domain;
 using Domain.ValueTypes.Ids;
+using EventStoring;
 using Microsoft.AspNetCore.Mvc;
 using RestAdapter.DomainHtos;
 using SqliteAdapter.Repositories;
@@ -10,17 +12,17 @@ namespace RestAdapter.Controllers
     [Route("game-sessions")]
     public class PoliceOfficerController : Controller
     {
-        private readonly IPoliceOfficerRepository _mrXRepository;
+        private readonly IEventStore _eventStore;
 
-        public PoliceOfficerController(IPoliceOfficerRepository mrXRepository)
+        public PoliceOfficerController(IEventStore eventStore)
         {
-            _mrXRepository = mrXRepository;
+            _eventStore = eventStore;
         }
 
         [HttpGet("{gameSessionId}/police-officers")]
         public IActionResult GetPoliceOfficer(string gameSessionId)
         {
-            var policeOfficers = _mrXRepository.GetPoliceOfficers(new GameSessionId(gameSessionId));
+            var policeOfficers = _eventStore.GetPoliceOfficers(new GameSessionId(gameSessionId));
             if (policeOfficers == null) return NotFound();
             var policeOfficerHtos = policeOfficers.Select(policeOfficer => new PoliceOfficerHto(policeOfficer));
             return Ok(policeOfficerHtos);
@@ -29,10 +31,11 @@ namespace RestAdapter.Controllers
         [HttpPost("{gameSessionId}/police-officers")]
         public IActionResult PostPoliceOfficer(string gameSessionId, [FromBody] PlayerHtoPost playerPost)
         {
-            var policeOfficer = _mrXRepository.AddPoliceOfficer(new PoliceOfficer(playerPost.Name), new GameSessionId(gameSessionId));
-            if (policeOfficer == null)
+            var gameSession = _eventStore.GetSession(new GameSessionId(gameSessionId));
+            var policeOfficer = gameSession.AddNewOfficer(playerPost.Name, out var validationResult);
+            if (!validationResult.Ok)
             {
-                return BadRequest();
+                return BadRequest(validationResult.ValidationErrors);
             }
             return Ok(new PoliceOfficerHto(policeOfficer));
         }

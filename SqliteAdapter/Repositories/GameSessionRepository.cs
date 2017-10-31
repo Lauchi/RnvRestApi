@@ -76,7 +76,7 @@ namespace SqliteAdapter.Repositories
             var mrX = gameSession.Mrx != null
                 ? new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name)
                 : null;
-            var policeOfficers = gameSession.PoliceOfficers.Select(officer =>
+            ICollection<PoliceOfficer> policeOfficers = gameSession.PoliceOfficers.Select(officer =>
                 new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId), officer.Name)).ToList();
             var session = new GameSession(
                 gameSession.Name,

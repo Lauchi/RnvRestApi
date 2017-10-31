@@ -23,12 +23,12 @@ namespace EventStoring
             GameSession.PoliceOfficerAdded += GameSessionOnPoliceOfficerAdded;
         }
 
-        private void GameSessionOnPoliceOfficerAdded(PoliceOfficer policeOfficer, GameSession gameSession)
+        private void GameSessionOnPoliceOfficerAdded(GameSession gameSession)
         {
             _gameSessionRepository.Persist(gameSession);
         }
 
-        private void GameSessionOnMrxAdded(MrX mrX, GameSession gameSession)
+        private void GameSessionOnMrxAdded(GameSession gameSession)
         {
             _gameSessionRepository.Persist(gameSession);
         }
@@ -39,7 +39,7 @@ namespace EventStoring
             _gameSessionRepository.Persist(gameSession);
         }
 
-        public IImmutableList<GameSession> GetSessions()
+        public IEnumerable<GameSession> GetSessions()
         {
             return _gameSessions;
         }
@@ -53,6 +53,11 @@ namespace EventStoring
         public MrX GetMrX(GameSessionId gameSessionId)
         {
             return GetSession(gameSessionId).MrX;
+        }
+
+        public IEnumerable<PoliceOfficer> GetPoliceOfficers(GameSessionId gameSessionId)
+        {
+            return GetSession(gameSessionId).PoliceOfficers;
         }
     }
 }

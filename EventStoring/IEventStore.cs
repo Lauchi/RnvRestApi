@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 using Domain;
 using Domain.ValueTypes.Ids;
 
@@ -6,8 +6,9 @@ namespace EventStoring
 {
     public interface IEventStore
     {
-        IImmutableList<GameSession> GetSessions();
+        IEnumerable<GameSession> GetSessions();
         GameSession GetSession(GameSessionId gameSessionId);
         MrX GetMrX(GameSessionId gameSessionId);
+        IEnumerable<PoliceOfficer> GetPoliceOfficers(GameSessionId gameSessionId);
     }
 }
