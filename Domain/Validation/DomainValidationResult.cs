@@ -4,23 +4,19 @@ namespace Domain.Validation
 {
     public class DomainValidationResult
     {
-        public DomainValidationResult(ICollection<ValidationError> validationErrors)
+        public string ErrorMessage { get; }
+        private static string _validationErrorMessageOk = "Everything fine";
+
+        public DomainValidationResult(string errorMessage)
         {
-            ValidationErrors = validationErrors;
+            ErrorMessage = errorMessage;
         }
 
-        private DomainValidationResult()
-        {
-            ValidationErrors = new List<ValidationError>();
-        }
-
-        public bool Ok => ValidationErrors.Count == 0;
-
-        public ICollection<ValidationError> ValidationErrors { get; }
+        public bool Ok => ErrorMessage == _validationErrorMessageOk;
 
         public static DomainValidationResult OkResult()
         {
-            return new DomainValidationResult();
+            return new DomainValidationResult(_validationErrorMessageOk);
         }
     }
 }

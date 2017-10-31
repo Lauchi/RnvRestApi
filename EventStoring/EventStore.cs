@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using Domain;
+using Domain.Validation;
 using Domain.ValueTypes.Ids;
 using SqliteAdapter.Repositories;
 
@@ -48,20 +51,23 @@ namespace EventStoring
             return _gameSessions;
         }
 
-        public GameSession GetSession(GameSessionId gameSessionId)
+        public GameSession GetSession(GameSessionId gameSessionId, out DomainValidationResult validationResult)
         {
             var session = _gameSessions.FirstOrDefault(gs => gs.GameSessionId == gameSessionId);
+            validationResult = session == null ? new DomainValidationResult("Game Session not found") : DomainValidationResult.OkResult() ;
             return session;
         }
 
-        public MrX GetMrX(GameSessionId gameSessionId)
+        public MrX GetMrX(GameSessionId gameSessionId, out DomainValidationResult validationResult)
         {
-            return GetSession(gameSessionId).MrX;
+            var gameSession = GetSession(gameSessionId, out validationResult);
+            return !validationResult.Ok ? null : gameSession.MrX;
         }
 
-        public IEnumerable<PoliceOfficer> GetPoliceOfficers(GameSessionId gameSessionId)
+        public IEnumerable<PoliceOfficer> GetPoliceOfficers(GameSessionId gameSessionId, out DomainValidationResult validationResult)
         {
-            return GetSession(gameSessionId).PoliceOfficers;
+            var gameSession = GetSession(gameSessionId, out validationResult);
+            return !validationResult.Ok ? null : gameSession.PoliceOfficers;
         }
     }
 }

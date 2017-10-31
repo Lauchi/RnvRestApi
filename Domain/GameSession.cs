@@ -50,11 +50,10 @@ namespace Domain
         public MrX AddNewMrX(string mrXName, out DomainValidationResult validationResult)
         {
             var mrX = new MrX(mrXName);
-            if (MrX != MrX.NullValue) {
-                validationResult = new DomainValidationResult(new List<ValidationError>
-                {
-                    new ValidationError("Game Session can only have one MrX, delete the old one first")
-                });
+            if (MrX != MrX.NullValue)
+            {
+                validationResult =
+                    new DomainValidationResult("Game Session can only have one MrX, delete the old one first");
                 return MrX;
             }
             MrX = mrX;

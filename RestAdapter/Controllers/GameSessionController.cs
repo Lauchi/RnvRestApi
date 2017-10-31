@@ -28,10 +28,10 @@ namespace RestAdapter.Controllers
         [HttpGet("{id}")]
         public IActionResult GetGameSession(string id)
         {
-            var gameSession = _eventStore.GetSession(new GameSessionId(id));
-            if (gameSession == null)
+            var gameSession = _eventStore.GetSession(new GameSessionId(id), out var validationResult);
+            if (!validationResult.Ok)
             {
-                return NotFound("Game Session not found");
+                return NotFound(validationResult.ErrorMessage);
             }
             var gameSessionHto = new GameSessionHto(gameSession);
             return Ok(gameSessionHto);
@@ -40,10 +40,10 @@ namespace RestAdapter.Controllers
         [HttpPost]
         public IActionResult CreateGameSession([FromBody] GameSessionHtoPost session)
         {
-            var gameSession = GameSession.Create(session.Name, out var domainValidationResult);
-            if (!domainValidationResult.Ok)
+            var gameSession = GameSession.Create(session.Name, out var validationResult);
+            if (!validationResult.Ok)
             {
-                return BadRequest(domainValidationResult.ValidationErrors);
+                return BadRequest(validationResult.ErrorMessage);
             }
             var gameSessionHto = new GameSessionHto(gameSession);
             return Ok(gameSessionHto);
