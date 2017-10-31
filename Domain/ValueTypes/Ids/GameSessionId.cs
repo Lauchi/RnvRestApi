@@ -2,7 +2,7 @@
 {
     public class GameSessionId : DomainId
     {
-        public GameSessionId(int id) : base(id)
+        public GameSessionId(string id) : base(id)
         {
         }
     }

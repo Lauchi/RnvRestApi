@@ -1,4 +1,5 @@
-﻿using Domain.ValueTypes.Ids;
+﻿using System;
+using Domain.ValueTypes.Ids;
 
 namespace Domain
 {
@@ -15,13 +16,13 @@ namespace Domain
         {
             return new MrX("NAN")
             {
-                MrXId = new MrXId(0)
+                MrXId = new MrXId(new Guid().ToString())
             };
         }
 
         public MrX(string name) : base(name)
         {
-            MrXId = new MrXId(0);
+            MrXId = new MrXId(new Guid().ToString());
         }
     }
 }

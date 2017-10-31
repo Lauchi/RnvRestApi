@@ -7,7 +7,7 @@ namespace SqliteAdapter.Model
     public class GameSessionDb
     {
         [Key]
-        public int GameSessionId { get; set; }
+        public string GameSessionId { get; set; }
         public string Name { get; set; }
         public DateTimeOffset StartTime { get; set; }
 

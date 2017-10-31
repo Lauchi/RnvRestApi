@@ -1,4 +1,6 @@
-﻿using Domain.ValueTypes.Ids;
+﻿using System;
+using System.Data.Common;
+using Domain.ValueTypes.Ids;
 
 namespace Domain
 {
@@ -11,6 +13,9 @@ namespace Domain
             PoliceOfficerId = id;
         }
 
-        public PoliceOfficer(string name) : base(name) {}
+        public PoliceOfficer(string name) : base(name)
+        {
+            PoliceOfficerId = new PoliceOfficerId(Guid.NewGuid().ToString());
+        }
     }
 }

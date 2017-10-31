@@ -17,7 +17,7 @@ namespace RestAdapter.Controllers
         }
 
         [HttpGet("{gameSessionId}/mr-x")]
-        public IActionResult GetMrX(int gameSessionId)
+        public IActionResult GetMrX(string gameSessionId)
         {
             var mrX = _mrXRepository.GetMrX(new GameSessionId(gameSessionId));
             if (mrX == null) return NotFound();
@@ -26,7 +26,7 @@ namespace RestAdapter.Controllers
         }
 
         [HttpPost("{gameSessionId}/mr-x")]
-        public IActionResult PostMrX(int gameSessionId, [FromBody] PlayerHtoPost playerPost)
+        public IActionResult PostMrX(string gameSessionId, [FromBody] PlayerHtoPost playerPost)
         {
             var mrX = _mrXRepository.AddOrUpdateMrX(new MrX(playerPost.Name), new GameSessionId(gameSessionId));
             if (mrX == null)

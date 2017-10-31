@@ -16,10 +16,10 @@ namespace RestAdapter.DomainHtos
             PoliceOfficerIds = gameSession.PoliceOfficers.Select(officer => officer.PoliceOfficerId.Id);
         }
 
-        public int Id { get; }
+        public string Id { get; }
         public string Name { get; }
         public DateTimeOffset StartTime { get; }
-        public int MrXId { get; }
-        public IEnumerable<int> PoliceOfficerIds { get; }
+        public string MrXId { get; }
+        public IEnumerable<string> PoliceOfficerIds { get; }
     }
 }

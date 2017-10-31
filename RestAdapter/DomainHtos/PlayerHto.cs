@@ -9,7 +9,7 @@ namespace RestAdapter.DomainHtos
             Name = player.Name;
         }
 
-        public int Id { get; protected set; }
+        public string Id { get; protected set; }
         public string Name { get; protected set; }
     }
 }

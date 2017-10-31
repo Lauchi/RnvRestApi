@@ -22,7 +22,7 @@ namespace RnvRestApi
             var rnvClient = new RnvClient(httpClient);
 
             services.AddSingleton(rnvClient)
-                .AddDbContext<RnvScotlandYardContext>(options => options.UseSqlite("Data Source=rnvScotlandYard.db"))
+                .AddDbContext<RnvScotlandYardContext>(option => option.UseSqlite("Data Source=rnvScotlandYard.db"))
                 .AddSingleton<IStationMapper, StationMapper>()
                 .AddSingleton<IStationMapper, StationMapper>()
                 .AddSingleton<IRnvRepository, RnvRepository>()
@@ -32,6 +32,7 @@ namespace RnvRestApi
                 .AddSingleton<IEventStore, EventStore>()
                 .AddMvc();
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

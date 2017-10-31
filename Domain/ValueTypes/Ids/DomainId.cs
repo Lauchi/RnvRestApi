@@ -2,10 +2,10 @@
 {
     public class DomainId
     {
-        public DomainId(int id)
+        public DomainId(string id)
         {
             Id = id;
         }
-        public int Id { get; }
+        public string Id { get; }
     }
 }

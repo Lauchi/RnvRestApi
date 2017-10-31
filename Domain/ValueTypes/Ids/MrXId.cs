@@ -2,7 +2,7 @@
 {
     public class MrXId : DomainId
     {
-        public MrXId(int id) : base(id)
+        public MrXId(string id) : base(id)
         {
         }
     }

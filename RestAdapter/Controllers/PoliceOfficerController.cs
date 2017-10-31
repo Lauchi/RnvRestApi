@@ -18,7 +18,7 @@ namespace RestAdapter.Controllers
         }
 
         [HttpGet("{gameSessionId}/police-officers")]
-        public IActionResult GetPoliceOfficer(int gameSessionId)
+        public IActionResult GetPoliceOfficer(string gameSessionId)
         {
             var policeOfficers = _mrXRepository.GetPoliceOfficers(new GameSessionId(gameSessionId));
             if (policeOfficers == null) return NotFound();
@@ -27,7 +27,7 @@ namespace RestAdapter.Controllers
         }
 
         [HttpPost("{gameSessionId}/police-officers")]
-        public IActionResult PostPoliceOfficer(int gameSessionId, [FromBody] PlayerHtoPost playerPost)
+        public IActionResult PostPoliceOfficer(string gameSessionId, [FromBody] PlayerHtoPost playerPost)
         {
             var policeOfficer = _mrXRepository.AddPoliceOfficer(new PoliceOfficer(playerPost.Name), new GameSessionId(gameSessionId));
             if (policeOfficer == null)

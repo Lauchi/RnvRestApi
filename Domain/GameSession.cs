@@ -12,7 +12,7 @@ namespace Domain
 
         public static GameSession Create(string name, out DomainValidationResult result)
         {
-            var session = new GameSession(name, new GameSessionId(100));
+            var session = new GameSession(name, new GameSessionId(Guid.NewGuid().ToString()));
             GameSessionCreated?.Invoke(session);
             result = DomainValidationResult.OkResult();
             return session;
