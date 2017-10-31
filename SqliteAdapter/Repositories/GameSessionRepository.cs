@@ -17,21 +17,14 @@ namespace SqliteAdapter.Repositories
             _db = db;
         }
 
-        public async Task<GameSession> Add(GameSession gameSession)
+        public ICollection<GameSession> GetSessions()
         {
-            var gameSessionDb = new GameSessionDb
-            {
-                Name = gameSession.Name,
-                StartTime = gameSession.StartTime
-            };
-            _db.GameSessions.Add(gameSessionDb);
-            await _db.SaveChangesAsync();
-            var session = new GameSession(gameSessionDb.Name, new GameSessionId(gameSessionDb.GameSessionId),
-                gameSessionDb.StartTime, MrX.NullValue(), new List<PoliceOfficer>());
-            return session;
+            var dbGameSessions = _db.GameSessions.Include(gs => gs.PoliceOfficers);
+            var gameSessions = dbGameSessions.Select(dbSession => GameSessionMapper(dbSession)).ToList();
+            return gameSessions;
         }
 
-        public async Task AddForEventStore(GameSession gameSession)
+        public async Task Persist(GameSession gameSession)
         {
             var gameSessionDb = new GameSessionDb
             {
@@ -43,26 +36,11 @@ namespace SqliteAdapter.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public IEnumerable<GameSession> GetSessions()
-        {
-            var dbGameSessions = _db.GameSessions.Include(gs => gs.PoliceOfficers);
-            var gameSessions = dbGameSessions.Select(dbSession => GameSessionMapper(dbSession)).ToList();
-            return gameSessions;
-        }
-
-        public GameSession GetSession(GameSessionId searchId)
-        {
-            var gameSessionDbs = _db.GameSessions.Include(gs => gs.PoliceOfficers);
-            var equalGameSessions = gameSessionDbs.Where(session => session.GameSessionId == searchId.Id);
-            var firstOrDefault = equalGameSessions.Select(dbSession => GameSessionMapper(dbSession)).FirstOrDefault();
-            return firstOrDefault;
-        }
-
         private GameSession GameSessionMapper(GameSessionDb gameSession)
         {
             var mrX = gameSession.Mrx != null
                 ? new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name)
-                : MrX.NullValue();
+                : null;
             var policeOfficers = gameSession.PoliceOfficers.Select(officer =>
                 new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId), officer.Name)).ToList();
             var session = new GameSession(

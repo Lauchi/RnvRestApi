@@ -7,9 +7,7 @@ namespace SqliteAdapter.Repositories
 {
     public interface IGameSessionRepository
     {
-        Task<GameSession> Add(GameSession gameSession);
-        IEnumerable<GameSession> GetSessions();
-        GameSession GetSession(GameSessionId searchId);
-        Task AddForEventStore(GameSession gameSession);
+        ICollection<GameSession> GetSessions();
+        Task Persist(GameSession gameSession);
     }
 }

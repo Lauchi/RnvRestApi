@@ -12,19 +12,17 @@ namespace RestAdapter.Controllers
     [Route("game-sessions")]
     public class GameSessionController : Controller
     {
-        private IGameSessionRepository _gameSessionRepository;
         private readonly IEventStore _eventStore;
 
-        public GameSessionController(IGameSessionRepository gameSessionRepository, IEventStore eventStore)
+        public GameSessionController(IEventStore eventStore)
         {
-            _gameSessionRepository = gameSessionRepository;
             _eventStore = eventStore;
         }
 
         [HttpGet]
         public IActionResult GetGameSessions()
         {
-            var gameSessions = _gameSessionRepository.GetSessions();
+            var gameSessions = _eventStore.GetSessions();
             var gameSessionHtos = gameSessions.Select(session => new GameSessionHto(session));
             return Ok(gameSessionHtos);
         }
@@ -32,7 +30,7 @@ namespace RestAdapter.Controllers
         [HttpGet("{id}")]
         public IActionResult GetGameSession(string id)
         {
-            var gameSession = _gameSessionRepository.GetSession(new GameSessionId(id));
+            var gameSession = _eventStore.GetSession(new GameSessionId(id));
             if (gameSession == null)
             {
                 return NotFound();
@@ -42,19 +40,7 @@ namespace RestAdapter.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateGameSession([FromBody] GameSessionHtoPost session)
-        {
-            var gameSession = await _gameSessionRepository.Add(new GameSession(session.Name));
-            if (gameSession == null)
-            {
-                return BadRequest();
-            }
-            var gameSessionHto = new GameSessionHto(gameSession);
-            return Ok(gameSessionHto);
-        }
-
-        [HttpPost("event-store")]
-        public IActionResult CreateGameSessionEventStore([FromBody] GameSessionHtoPost session)
+        public IActionResult CreateGameSession([FromBody] GameSessionHtoPost session)
         {
             var gameSession = GameSession.Create(session.Name, out var domainValidationResult);
             if (!domainValidationResult.Ok)
