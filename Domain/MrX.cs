@@ -10,15 +10,7 @@ namespace Domain
             MrXId = mrXId;
         }
 
-        public MrXId MrXId { get; private set; }
-
-        public static MrX NullValue()
-        {
-            return new MrX("NAN")
-            {
-                MrXId = new MrXId(new Guid().ToString())
-            };
-        }
+        public MrXId MrXId { get;  }
 
         public MrX(string name) : base(name)
         {

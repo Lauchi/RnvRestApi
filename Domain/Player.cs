@@ -10,11 +10,9 @@ namespace Domain
             Name = name;
         }
 
-        public string Name { get; set; }
+        public string Name { get;  }
 
         public IEnumerable<Station> VisitedStations { get; } = new Collection<Station>();
         public IEnumerable<VehicelType> UsedVehicles { get; } = new Collection<VehicelType>();
-
-        public Tickets Tickets { get; }
     }
 }
