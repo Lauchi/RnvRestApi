@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -23,6 +24,12 @@ namespace EventStoring
             GameSession.MrxAdded += GameSessionOnMrxAdded;
             GameSession.PoliceOfficerAdded += GameSessionOnPoliceOfficerAdded;
             GameSession.MrXDeleted += GameSessionOnMrXDeleted;
+            GameSession.PoliceOfficerDeleted += GameSessionOnPoliceOfficerDeleted;
+        }
+
+        private void GameSessionOnPoliceOfficerDeleted(PoliceOfficer policeOfficer, GameSession gameSession)
+        {
+            _gameSessionRepository.DeletePoliceOfficer(policeOfficer, gameSession);
         }
 
         private void GameSessionOnMrXDeleted(GameSession gameSession)
@@ -54,7 +61,7 @@ namespace EventStoring
         public GameSession GetSession(GameSessionId gameSessionId, out DomainValidationResult validationResult)
         {
             var session = _gameSessions.FirstOrDefault(gs => gs.GameSessionId == gameSessionId);
-            validationResult = session == null ? new DomainValidationResult("Game Session not found") : DomainValidationResult.OkResult() ;
+            validationResult = session == null ? new DomainValidationResult("Game Session not found") : DomainValidationResult.OkResult();
             return session;
         }
 

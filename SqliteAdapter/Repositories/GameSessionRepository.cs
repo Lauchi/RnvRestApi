@@ -70,6 +70,14 @@ namespace SqliteAdapter.Repositories
             await _db.SaveChangesAsync();
         }
 
+        public async Task DeletePoliceOfficer(PoliceOfficer policeOfficer, GameSession gameSession)
+        {
+            var gameSessionInDb = _db.GameSessions.SingleOrDefault(gs => gs.GameSessionId == gameSession.GameSessionId.Id);
+            var policeOfficerDbs = gameSessionInDb.PoliceOfficers.Where(po => po.PoliceOfficerId != policeOfficer.PoliceOfficerId.Id).ToList();
+            gameSessionInDb.PoliceOfficers = policeOfficerDbs;
+            await _db.SaveChangesAsync();
+        }
+
         private GameSession GameSessionMapper(GameSessionDb gameSession)
         {
             var mrX = gameSession.Mrx != null

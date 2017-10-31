@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Domain.Validation;
 using Domain.ValueTypes.Ids;
 
@@ -12,6 +13,7 @@ namespace Domain
         public static event Action<MrX, GameSession> MrxAdded;
         public static event Action<PoliceOfficer, GameSession> PoliceOfficerAdded;
         public static event Action<GameSession> MrXDeleted;
+        public static event Action<PoliceOfficer, GameSession> PoliceOfficerDeleted;
 
         public static GameSession Create(string name, out DomainValidationResult result)
         {
@@ -45,6 +47,16 @@ namespace Domain
             PoliceOfficers = policeOfficers;
 
             MrX.MrxDeleted += OnMrxDeleted;
+            foreach (var policeOfficer in PoliceOfficers)
+            {
+                policeOfficer.PoliceOfficerDeleted += PoliceOfficerOnPoliceOfficerDeleted;
+            }
+        }
+
+        private void PoliceOfficerOnPoliceOfficerDeleted(PoliceOfficer policeOfficer)
+        {
+            PoliceOfficers.Remove(policeOfficer);
+            PoliceOfficerDeleted?.Invoke(policeOfficer, this);
         }
 
         public MrX AddNewMrX(string mrXName, out DomainValidationResult validationResult)
@@ -76,5 +88,12 @@ namespace Domain
         public DateTimeOffset StartTime { get; }
         public MrX MrX { get; private set; }
         public ICollection<PoliceOfficer> PoliceOfficers { get; }
+
+        public PoliceOfficer GetPoliceOfficer(PoliceOfficerId policeOfficerId, out DomainValidationResult validationResult)
+        {
+            var policeOfficer = PoliceOfficers.SingleOrDefault(officer => officer.PoliceOfficerId == policeOfficerId);
+            validationResult = policeOfficer == null ? new DomainValidationResult("Police Officer not found") : DomainValidationResult.OkResult();
+            return policeOfficer;
+        }
     }
 }
