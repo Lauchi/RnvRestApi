@@ -7,6 +7,8 @@ namespace SqliteAdapter.Repositories
     public interface IGameSessionRepository
     {
         IImmutableList<GameSession> GetSessions();
-        Task Persist(GameSession gameSession);
+        Task Add(GameSession gameSession);
+        Task AddPoliceOfficer(PoliceOfficer policeOfficer, GameSession gameSession);
+        Task AddMrX(MrX mrX, GameSession gameSession);
     }
 }

@@ -23,20 +23,20 @@ namespace EventStoring
             GameSession.PoliceOfficerAdded += GameSessionOnPoliceOfficerAdded;
         }
 
-        private void GameSessionOnPoliceOfficerAdded(GameSession gameSession)
+        private void GameSessionOnPoliceOfficerAdded(PoliceOfficer policeOfficer, GameSession gameSession)
         {
-            _gameSessionRepository.Persist(gameSession);
+            _gameSessionRepository.AddPoliceOfficer(policeOfficer, gameSession);
         }
 
-        private void GameSessionOnMrxAdded(GameSession gameSession)
+        private void GameSessionOnMrxAdded(MrX mrX, GameSession gameSession)
         {
-            _gameSessionRepository.Persist(gameSession);
+            _gameSessionRepository.AddMrX(mrX, gameSession);
         }
 
         private void OnGameSessionCreated(GameSession gameSession)
         {
             _gameSessions.Add(gameSession);
-            _gameSessionRepository.Persist(gameSession);
+            _gameSessionRepository.Add(gameSession);
         }
 
         public IEnumerable<GameSession> GetSessions()

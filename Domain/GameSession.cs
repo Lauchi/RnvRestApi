@@ -10,8 +10,8 @@ namespace Domain
     public class GameSession
     {
         public static event Action<GameSession> GameSessionCreated;
-        public static event Action<GameSession> MrxAdded;
-        public static event Action<GameSession> PoliceOfficerAdded;
+        public static event Action<MrX, GameSession> MrxAdded;
+        public static event Action<PoliceOfficer, GameSession> PoliceOfficerAdded;
 
         public static GameSession Create(string name, out DomainValidationResult result)
         {
@@ -43,14 +43,14 @@ namespace Domain
         {
             var mrX = new MrX(mrXName);
             if (MrX != null) {
-                validationResult = new DomainValidationResult(new List<ValidationError>()
+                validationResult = new DomainValidationResult(new List<ValidationError>
                 {
                     new ValidationError("Game Session can only have one MrX, delete the old one first")
                 });
                 return MrX;
             }
             MrX = mrX;
-            MrxAdded?.Invoke(this);
+            MrxAdded?.Invoke(mrX, this);
             validationResult = DomainValidationResult.OkResult();
             return mrX;
         }
@@ -59,7 +59,7 @@ namespace Domain
         {
             var officer = new PoliceOfficer(officerName);
             PoliceOfficers.Add(officer);
-            PoliceOfficerAdded?.Invoke(this);
+            PoliceOfficerAdded?.Invoke(officer, this);
             validationResult = DomainValidationResult.OkResult();
             return officer;
         }

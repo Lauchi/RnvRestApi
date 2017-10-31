@@ -26,48 +26,42 @@ namespace SqliteAdapter.Repositories
             return gameSessions;
         }
 
-        public async Task Persist(GameSession gameSession)
+        public async Task Add(GameSession gameSession)
+        {
+            var gameSessionDb = new GameSessionDb
+            {
+                GameSessionId = gameSession.GameSessionId.Id,
+                Name = gameSession.Name,
+                StartTime = gameSession.StartTime,
+                Mrx = null,
+                PoliceOfficers = new List<PoliceOfficerDb>()
+            };
+            _db.GameSessions.Add(gameSessionDb);
+
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task AddPoliceOfficer(PoliceOfficer policeOfficer, GameSession gameSession)
         {
             var gameSessionInDb = _db.GameSessions.SingleOrDefault(gs => gs.GameSessionId == gameSession.GameSessionId.Id);
-            if (gameSessionInDb == null)
+            var policeOfficerDb = new PoliceOfficerDb
             {
-                var gameSessionDb = new GameSessionDb
-                {
-                    GameSessionId = gameSession.GameSessionId.Id,
-                    Name = gameSession.Name,
-                    StartTime = gameSession.StartTime,
-                    Mrx = null,
-                    PoliceOfficers = new List<PoliceOfficerDb>()
-                };
-                _db.GameSessions.Add(gameSessionDb);
-            }
-            else
+                PoliceOfficerId = policeOfficer.PoliceOfficerId.Id,
+                Name = policeOfficer.Name
+            };
+            gameSessionInDb.PoliceOfficers.Add(policeOfficerDb);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task AddMrX(MrX mrX, GameSession gameSession)
+        {
+            var gameSessionInDb = _db.GameSessions.SingleOrDefault(gs => gs.GameSessionId == gameSession.GameSessionId.Id);
+            var mrxDb = new MrxDb
             {
-                var mrX = gameSession.MrX;
-                MrxDb mrxDb = null;
-                if (mrX != null)
-                    mrxDb = new MrxDb
-                    {
-                        MrxId = mrX.MrXId.Id,
-                        Name = mrX.Name
-                    };
-                var policeOfficers = gameSession.PoliceOfficers.Select(officer => new PoliceOfficerDb
-                {
-                    Name = officer.Name,
-                    PoliceOfficerId = officer.PoliceOfficerId.Id
-                }).ToList();
-
-                var gameSessionDb = new GameSessionDb
-                {
-                    GameSessionId = gameSession.GameSessionId.Id,
-                    Name = gameSession.Name,
-                    StartTime = gameSession.StartTime,
-                    Mrx = mrxDb,
-                    PoliceOfficers = policeOfficers
-                };
-                _db.GameSessions.Update(gameSessionDb);
-            }
-
+                MrxId = mrX.MrXId.Id,
+                Name = mrX.Name
+            };
+            gameSessionInDb.Mrx = mrxDb;
             await _db.SaveChangesAsync();
         }
 
