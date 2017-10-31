@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using EventStoring;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -23,10 +24,12 @@ namespace RnvRestApi
             services.AddSingleton(rnvClient)
                 .AddDbContext<RnvScotlandYardContext>(options => options.UseSqlite("Data Source=rnvScotlandYard.db"))
                 .AddSingleton<IStationMapper, StationMapper>()
+                .AddSingleton<IStationMapper, StationMapper>()
                 .AddSingleton<IRnvRepository, RnvRepository>()
                 .AddSingleton<IGameSessionRepository, GameSessionRepository>()
                 .AddSingleton<IMrXRepository, MrXRepository>()
                 .AddSingleton<IPoliceOfficerRepository, PoliceOfficerRepository>()
+                .AddSingleton<IEventStore, EventStore>()
                 .AddMvc();
         }
 

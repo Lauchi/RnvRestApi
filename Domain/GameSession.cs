@@ -1,19 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using Domain.Validation;
 using Domain.ValueTypes.Ids;
 
 namespace Domain
 {
     public class GameSession
     {
+        public static event Action<GameSession> GameSessionCreated;
+
+        public static GameSession Create(string name, out DomainValidationResult result)
+        {
+            var session = new GameSession(name, new GameSessionId(100));
+            GameSessionCreated?.Invoke(session);
+            result = DomainValidationResult.OkResult();
+            return session;
+        }
+
+        private GameSession(string name, GameSessionId id)
+        {
+            Name = name;
+            GameSessionId = id;
+            PoliceOfficers = new Collection<PoliceOfficer>();
+            StartTime = DateTimeOffset.Now;
+            MrX = MrX.NullValue();
+        }
+
         public GameSession(string name)
         {
             Name = name;
             PoliceOfficers = new Collection<PoliceOfficer>();
             StartTime = DateTimeOffset.Now;
             MrX = MrX.NullValue();
+
         }
 
         public GameSession(string name, GameSessionId id, DateTimeOffset startTime, MrX mrX, ICollection<PoliceOfficer> policeOfficers)

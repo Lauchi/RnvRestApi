@@ -10,5 +10,6 @@ namespace SqliteAdapter.Repositories
         Task<GameSession> Add(GameSession gameSession);
         IEnumerable<GameSession> GetSessions();
         GameSession GetSession(GameSessionId searchId);
+        Task AddForEventStore(GameSession gameSession);
     }
 }

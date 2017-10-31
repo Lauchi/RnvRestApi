@@ -31,6 +31,18 @@ namespace SqliteAdapter.Repositories
             return session;
         }
 
+        public async Task AddForEventStore(GameSession gameSession)
+        {
+            var gameSessionDb = new GameSessionDb
+            {
+                GameSessionId = gameSession.GameSessionId.Id,
+                Name = gameSession.Name,
+                StartTime = gameSession.StartTime
+            };
+            _db.GameSessions.Add(gameSessionDb);
+            await _db.SaveChangesAsync();
+        }
+
         public IEnumerable<GameSession> GetSessions()
         {
             var dbGameSessions = _db.GameSessions.Include(gs => gs.PoliceOfficers);

@@ -11,6 +11,10 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0-preview2-final" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EventStoring\EventStoring.csproj">
+      <Project>{006F9A26-8C03-45EA-A563-32E765D8275C}</Project>
+      <Name>EventStoring</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RestAdapter\RestAdapter.csproj">
       <Project>{1A14AACF-7847-4063-9B78-405549A069F4}</Project>
       <Name>RestAdapter</Name>

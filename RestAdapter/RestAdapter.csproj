@@ -3,6 +3,10 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EventStoring\EventStoring.csproj">
+      <Project>{006F9A26-8C03-45EA-A563-32E765D8275C}</Project>
+      <Name>EventStore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RnvTriasAdapter\RnvTriasAdapter.csproj">
       <Project>{DBBB5AAF-F199-43DB-B94D-18E500389DD4}</Project>
       <Name>RnvTriasAdapter</Name>
