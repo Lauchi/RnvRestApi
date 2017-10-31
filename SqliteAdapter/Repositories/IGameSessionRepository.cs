@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Domain;
-using Domain.ValueTypes.Ids;
 
 namespace SqliteAdapter.Repositories
 {
     public interface IGameSessionRepository
     {
-        ICollection<GameSession> GetSessions();
+        IImmutableList<GameSession> GetSessions();
         Task Persist(GameSession gameSession);
     }
 }

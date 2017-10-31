@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain;
@@ -17,10 +17,10 @@ namespace SqliteAdapter.Repositories
             _db = db;
         }
 
-        public ICollection<GameSession> GetSessions()
+        public IImmutableList<GameSession> GetSessions()
         {
             var dbGameSessions = _db.GameSessions.Include(gs => gs.PoliceOfficers);
-            var gameSessions = dbGameSessions.Select(dbSession => GameSessionMapper(dbSession)).ToList();
+            var gameSessions = dbGameSessions.Select(dbSession => GameSessionMapper(dbSession)).ToImmutableList();
             return gameSessions;
         }
 

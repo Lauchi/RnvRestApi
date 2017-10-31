@@ -27,15 +27,6 @@ namespace Domain
             MrX = MrX.NullValue();
         }
 
-        public GameSession(string name)
-        {
-            Name = name;
-            PoliceOfficers = new Collection<PoliceOfficer>();
-            StartTime = DateTimeOffset.Now;
-            MrX = MrX.NullValue();
-
-        }
-
         public GameSession(string name, GameSessionId id, DateTimeOffset startTime, MrX mrX, ICollection<PoliceOfficer> policeOfficers)
         {
             Name = name;

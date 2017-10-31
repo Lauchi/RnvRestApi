@@ -1,11 +1,9 @@
 ﻿using System.Linq;
-using System.Threading.Tasks;
 using Domain;
 using Domain.ValueTypes.Ids;
 using EventStoring;
 using Microsoft.AspNetCore.Mvc;
 using RestAdapter.DomainHtos;
-using SqliteAdapter.Repositories;
 
 namespace RestAdapter.Controllers
 {
@@ -33,7 +31,7 @@ namespace RestAdapter.Controllers
             var gameSession = _eventStore.GetSession(new GameSessionId(id));
             if (gameSession == null)
             {
-                return NotFound();
+                return NotFound("Game Session not found");
             }
             var gameSessionHto = new GameSessionHto(gameSession);
             return Ok(gameSessionHto);

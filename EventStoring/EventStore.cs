@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using Domain;
+using Domain.Validation;
 using Domain.ValueTypes.Ids;
 using SqliteAdapter.Repositories;
 
@@ -9,7 +11,7 @@ namespace EventStoring
     public class EventStore : IEventStore
     {
         private readonly IGameSessionRepository _gameSessionRepository;
-        private ICollection<GameSession> _gameSessions;
+        private readonly IImmutableList<GameSession> _gameSessions;
 
         public EventStore(IGameSessionRepository gameSessionRepository)
         {
@@ -25,7 +27,7 @@ namespace EventStoring
             _gameSessionRepository.Persist(gameSession);
         }
 
-        public IEnumerable<GameSession> GetSessions()
+        public IImmutableList<GameSession> GetSessions()
         {
             return _gameSessions;
         }
