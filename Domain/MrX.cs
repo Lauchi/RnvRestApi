@@ -22,7 +22,7 @@ namespace Domain
 
         public MrX(string name) : base(name)
         {
-            MrXId = new MrXId(new Guid().ToString());
+            MrXId = new MrXId(Guid.NewGuid().ToString());
         }
     }
 }

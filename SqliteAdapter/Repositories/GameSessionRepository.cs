@@ -1,5 +1,7 @@
-﻿using System.Collections.Immutable;
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Domain;
 using Domain.ValueTypes.Ids;
@@ -19,20 +21,53 @@ namespace SqliteAdapter.Repositories
 
         public IImmutableList<GameSession> GetSessions()
         {
-            var dbGameSessions = _db.GameSessions.Include(gs => gs.PoliceOfficers);
+            var dbGameSessions = _db.GameSessions.Include(gs => gs.PoliceOfficers).Include(gs => gs.Mrx);
             var gameSessions = dbGameSessions.Select(dbSession => GameSessionMapper(dbSession)).ToImmutableList();
             return gameSessions;
         }
 
         public async Task Persist(GameSession gameSession)
         {
-            var gameSessionDb = new GameSessionDb
+            var gameSessionInDb = _db.GameSessions.SingleOrDefault(gs => gs.GameSessionId == gameSession.GameSessionId.Id);
+            if (gameSessionInDb == null)
             {
-                GameSessionId = gameSession.GameSessionId.Id,
-                Name = gameSession.Name,
-                StartTime = gameSession.StartTime
-            };
-            _db.GameSessions.Add(gameSessionDb);
+                var gameSessionDb = new GameSessionDb
+                {
+                    GameSessionId = gameSession.GameSessionId.Id,
+                    Name = gameSession.Name,
+                    StartTime = gameSession.StartTime,
+                    Mrx = null,
+                    PoliceOfficers = new List<PoliceOfficerDb>()
+                };
+                _db.GameSessions.Add(gameSessionDb);
+            }
+            else
+            {
+                var mrX = gameSession.MrX;
+                MrxDb mrxDb = null;
+                if (mrX != null)
+                    mrxDb = new MrxDb
+                    {
+                        MrxId = mrX.MrXId.Id,
+                        Name = mrX.Name
+                    };
+                var policeOfficers = gameSession.PoliceOfficers.Select(officer => new PoliceOfficerDb
+                {
+                    Name = officer.Name,
+                    PoliceOfficerId = officer.PoliceOfficerId.Id
+                }).ToList();
+
+                var gameSessionDb = new GameSessionDb
+                {
+                    GameSessionId = gameSession.GameSessionId.Id,
+                    Name = gameSession.Name,
+                    StartTime = gameSession.StartTime,
+                    Mrx = mrxDb,
+                    PoliceOfficers = policeOfficers
+                };
+                _db.GameSessions.Update(gameSessionDb);
+            }
+
             await _db.SaveChangesAsync();
         }
 

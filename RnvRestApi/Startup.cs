@@ -27,7 +27,6 @@ namespace RnvRestApi
                 .AddSingleton<IStationMapper, StationMapper>()
                 .AddSingleton<IRnvRepository, RnvRepository>()
                 .AddSingleton<IGameSessionRepository, GameSessionRepository>()
-                .AddSingleton<IMrXRepository, MrXRepository>()
                 .AddSingleton<IPoliceOfficerRepository, PoliceOfficerRepository>()
                 .AddSingleton<IEventStore, EventStore>()
                 .AddMvc();

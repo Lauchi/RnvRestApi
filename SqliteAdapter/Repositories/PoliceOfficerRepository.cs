@@ -22,7 +22,6 @@ namespace SqliteAdapter.Repositories
                 var officerDb = new PoliceOfficerDb
                 {
                     Name = policeOfficerToAdd.Name,
-                    TicketPoolDb = new TicketPoolDb()
                 };
                 gameSession.PoliceOfficers.Add(officerDb);
 

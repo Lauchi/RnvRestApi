@@ -8,5 +8,6 @@ namespace EventStoring
     {
         IImmutableList<GameSession> GetSessions();
         GameSession GetSession(GameSessionId gameSessionId);
+        MrX GetMrX(GameSessionId gameSessionId);
     }
 }

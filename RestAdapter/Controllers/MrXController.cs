@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Domain.ValueTypes.Ids;
+using EventStoring;
 using Microsoft.AspNetCore.Mvc;
 using RestAdapter.DomainHtos;
 using SqliteAdapter.Repositories;
@@ -9,18 +10,18 @@ namespace RestAdapter.Controllers
     [Route("game-sessions")]
     public class MrXController : Controller
     {
-        private readonly IMrXRepository _mrXRepository;
+        private readonly IEventStore _eventStore;
 
-        public MrXController(IMrXRepository mrXRepository)
+        public MrXController(IEventStore eventStore)
         {
-            _mrXRepository = mrXRepository;
+            _eventStore = eventStore;
         }
 
         [HttpGet("{gameSessionId}/mr-x")]
         public IActionResult GetMrX(string gameSessionId)
         {
-            var mrX = _mrXRepository.GetMrX(new GameSessionId(gameSessionId));
-            if (mrX == null) return NotFound();
+            var mrX = _eventStore.GetMrX(new GameSessionId(gameSessionId));
+            if (mrX == null) return NotFound("MrX not created on session");
             var mrXHto = new MrXHto(mrX);
             return Ok(mrXHto);
         }
@@ -28,12 +29,13 @@ namespace RestAdapter.Controllers
         [HttpPost("{gameSessionId}/mr-x")]
         public IActionResult PostMrX(string gameSessionId, [FromBody] PlayerHtoPost playerPost)
         {
-            var mrX = _mrXRepository.AddOrUpdateMrX(new MrX(playerPost.Name), new GameSessionId(gameSessionId));
-            if (mrX == null)
+            var gameSession = _eventStore.GetSession(new GameSessionId(gameSessionId));
+            var newMrX = gameSession.AddNewMrX(playerPost.Name, out var validationResult);
+            if (!validationResult.Ok)
             {
-                return BadRequest();
+                return BadRequest(validationResult.ValidationErrors);
             }
-            var mrXHto = new MrXHto(mrX);
+            var mrXHto = new MrXHto(newMrX);
             return Ok(mrXHto);
         }
     }

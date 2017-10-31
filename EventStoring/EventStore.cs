@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Domain;
-using Domain.Validation;
 using Domain.ValueTypes.Ids;
 using SqliteAdapter.Repositories;
 
@@ -16,12 +16,24 @@ namespace EventStoring
         public EventStore(IGameSessionRepository gameSessionRepository)
         {
             _gameSessionRepository = gameSessionRepository;
-            _gameSessions = _gameSessionRepository.GetSessions();
 
-            GameSession.GameSessionCreated += GameSessionOnGameSessionCreated;
+            _gameSessions = _gameSessionRepository.GetSessions();
+            GameSession.GameSessionCreated += OnGameSessionCreated;
+            GameSession.MrxAdded += GameSessionOnMrxAdded;
+            GameSession.PoliceOfficerAdded += GameSessionOnPoliceOfficerAdded;
         }
 
-        private void GameSessionOnGameSessionCreated(GameSession gameSession)
+        private void GameSessionOnPoliceOfficerAdded(PoliceOfficer policeOfficer, GameSession gameSession)
+        {
+            _gameSessionRepository.Persist(gameSession);
+        }
+
+        private void GameSessionOnMrxAdded(MrX mrX, GameSession gameSession)
+        {
+            _gameSessionRepository.Persist(gameSession);
+        }
+
+        private void OnGameSessionCreated(GameSession gameSession)
         {
             _gameSessions.Add(gameSession);
             _gameSessionRepository.Persist(gameSession);
@@ -36,6 +48,11 @@ namespace EventStoring
         {
             var session = _gameSessions.FirstOrDefault(gs => gs.GameSessionId == gameSessionId);
             return session;
+        }
+
+        public MrX GetMrX(GameSessionId gameSessionId)
+        {
+            return GetSession(gameSessionId).MrX;
         }
     }
 }

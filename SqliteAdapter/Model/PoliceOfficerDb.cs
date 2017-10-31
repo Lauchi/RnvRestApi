@@ -10,9 +10,5 @@ namespace SqliteAdapter.Model
 
         public string GameSessionDbId { get; set; }
         public GameSessionDb GameSessionDb { get; set; }
-
-        public string TicketPoolDbId { get; set; }
-        public TicketPoolDb TicketPoolDb { get; set; }
-
     }
 }
