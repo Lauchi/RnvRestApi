@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Domain;
 using Domain.ValueTypes.Ids;
@@ -19,10 +17,10 @@ namespace SqliteAdapter.Repositories
             _db = db;
         }
 
-        public IImmutableList<GameSession> GetSessions()
+        public ICollection<GameSession> GetSessions()
         {
             var dbGameSessions = _db.GameSessions.Include(gs => gs.PoliceOfficers).Include(gs => gs.Mrx);
-            var gameSessions = dbGameSessions.Select(dbSession => GameSessionMapper(dbSession)).ToImmutableList();
+            var gameSessions = dbGameSessions.Select(dbSession => GameSessionMapper(dbSession)).ToList();
             return gameSessions;
         }
 
@@ -65,11 +63,18 @@ namespace SqliteAdapter.Repositories
             await _db.SaveChangesAsync();
         }
 
+        public async Task DeleteMrX(GameSession gameSession)
+        {
+            var gameSessionInDb = _db.GameSessions.SingleOrDefault(gs => gs.GameSessionId == gameSession.GameSessionId.Id);
+            gameSessionInDb.Mrx = null;
+            await _db.SaveChangesAsync();
+        }
+
         private GameSession GameSessionMapper(GameSessionDb gameSession)
         {
             var mrX = gameSession.Mrx != null
                 ? new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name)
-                : null;
+                : MrX.NullValue;
             ICollection<PoliceOfficer> policeOfficers = gameSession.PoliceOfficers.Select(officer =>
                 new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId), officer.Name)).ToList();
             var session = new GameSession(

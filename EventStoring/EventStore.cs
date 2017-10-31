@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Domain;
 using Domain.ValueTypes.Ids;
@@ -11,7 +9,7 @@ namespace EventStoring
     public class EventStore : IEventStore
     {
         private readonly IGameSessionRepository _gameSessionRepository;
-        private readonly IImmutableList<GameSession> _gameSessions;
+        private readonly ICollection<GameSession> _gameSessions;
 
         public EventStore(IGameSessionRepository gameSessionRepository)
         {
@@ -21,6 +19,12 @@ namespace EventStoring
             GameSession.GameSessionCreated += OnGameSessionCreated;
             GameSession.MrxAdded += GameSessionOnMrxAdded;
             GameSession.PoliceOfficerAdded += GameSessionOnPoliceOfficerAdded;
+            GameSession.MrXDeleted += GameSessionOnMrXDeleted;
+        }
+
+        private void GameSessionOnMrXDeleted(GameSession gameSession)
+        {
+            _gameSessionRepository.DeleteMrX(gameSession);
         }
 
         private void GameSessionOnPoliceOfficerAdded(PoliceOfficer policeOfficer, GameSession gameSession)

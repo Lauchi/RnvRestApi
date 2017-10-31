@@ -3,7 +3,6 @@ using Domain.ValueTypes.Ids;
 using EventStoring;
 using Microsoft.AspNetCore.Mvc;
 using RestAdapter.DomainHtos;
-using SqliteAdapter.Repositories;
 
 namespace RestAdapter.Controllers
 {
@@ -21,7 +20,7 @@ namespace RestAdapter.Controllers
         public IActionResult GetMrX(string gameSessionId)
         {
             var mrX = _eventStore.GetMrX(new GameSessionId(gameSessionId));
-            if (mrX == null) return NotFound("MrX not created on session");
+            if (mrX == MrX.NullValue) return NotFound("MrX not created on session");
             var mrXHto = new MrXHto(mrX);
             return Ok(mrXHto);
         }
@@ -37,6 +36,18 @@ namespace RestAdapter.Controllers
             }
             var mrXHto = new MrXHto(newMrX);
             return Ok(mrXHto);
+        }
+
+        [HttpDelete("{gameSessionId}/mr-x")]
+        public IActionResult DeleteMrX(string gameSessionId)
+        {
+            var gameSession = _eventStore.GetSession(new GameSessionId(gameSessionId));
+            var validationResult = gameSession.MrX.Delete();
+            if (!validationResult.Ok)
+            {
+                return BadRequest(validationResult.ValidationErrors);
+            }
+            return Ok();
         }
     }
 }

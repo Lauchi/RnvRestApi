@@ -1,11 +1,8 @@
 ﻿using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using Domain;
 using Domain.ValueTypes.Ids;
 using EventStoring;
 using Microsoft.AspNetCore.Mvc;
 using RestAdapter.DomainHtos;
-using SqliteAdapter.Repositories;
 
 namespace RestAdapter.Controllers
 {

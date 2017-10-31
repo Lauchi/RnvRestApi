@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using Domain.Validation;
 using Domain.ValueTypes.Ids;
@@ -12,6 +11,7 @@ namespace Domain
         public static event Action<GameSession> GameSessionCreated;
         public static event Action<MrX, GameSession> MrxAdded;
         public static event Action<PoliceOfficer, GameSession> PoliceOfficerAdded;
+        public static event Action<GameSession> MrXDeleted;
 
         public static GameSession Create(string name, out DomainValidationResult result)
         {
@@ -25,9 +25,15 @@ namespace Domain
         {
             Name = name;
             GameSessionId = id;
-            PoliceOfficers = new ImmutableArray<PoliceOfficer>();
+            PoliceOfficers = new Collection<PoliceOfficer>();
             StartTime = DateTimeOffset.Now;
-            MrX = null;
+            MrX = MrX.NullValue;
+        }
+
+        private void OnMrxDeleted()
+        {
+            MrX = MrX.NullValue;
+            MrXDeleted?.Invoke(this);
         }
 
         public GameSession(string name, GameSessionId id, DateTimeOffset startTime, MrX mrX, ICollection<PoliceOfficer> policeOfficers)
@@ -37,12 +43,14 @@ namespace Domain
             StartTime = startTime;
             MrX = mrX;
             PoliceOfficers = policeOfficers;
+
+            MrX.MrxDeleted += OnMrxDeleted;
         }
 
         public MrX AddNewMrX(string mrXName, out DomainValidationResult validationResult)
         {
             var mrX = new MrX(mrXName);
-            if (MrX != null) {
+            if (MrX != MrX.NullValue) {
                 validationResult = new DomainValidationResult(new List<ValidationError>
                 {
                     new ValidationError("Game Session can only have one MrX, delete the old one first")
