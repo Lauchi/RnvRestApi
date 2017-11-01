@@ -12,7 +12,7 @@ namespace RestAdapter.DomainHtos
             Id = gameSession.GameSessionId.Id;
             Name = gameSession.Name;
             StartTime = gameSession.StartTime;
-            MrXId = gameSession.MrX?.MrXId.Id;
+            MrXId = gameSession.MrX.MrXId.Id;
             PoliceOfficerIds = gameSession.PoliceOfficers.Select(officer => officer.PoliceOfficerId.Id);
         }
 

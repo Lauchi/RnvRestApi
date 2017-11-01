@@ -31,7 +31,7 @@ namespace RestAdapter.Controllers
             var gameSession = _eventStore.GetSession(new GameSessionId(id), out var validationResult);
             if (!validationResult.Ok)
             {
-                return NotFound(validationResult.ErrorMessage);
+                return NotFound(validationResult);
             }
             var gameSessionHto = new GameSessionHto(gameSession);
             return Ok(gameSessionHto);
@@ -43,7 +43,7 @@ namespace RestAdapter.Controllers
             var gameSession = GameSession.Create(session.Name, out var validationResult);
             if (!validationResult.Ok)
             {
-                return BadRequest(validationResult.ErrorMessage);
+                return BadRequest(validationResult);
             }
             var gameSessionHto = new GameSessionHto(gameSession);
             return Ok(gameSessionHto);

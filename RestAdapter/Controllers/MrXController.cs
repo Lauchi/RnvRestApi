@@ -20,7 +20,7 @@ namespace RestAdapter.Controllers
         public IActionResult GetMrX(string gameSessionId)
         {
             var mrX = _eventStore.GetMrX(new GameSessionId(gameSessionId), out var validationResult);
-            if (!validationResult.Ok) return NotFound(validationResult.ErrorMessage);
+            if (!validationResult.Ok) return NotFound(validationResult);
             var mrXHto = new MrXHto(mrX);
             return Ok(mrXHto);
         }
@@ -31,13 +31,13 @@ namespace RestAdapter.Controllers
             var gameSession = _eventStore.GetSession(new GameSessionId(gameSessionId), out var validationResultSession);
             if (!validationResultSession.Ok)
             {
-                return NotFound(validationResultSession.ErrorMessage);
+                return NotFound(validationResultSession);
             }
 
             var newMrX = gameSession.AddNewMrX(playerPost.Name, out var validationResult);
             if (!validationResult.Ok)
             {
-                return BadRequest(validationResult.ErrorMessage);
+                return BadRequest(validationResult);
             }
             var mrXHto = new MrXHto(newMrX);
             return Ok(mrXHto);
@@ -49,13 +49,13 @@ namespace RestAdapter.Controllers
             var gameSession = _eventStore.GetSession(new GameSessionId(gameSessionId), out var validationResultSession);
             if (!validationResultSession.Ok)
             {
-                return NotFound(validationResultSession.ErrorMessage);
+                return NotFound(validationResultSession);
             }
 
             var validationResult = gameSession.MrX.Delete();
             if (!validationResult.Ok)
             {
-                return BadRequest(validationResult.ErrorMessage);
+                return BadRequest(validationResult);
             }
             return Ok();
         }

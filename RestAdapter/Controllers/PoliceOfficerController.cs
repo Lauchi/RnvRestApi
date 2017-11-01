@@ -20,7 +20,7 @@ namespace RestAdapter.Controllers
         public IActionResult GetPoliceOfficer(string gameSessionId)
         {
             var policeOfficers = _eventStore.GetPoliceOfficers(new GameSessionId(gameSessionId), out var validationResult);
-            if (!validationResult.Ok) return NotFound(validationResult.ErrorMessage);
+            if (!validationResult.Ok) return NotFound(validationResult);
             var policeOfficerHtos = policeOfficers.Select(policeOfficer => new PoliceOfficerHto(policeOfficer));
             return Ok(policeOfficerHtos);
         }
@@ -31,13 +31,13 @@ namespace RestAdapter.Controllers
             var gameSession = _eventStore.GetSession(new GameSessionId(gameSessionId), out var validationResultSession);
             if (!validationResultSession.Ok)
             {
-                return NotFound(validationResultSession.ErrorMessage);
+                return NotFound(validationResultSession);
             }
 
             var policeOfficer = gameSession.AddNewOfficer(playerPost.Name, out var validationResult);
             if (!validationResult.Ok)
             {
-                return BadRequest(validationResult.ErrorMessage);
+                return BadRequest(validationResult);
             }
             return Ok(new PoliceOfficerHto(policeOfficer));
         }
@@ -48,14 +48,14 @@ namespace RestAdapter.Controllers
             var gameSession = _eventStore.GetSession(new GameSessionId(gameSessionId), out var validationResult);
             if (!validationResult.Ok)
             {
-                return NotFound(validationResult.ErrorMessage);
+                return NotFound(validationResult);
             }
 
             var policeOfficer = gameSession.GetPoliceOfficer(new PoliceOfficerId(policeOfficerId), out validationResult);
             validationResult = policeOfficer.Delete();
             if (!validationResult.Ok)
             {
-                return BadRequest(validationResult.ErrorMessage);
+                return BadRequest(validationResult);
             }
             return Ok();
         }
