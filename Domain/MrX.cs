@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Domain.Validation;
+using Domain.ValueTypes;
 using Domain.ValueTypes.Ids;
 
 namespace Domain
@@ -8,6 +11,9 @@ namespace Domain
     {
         public event Action MrxDeleted;
         private static MrX nullMrX = new MrX(new MrXId(new Guid().ToString()), "NaN");
+
+        public IEnumerable<Move> OpenMoves { get; } = new Collection<Move>();
+        public IEnumerable<VehicelType> UsedVehicles { get; } = new Collection<VehicelType>();
 
         public MrX(MrXId mrXId, string name) : base(name)
         {
@@ -26,6 +32,11 @@ namespace Domain
         {
             MrxDeleted?.Invoke();
             return DomainValidationResult.OkResult();
+        }
+
+        public override DomainValidationResult Move(Station station, VehicelType vehicelType)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
+using System.Threading.Tasks;
 using Domain;
 using Domain.Validation;
 using Domain.ValueTypes.Ids;
+using RnvTriasAdapter;
 using SqliteAdapter.Repositories;
 
 namespace EventStoring
@@ -13,11 +12,13 @@ namespace EventStoring
     public class EventStore : IEventStore
     {
         private readonly IGameSessionRepository _gameSessionRepository;
+        private readonly IRnvRepository _rnvRepository;
         private readonly ICollection<GameSession> _gameSessions;
 
-        public EventStore(IGameSessionRepository gameSessionRepository)
+        public EventStore(IGameSessionRepository gameSessionRepository, IRnvRepository rnvRepository)
         {
             _gameSessionRepository = gameSessionRepository;
+            _rnvRepository = rnvRepository;
 
             _gameSessions = _gameSessionRepository.GetSessions();
             GameSession.GameSessionCreated += OnGameSessionCreated;
@@ -75,6 +76,12 @@ namespace EventStoring
         {
             var gameSession = GetSession(gameSessionId, out validationResult);
             return !validationResult.Ok ? null : gameSession.PoliceOfficers;
+        }
+
+        public async Task<Station> GetStation(StationId stationId)
+        {
+            var station = await _rnvRepository.GetStation(stationId);
+            return station;
         }
     }
 }

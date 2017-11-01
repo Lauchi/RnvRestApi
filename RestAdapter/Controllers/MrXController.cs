@@ -1,5 +1,4 @@
-﻿using Domain;
-using Domain.ValueTypes.Ids;
+﻿using Domain.ValueTypes.Ids;
 using EventStoring;
 using Microsoft.AspNetCore.Mvc;
 using RestAdapter.DomainHtos;

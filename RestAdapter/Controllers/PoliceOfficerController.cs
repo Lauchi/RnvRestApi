@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Domain;
 using Domain.ValueTypes.Ids;
 using EventStoring;
 using Microsoft.AspNetCore.Mvc;
@@ -53,6 +56,32 @@ namespace RestAdapter.Controllers
 
             var policeOfficer = gameSession.GetPoliceOfficer(new PoliceOfficerId(policeOfficerId), out validationResult);
             validationResult = policeOfficer.Delete();
+            if (!validationResult.Ok)
+            {
+                return BadRequest(validationResult);
+            }
+            return Ok();
+        }
+
+        [HttpPost("{gameSessionId}/police-officers/{policeOfficerId}/move")]
+        public async Task<IActionResult> MovePoliceOfficerMrX(string gameSessionId, string policeOfficerId, [FromBody] MoveHtoPost movePost)
+        {
+            var gameSession = _eventStore.GetSession(new GameSessionId(gameSessionId), out var validationResult);
+            if (!validationResult.Ok)
+            {
+                return NotFound(validationResult);
+            }
+
+            var station = await _eventStore.GetStation(new StationId(movePost.StationId));
+            if (!validationResult.Ok)
+            {
+                return NotFound(validationResult);
+            }
+
+            var policeOfficer = gameSession.GetPoliceOfficer(new PoliceOfficerId(policeOfficerId), out validationResult);
+            var type = (VehicelType) Enum.Parse(typeof(VehicelType), movePost.VehicleType);
+
+            validationResult = policeOfficer.Move(station, type);
             if (!validationResult.Ok)
             {
                 return BadRequest(validationResult);

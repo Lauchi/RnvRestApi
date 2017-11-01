@@ -1,12 +1,13 @@
-﻿using RnvTriasAdapter.DomainDtos;
+﻿
+using Domain;
 
 namespace RnvTriasAdapter.RnvCommands
 {
     internal class SearchStationByLocationCommand : RnvCommand
     {
-        private readonly GeoLocationDto _geoLocation;
+        private readonly GeoLocation _geoLocation;
 
-        public SearchStationByLocationCommand(GeoLocationDto geoLocation)
+        public SearchStationByLocationCommand(GeoLocation geoLocation)
         {
             _geoLocation = geoLocation;
         }

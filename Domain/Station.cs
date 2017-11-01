@@ -4,7 +4,14 @@ namespace Domain
 {
     public class Station
     {
-        public StationId Id { get; }
+        public Station(StationId stationId, string name, GeoLocation geoLocation)
+        {
+            StationId = stationId;
+            Name = name;
+            GeoLocation = geoLocation;
+        }
+
+        public StationId StationId { get; }
         public string Name { get; }
         public GeoLocation GeoLocation { get; }
     }

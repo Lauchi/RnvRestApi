@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using RnvTriasAdapter.DomainDtos;
+using Domain;
 
 namespace RnvTriasAdapter.Mapper
 {
     public interface IStationMapper
     {
-        Task<IEnumerable<StationDto>> MapToStation(RnvResponse station);
+        Task<IEnumerable<Station>> MapToStation(RnvResponse station);
     }
 }

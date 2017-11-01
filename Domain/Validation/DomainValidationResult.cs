@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Domain.Validation
+﻿namespace Domain.Validation
 {
     public class DomainValidationResult
     {

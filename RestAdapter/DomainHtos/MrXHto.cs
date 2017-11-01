@@ -9,11 +9,11 @@ namespace RestAdapter.DomainHtos
         public MrXHto(MrX mrX) : base(mrX)
         {
             Id = mrX.MrXId.Id;
-            LocationsMadePublic = mrX.VisitedStations.Select(station => station.Id.Id);
+            LocationsMadePublic = mrX.OpenMoves.Select(move => new MoveHto(move.MovedToStation.StationId.Id, move.Type.ToString()));
             UsedVehicles = mrX.UsedVehicles.Select(vehicle => vehicle.ToString());
         }
 
-        public IEnumerable<string> LocationsMadePublic { get; }
+        public IEnumerable<MoveHto> LocationsMadePublic { get; }
         public IEnumerable<string> UsedVehicles { get; }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain;
 using Domain.ValueTypes.Ids;
-using RnvTriasAdapter.DomainDtos;
 using RnvTriasAdapter.Mapper;
 using RnvTriasAdapter.RnvCommands;
 
@@ -19,7 +19,7 @@ namespace RnvTriasAdapter
             _stationMapper = stationMapper;
         }
 
-        public async Task<StationDto> GetStation(StationId stationId)
+        public async Task<Station> GetStation(StationId stationId)
         {
             var getStationCommand = new GetStationCommand(stationId);
             var rnvResponse = await _rnvClient.SendRequest(getStationCommand);
@@ -27,14 +27,14 @@ namespace RnvTriasAdapter
             return stationDtos.SingleOrDefault();
         }
 
-        public async Task<IEnumerable<StationDto>> SearchStation(string stationName)
+        public async Task<IEnumerable<Station>> SearchStation(string stationName)
         {
             var searchStationCommand = new SearchStationCommand(stationName);
             var rnvResponse = await _rnvClient.SendRequest(searchStationCommand);
             return await _stationMapper.MapToStation(rnvResponse);
         }
 
-        public async Task<IEnumerable<StationDto>> SearchStation(GeoLocationDto geoLocation)
+        public async Task<IEnumerable<Station>> SearchStation(GeoLocation geoLocation)
         {
             var searchStationCommand = new SearchStationByLocationCommand(geoLocation);
             var rnvResponse = await _rnvClient.SendRequest(searchStationCommand);
