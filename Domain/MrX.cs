@@ -9,19 +9,18 @@ namespace Domain
 {
     public class MrX : Player
     {
-        public event Action MrxDeleted;
-        private static MrX nullMrX = new MrX(new MrXId(new Guid().ToString()), "NaN");
+        public static MrX NullValue { get; } = new MrX(new MrXId(new Guid().ToString()), "NaN");
 
         public IEnumerable<Move> OpenMoves { get; } = new Collection<Move>();
         public IEnumerable<VehicelType> UsedVehicles { get; } = new Collection<VehicelType>();
+
+        public MrXId MrXId { get; }
+        public event Action MrxDeleted;
 
         public MrX(MrXId mrXId, string name) : base(name)
         {
             MrXId = mrXId;
         }
-
-        public MrXId MrXId { get;  }
-        public static MrX NullValue { get; } = nullMrX;
 
         public MrX(string name) : base(name)
         {

@@ -1,4 +1,5 @@
-﻿using Domain.ValueTypes.Ids;
+﻿using System;
+using Domain.ValueTypes.Ids;
 
 namespace Domain
 {
@@ -14,5 +15,8 @@ namespace Domain
         public StationId StationId { get; }
         public string Name { get; }
         public GeoLocation GeoLocation { get; }
+
+        public static Station NullStation { get; } =
+            new Station(new StationId(new Guid().ToString()), "NAN", new GeoLocation(0, 0));
     }
 }

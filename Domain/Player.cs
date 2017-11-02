@@ -10,11 +10,13 @@ namespace Domain
         public Player(string name)
         {
             Name = name;
+            MoveHistory = new Collection<Move>();
+            CurrentStation = Station.NullStation;
         }
 
         public Station CurrentStation { get; protected set; }
 
-        public ICollection<Move> MoveHistory { get; } = new Collection<Move>();
+        public ICollection<Move> MoveHistory { get; }
 
         public abstract DomainValidationResult Move(Station station, VehicelType vehicelType);
 
