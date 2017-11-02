@@ -12,6 +12,8 @@ namespace RnvTriasAdapter.Mapper
 {
     public class StationMapper : IStationMapper
     {
+        private string errorMessage = @"<Code>LOCATION_NORESULTS</Code>";
+
         public async Task<IEnumerable<Station>> MapToStation(RnvResponse station)
         {
             var readAsByteArrayAsync = await station.Content.ReadAsByteArrayAsync();
@@ -20,7 +22,7 @@ namespace RnvTriasAdapter.Mapper
 
             var root  = xml.Descendants().SingleOrDefault(d => d.Name == "{trias}LocationInformationResponse");
             var stationList = new Collection<Station>();
-            if (root == null) return stationList;
+            if (root == null || encodedCondent.Contains(errorMessage)) return stationList;
 
             var locations = root.Descendants().Where(d => d.Name == "{trias}Location" && d.Parent == root ).ToList();
             foreach (var location in locations)

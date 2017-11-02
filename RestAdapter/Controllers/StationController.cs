@@ -20,14 +20,15 @@ namespace RestAdapter.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<StationHto> Get(string id)
+        public async Task<IActionResult> Get(string id)
         {
             var stationDto = await _repository.GetStation(new StationId(id));
-            return new StationHto(stationDto);
+            if (stationDto == null) return NotFound("Station not found");
+            return Ok(new StationHto(stationDto));
         }
 
         [HttpGet]
-        public async Task<IEnumerable<StationHto>> SearchStation([FromQuery] string name, [FromQuery] double longitude, [FromQuery] double latitude)
+        public async Task<IActionResult> SearchStation([FromQuery] string name, [FromQuery] double longitude, [FromQuery] double latitude)
         {
             IEnumerable<Station> stationDtos;
             if (name == null)
@@ -38,7 +39,7 @@ namespace RestAdapter.Controllers
             {
                 stationDtos = await _repository.SearchStation(name);
             }
-            return stationDtos.Select(dto => new StationHto(dto));
+            return Ok(stationDtos.Select(dto => new StationHto(dto)));
         }
     }
 }
