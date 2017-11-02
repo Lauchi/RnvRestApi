@@ -9,7 +9,8 @@ namespace RestAdapter.DomainHtos
         public MrXHto(MrX mrX) : base(mrX)
         {
             Id = mrX.MrXId.Id;
-            LocationsMadePublic = mrX.OpenMoves.Select(move => new MoveHto(move.MovedToStation.StationId.Id, move.Type.ToString()));
+            LocationsMadePublic = mrX.OpenMoves.Select(move => new MoveHto(move.MovedToStation.StationId.Id,
+                move.Type.ToString(), move.MovedToStation.Name, move.MovedToStation.GeoLocation));
             UsedVehicles = mrX.UsedVehicles.Select(vehicle => vehicle.ToString());
         }
 
