@@ -64,7 +64,7 @@ namespace RestAdapter.Controllers
         }
 
         [HttpPost("{gameSessionId}/police-officers/{policeOfficerId}/move")]
-        public async Task<IActionResult> MovePoliceOfficerMrX(string gameSessionId, string policeOfficerId, [FromBody] MoveHtoPost movePost)
+        public async Task<IActionResult> MovePoliceOfficer(string gameSessionId, string policeOfficerId, [FromBody] MoveHtoPost movePost)
         {
             var gameSession = _eventStore.GetSession(new GameSessionId(gameSessionId), out var validationResult);
             if (!validationResult.Ok)
