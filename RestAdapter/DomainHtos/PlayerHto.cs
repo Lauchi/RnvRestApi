@@ -4,14 +4,12 @@ namespace RestAdapter.DomainHtos
 {
     public abstract class PlayerHto
     {
-        public PlayerHto(Player player)
+        public PlayerHto(Player policeOfficer)
         {
-            Name = player.Name;
-            CurrentLocation = new StationHto(player.CurrentStation);
+            Name = policeOfficer.Name;
         }
 
         public string Id { get; protected set; }
         public string Name { get; protected set; }
-        public StationHto CurrentLocation { get; protected set; }
     }
 }

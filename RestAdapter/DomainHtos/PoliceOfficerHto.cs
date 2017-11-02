@@ -6,13 +6,15 @@ namespace RestAdapter.DomainHtos
 {
     public class PoliceOfficerHto : PlayerHto
     {
-        public PoliceOfficerHto(PoliceOfficer player) : base(player)
+        public PoliceOfficerHto(PoliceOfficer policeOfficer) : base(policeOfficer)
         {
-            Id = player.PoliceOfficerId.Id;
-            VisitedLocations = player.MoveHistory.Select(move => new MoveHto(move.MovedToStation.StationId.Id,
+            Id = policeOfficer.PoliceOfficerId.Id;
+            VisitedLocations = policeOfficer.MoveHistory.Select(move => new MoveHto(move.MovedToStation.StationId.Id,
                 move.Type.ToString(), move.MovedToStation.Name, move.MovedToStation.GeoLocation));
+            CurrentLocation = new StationHto(policeOfficer.CurrentStation);
         }
 
+        public StationHto CurrentLocation { get; }
         public IEnumerable<MoveHto> VisitedLocations { get; }
     }
 }

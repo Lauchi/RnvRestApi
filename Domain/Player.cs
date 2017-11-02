@@ -11,10 +11,7 @@ namespace Domain
         {
             Name = name;
             MoveHistory = new Collection<Move>();
-            CurrentStation = Station.NullStation;
         }
-
-        public Station CurrentStation { get; protected set; }
 
         public ICollection<Move> MoveHistory { get; }
 
