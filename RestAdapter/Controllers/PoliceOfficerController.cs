@@ -73,9 +73,9 @@ namespace RestAdapter.Controllers
             }
 
             var station = await _eventStore.GetStation(new StationId(movePost.StationId));
-            if (!validationResult.Ok)
+            if (station == null)
             {
-                return NotFound(validationResult);
+                return NotFound("Station not found");
             }
 
             var policeOfficer = gameSession.GetPoliceOfficer(new PoliceOfficerId(policeOfficerId), out validationResult);
