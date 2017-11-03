@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain;
 using Domain.Validation;
+using Domain.ValueTypes;
 using Domain.ValueTypes.Ids;
 using RnvTriasAdapter;
 using SqliteAdapter.Repositories;
@@ -14,11 +16,13 @@ namespace EventStoring
         private readonly IGameSessionRepository _gameSessionRepository;
         private readonly IRnvRepository _rnvRepository;
         private readonly ICollection<GameSession> _gameSessions;
+        private readonly IMrxRepository _mrxRepository;
 
-        public EventStore(IGameSessionRepository gameSessionRepository, IRnvRepository rnvRepository)
+        public EventStore(IGameSessionRepository gameSessionRepository, IRnvRepository rnvRepository, IMrxRepository mrxRepository)
         {
             _gameSessionRepository = gameSessionRepository;
             _rnvRepository = rnvRepository;
+            _mrxRepository = mrxRepository;
 
             _gameSessions = _gameSessionRepository.GetSessions();
             GameSession.GameSessionCreated += OnGameSessionCreated;
@@ -26,6 +30,18 @@ namespace EventStoring
             GameSession.PoliceOfficerAdded += GameSessionOnPoliceOfficerAdded;
             GameSession.MrXDeleted += GameSessionOnMrXDeleted;
             GameSession.PoliceOfficerDeleted += GameSessionOnPoliceOfficerDeleted;
+            PoliceOfficer.PoliceOfficerMoved += OnPoliceOfficerMoved;
+            MrX.MrxMoved += MrXOnMrxMoved;
+        }
+
+        private void MrXOnMrxMoved(Move move, MrX mrX)
+        {
+            _mrxRepository.UpdateMrX(mrX);
+        }
+
+        private void OnPoliceOfficerMoved(Move move, PoliceOfficer policeOfficer)
+        {
+            throw new NotImplementedException();
         }
 
         private void GameSessionOnPoliceOfficerDeleted(PoliceOfficer policeOfficer)

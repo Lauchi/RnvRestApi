@@ -29,22 +29,40 @@ namespace SqliteAdapter.Migrations
                     b.ToTable("GameSessions");
                 });
 
-            modelBuilder.Entity("SqliteAdapter.Model.MovementsDb", b =>
+            modelBuilder.Entity("SqliteAdapter.Model.MoveMrXDb", b =>
                 {
-                    b.Property<string>("MovementId")
+                    b.Property<int>("MoveId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("FromStationId");
+                    b.Property<string>("MrxDbMrxId");
 
-                    b.Property<string>("ToStationId");
+                    b.Property<string>("StationId");
 
-                    b.Property<string>("VehicleTypeId");
+                    b.Property<string>("VehicleType");
 
-                    b.HasKey("MovementId");
+                    b.HasKey("MoveId");
 
-                    b.HasIndex("VehicleTypeId");
+                    b.HasIndex("MrxDbMrxId");
 
-                    b.ToTable("Movements");
+                    b.ToTable("MoveMrX");
+                });
+
+            modelBuilder.Entity("SqliteAdapter.Model.MovePoliceOfficerDb", b =>
+                {
+                    b.Property<int>("MoveId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("PoliceOfficerDbId");
+
+                    b.Property<string>("StationId");
+
+                    b.Property<string>("VehicleType");
+
+                    b.HasKey("MoveId");
+
+                    b.HasIndex("PoliceOfficerDbId");
+
+                    b.ToTable("MovePoliceOfficers");
                 });
 
             modelBuilder.Entity("SqliteAdapter.Model.MrxDb", b =>
@@ -53,6 +71,8 @@ namespace SqliteAdapter.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("GameSessionDbId");
+
+                    b.Property<string>("LastKnownStation");
 
                     b.Property<string>("Name");
 
@@ -64,39 +84,54 @@ namespace SqliteAdapter.Migrations
                     b.ToTable("MrXs");
                 });
 
+            modelBuilder.Entity("SqliteAdapter.Model.OpenMoveMrxDb", b =>
+                {
+                    b.Property<int>("MoveId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("MrxDbMrxId");
+
+                    b.Property<string>("StationId");
+
+                    b.Property<string>("VehicleType");
+
+                    b.HasKey("MoveId");
+
+                    b.HasIndex("MrxDbMrxId");
+
+                    b.ToTable("OpenMoveMrx");
+                });
+
             modelBuilder.Entity("SqliteAdapter.Model.PoliceOfficerDb", b =>
                 {
-                    b.Property<string>("PoliceOfficerId")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CurrentStationId");
 
                     b.Property<string>("GameSessionDbId");
 
                     b.Property<string>("Name");
 
-                    b.HasKey("PoliceOfficerId");
+                    b.HasKey("Id");
 
                     b.HasIndex("GameSessionDbId");
 
                     b.ToTable("PoliceOfficers");
                 });
 
-            modelBuilder.Entity("SqliteAdapter.Model.VehicleTypeDb", b =>
+            modelBuilder.Entity("SqliteAdapter.Model.MoveMrXDb", b =>
                 {
-                    b.Property<string>("VehicleTypeId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("VehicleType");
-
-                    b.HasKey("VehicleTypeId");
-
-                    b.ToTable("VehicleTypes");
+                    b.HasOne("SqliteAdapter.Model.MrxDb")
+                        .WithMany("MoveHistory")
+                        .HasForeignKey("MrxDbMrxId");
                 });
 
-            modelBuilder.Entity("SqliteAdapter.Model.MovementsDb", b =>
+            modelBuilder.Entity("SqliteAdapter.Model.MovePoliceOfficerDb", b =>
                 {
-                    b.HasOne("SqliteAdapter.Model.VehicleTypeDb", "VehicleType")
-                        .WithMany()
-                        .HasForeignKey("VehicleTypeId");
+                    b.HasOne("SqliteAdapter.Model.PoliceOfficerDb")
+                        .WithMany("MoveHistory")
+                        .HasForeignKey("PoliceOfficerDbId");
                 });
 
             modelBuilder.Entity("SqliteAdapter.Model.MrxDb", b =>
@@ -104,6 +139,13 @@ namespace SqliteAdapter.Migrations
                     b.HasOne("SqliteAdapter.Model.GameSessionDb")
                         .WithOne("Mrx")
                         .HasForeignKey("SqliteAdapter.Model.MrxDb", "GameSessionDbId");
+                });
+
+            modelBuilder.Entity("SqliteAdapter.Model.OpenMoveMrxDb", b =>
+                {
+                    b.HasOne("SqliteAdapter.Model.MrxDb")
+                        .WithMany("OpenMoves")
+                        .HasForeignKey("MrxDbMrxId");
                 });
 
             modelBuilder.Entity("SqliteAdapter.Model.PoliceOfficerDb", b =>

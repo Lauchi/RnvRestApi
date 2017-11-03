@@ -44,7 +44,7 @@ namespace SqliteAdapter.Repositories
             var gameSessionInDb = _db.GameSessions.SingleOrDefault(gs => gs.GameSessionId == gameSession.GameSessionId.Id);
             var policeOfficerDb = new PoliceOfficerDb
             {
-                PoliceOfficerId = policeOfficer.PoliceOfficerId.Id,
+                Id = policeOfficer.PoliceOfficerId.Id,
                 Name = policeOfficer.Name
             };
             gameSessionInDb.PoliceOfficers.Add(policeOfficerDb);
@@ -72,7 +72,7 @@ namespace SqliteAdapter.Repositories
 
         public async Task DeletePoliceOfficer(PoliceOfficer policeOfficer)
         {
-            var policeOfficerDbs = _db.PoliceOfficers.SingleOrDefault(po => po.PoliceOfficerId == policeOfficer.PoliceOfficerId.Id);
+            var policeOfficerDbs = _db.PoliceOfficers.SingleOrDefault(po => po.Id == policeOfficer.PoliceOfficerId.Id);
             if (policeOfficerDbs != null) _db.PoliceOfficers.Remove(policeOfficerDbs);
             await _db.SaveChangesAsync();
         }
@@ -83,7 +83,7 @@ namespace SqliteAdapter.Repositories
                 ? new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name)
                 : MrX.NullValue;
             ICollection<PoliceOfficer> policeOfficers = gameSession.PoliceOfficers.Select(officer =>
-                new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId), officer.Name)).ToList();
+                new PoliceOfficer(new PoliceOfficerId(officer.Id), officer.Name)).ToList();
             var session = new GameSession(
                 gameSession.Name,
                 new GameSessionId(gameSession.GameSessionId),

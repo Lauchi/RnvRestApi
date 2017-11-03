@@ -7,8 +7,8 @@ namespace Domain
 {
     public class PoliceOfficer : Player
     {
-        public event Action<PoliceOfficer> PoliceOfficerDeleted;
-        public event Action<Move, PoliceOfficer> PoliceOfficerMoved;
+        public static event Action<PoliceOfficer> PoliceOfficerDeleted;
+        public static event Action<Move, PoliceOfficer> PoliceOfficerMoved;
         public PoliceOfficerId PoliceOfficerId { get; }
         public Station CurrentStation { get; protected set; } = Station.NullStation;
 

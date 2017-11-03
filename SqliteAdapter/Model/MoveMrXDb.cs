@@ -2,10 +2,11 @@
 
 namespace SqliteAdapter.Model
 {
-    public class VehicleTypeDb
+    public class MoveMrXDb
     {
         [Key]
-        public string VehicleTypeId { get; set; }
+        public int MoveId { get; set; }
+        public string StationId { get; set; }
         public string VehicleType { get; set; }
     }
 }

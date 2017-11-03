@@ -47,10 +47,7 @@ namespace Domain
             PoliceOfficers = policeOfficers;
 
             MrX.MrxDeleted += OnMrxDeleted;
-            foreach (var policeOfficer in PoliceOfficers)
-            {
-                policeOfficer.PoliceOfficerDeleted += PoliceOfficerOnPoliceOfficerDeleted;
-            }
+            PoliceOfficer.PoliceOfficerDeleted += PoliceOfficerOnPoliceOfficerDeleted;
         }
 
         private void PoliceOfficerOnPoliceOfficerDeleted(PoliceOfficer policeOfficer)

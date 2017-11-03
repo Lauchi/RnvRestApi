@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Transactions;
 using Domain.Validation;
 using Domain.ValueTypes;
 using Domain.ValueTypes.Ids;
@@ -16,8 +15,8 @@ namespace Domain
         public ICollection<VehicelType> UsedVehicles { get; } = new Collection<VehicelType>();
 
         public MrXId MrXId { get; }
-        public event Action MrxDeleted;
-        public event Action<Move, MrX> MrxMoved;
+        public static event Action MrxDeleted;
+        public static event Action<Move, MrX> MrxMoved;
 
         public MrX(MrXId mrXId, string name) : base(name)
         {
