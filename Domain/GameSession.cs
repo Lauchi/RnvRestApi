@@ -12,7 +12,7 @@ namespace Domain
         public static event Action<GameSession> GameSessionCreated;
         public static event Action<MrX, GameSession> MrxAdded;
         public static event Action<PoliceOfficer, GameSession> PoliceOfficerAdded;
-        public static event Action<GameSession> MrXDeleted;
+        public static event Action<MrX> MrXDeleted;
         public static event Action<PoliceOfficer> PoliceOfficerDeleted;
 
         public static GameSession Create(string name, out DomainValidationResult result)
@@ -34,8 +34,9 @@ namespace Domain
 
         private void OnMrxDeleted()
         {
+            var mrxTemp = MrX;
             MrX = MrX.NullValue;
-            MrXDeleted?.Invoke(this);
+            MrXDeleted?.Invoke(mrxTemp);
         }
 
         public GameSession(string name, GameSessionId id, DateTimeOffset startTime, MrX mrX, ICollection<PoliceOfficer> policeOfficers)

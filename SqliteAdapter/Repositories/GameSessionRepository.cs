@@ -63,17 +63,37 @@ namespace SqliteAdapter.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task DeleteMrX(GameSession gameSession)
+        public async Task DeleteMrX(MrX gameSession)
         {
-            var gameSessionInDb = _db.GameSessions.SingleOrDefault(gs => gs.GameSessionId == gameSession.GameSessionId.Id);
-            gameSessionInDb.Mrx = null;
+            var mrxJoin = _db.MrXs.Include(mx => mx.MoveHistory).Include(mx => mx.OpenMoves);
+
+            var mrxDb = mrxJoin.SingleOrDefault(gs => gs.MrxId == gameSession.MrXId.Id);
+            //Todo find a better way to reset the lists, this sucks
+            foreach (var move in mrxDb.MoveHistory)
+            {
+                _db.MoveMrX.Remove(move);
+            }
+
+            foreach (var move in mrxDb.OpenMoves)
+            {
+                _db.OpenMoveMrx.Remove(move);
+            }
+            _db.MrXs.Remove(mrxDb);
+
             await _db.SaveChangesAsync();
         }
 
         public async Task DeletePoliceOfficer(PoliceOfficer policeOfficer)
         {
             var policeOfficerDbs = _db.PoliceOfficers.SingleOrDefault(po => po.Id == policeOfficer.PoliceOfficerId.Id);
-            if (policeOfficerDbs != null) _db.PoliceOfficers.Remove(policeOfficerDbs);
+
+            //Todo find a better way to reset the lists, this sucks
+            foreach (var move in policeOfficerDbs.MoveHistory)
+            {
+                _db.MovePoliceOfficers.Remove(move);
+            }
+
+            _db.PoliceOfficers.Remove(policeOfficerDbs);
             await _db.SaveChangesAsync();
         }
 
