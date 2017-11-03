@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Domain;
 using Domain.ValueTypes;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,26 @@ namespace SqliteAdapter.Repositories
             mrxDb.OpenMoves = mrX.OpenMoves.Select(OpenMoveDbMapper).ToList();
 
             _db.SaveChanges();
+        }
+
+        public async Task DeleteMrX(MrX mrX)
+        {
+            var mrxJoin = _db.MrXs.Include(mx => mx.MoveHistory).Include(mx => mx.OpenMoves);
+
+            var mrxDb = mrxJoin.SingleOrDefault(gs => gs.MrxId == mrX.MrXId.Id);
+            //Todo find a better way to reset the lists, this sucks
+            foreach (var move in mrxDb.MoveHistory)
+            {
+                _db.MoveMrX.Remove(move);
+            }
+
+            foreach (var move in mrxDb.OpenMoves)
+            {
+                _db.OpenMoveMrx.Remove(move);
+            }
+            _db.MrXs.Remove(mrxDb);
+
+            await _db.SaveChangesAsync();
         }
 
         private MoveMrXDb MoveDbMapper(Move move)

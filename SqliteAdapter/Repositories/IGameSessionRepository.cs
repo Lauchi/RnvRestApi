@@ -10,7 +10,7 @@ namespace SqliteAdapter.Repositories
         Task Add(GameSession gameSession);
         Task AddPoliceOfficer(PoliceOfficer policeOfficer, GameSession gameSession);
         Task AddMrX(MrX mrX, GameSession gameSession);
-        Task DeleteMrX(MrX gameSession);
+
         Task DeletePoliceOfficer(PoliceOfficer policeOfficer);
     }
 }

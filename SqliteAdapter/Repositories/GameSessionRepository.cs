@@ -63,26 +63,6 @@ namespace SqliteAdapter.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task DeleteMrX(MrX gameSession)
-        {
-            var mrxJoin = _db.MrXs.Include(mx => mx.MoveHistory).Include(mx => mx.OpenMoves);
-
-            var mrxDb = mrxJoin.SingleOrDefault(gs => gs.MrxId == gameSession.MrXId.Id);
-            //Todo find a better way to reset the lists, this sucks
-            foreach (var move in mrxDb.MoveHistory)
-            {
-                _db.MoveMrX.Remove(move);
-            }
-
-            foreach (var move in mrxDb.OpenMoves)
-            {
-                _db.OpenMoveMrx.Remove(move);
-            }
-            _db.MrXs.Remove(mrxDb);
-
-            await _db.SaveChangesAsync();
-        }
-
         public async Task DeletePoliceOfficer(PoliceOfficer policeOfficer)
         {
             var policeOfficerDbs = _db.PoliceOfficers.SingleOrDefault(po => po.Id == policeOfficer.PoliceOfficerId.Id);
