@@ -8,7 +8,7 @@ namespace Domain
     public class PoliceOfficer : Player
     {
         public static event Action<PoliceOfficer> PoliceOfficerDeleted;
-        public static event Action<Move, PoliceOfficer> PoliceOfficerMoved;
+        public static event Action<PoliceOfficer> PoliceOfficerMoved;
         public PoliceOfficerId PoliceOfficerId { get; }
         public Station CurrentStation { get; protected set; } = Station.NullStation;
 
@@ -34,7 +34,7 @@ namespace Domain
             var move = new Move(station, vehicelType);
             MoveHistory.Add(move);
             CurrentStation = station;
-            PoliceOfficerMoved?.Invoke(move, this);
+            PoliceOfficerMoved?.Invoke(this);
             return DomainValidationResult.OkResult();
         }
     }

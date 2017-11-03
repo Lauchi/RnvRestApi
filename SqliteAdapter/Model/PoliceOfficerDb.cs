@@ -6,7 +6,7 @@ namespace SqliteAdapter.Model
     public class PoliceOfficerDb
     {
         [Key]
-        public string Id { get; set; }
+        public string PoliceOfficerId { get; set; }
         public string Name { get; set; }
 
         public ICollection<MovePoliceOfficerDb> MoveHistory { get; set; }

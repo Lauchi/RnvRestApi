@@ -11,7 +11,7 @@ using System;
 namespace SqliteAdapter.Migrations
 {
     [DbContext(typeof(RnvScotlandYardContext))]
-    [Migration("20171103220030_InitialMigration")]
+    [Migration("20171103230615_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,7 +57,7 @@ namespace SqliteAdapter.Migrations
                     b.Property<int>("MoveId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("PoliceOfficerDbId");
+                    b.Property<string>("PoliceOfficerDbPoliceOfficerId");
 
                     b.Property<string>("StationId");
 
@@ -65,7 +65,7 @@ namespace SqliteAdapter.Migrations
 
                     b.HasKey("MoveId");
 
-                    b.HasIndex("PoliceOfficerDbId");
+                    b.HasIndex("PoliceOfficerDbPoliceOfficerId");
 
                     b.ToTable("MovePoliceOfficers");
                 });
@@ -109,7 +109,7 @@ namespace SqliteAdapter.Migrations
 
             modelBuilder.Entity("SqliteAdapter.Model.PoliceOfficerDb", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("PoliceOfficerId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("CurrentStationId");
@@ -118,7 +118,7 @@ namespace SqliteAdapter.Migrations
 
                     b.Property<string>("Name");
 
-                    b.HasKey("Id");
+                    b.HasKey("PoliceOfficerId");
 
                     b.HasIndex("GameSessionDbId");
 
@@ -136,7 +136,7 @@ namespace SqliteAdapter.Migrations
                 {
                     b.HasOne("SqliteAdapter.Model.PoliceOfficerDb")
                         .WithMany("MoveHistory")
-                        .HasForeignKey("PoliceOfficerDbId");
+                        .HasForeignKey("PoliceOfficerDbPoliceOfficerId");
                 });
 
             modelBuilder.Entity("SqliteAdapter.Model.MrxDb", b =>

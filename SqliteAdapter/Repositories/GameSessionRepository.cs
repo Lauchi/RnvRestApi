@@ -44,7 +44,7 @@ namespace SqliteAdapter.Repositories
             var gameSessionInDb = _db.GameSessions.SingleOrDefault(gs => gs.GameSessionId == gameSession.GameSessionId.Id);
             var policeOfficerDb = new PoliceOfficerDb
             {
-                Id = policeOfficer.PoliceOfficerId.Id,
+                PoliceOfficerId = policeOfficer.PoliceOfficerId.Id,
                 Name = policeOfficer.Name
             };
             gameSessionInDb.PoliceOfficers.Add(policeOfficerDb);
@@ -65,7 +65,8 @@ namespace SqliteAdapter.Repositories
 
         public async Task DeletePoliceOfficer(PoliceOfficer policeOfficer)
         {
-            var policeOfficerDbs = _db.PoliceOfficers.SingleOrDefault(po => po.Id == policeOfficer.PoliceOfficerId.Id);
+            var officerJoin = _db.PoliceOfficers.Include(officer => officer.MoveHistory);
+            var policeOfficerDbs = officerJoin.SingleOrDefault(po => po.PoliceOfficerId == policeOfficer.PoliceOfficerId.Id);
 
             //Todo find a better way to reset the lists, this sucks
             foreach (var move in policeOfficerDbs.MoveHistory)
@@ -79,11 +80,12 @@ namespace SqliteAdapter.Repositories
 
         private GameSession GameSessionMapper(GameSessionDb gameSession)
         {
+            //Todo clean up this startup mapping crap
             var mrX = gameSession.Mrx != null
                 ? new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name)
                 : MrX.NullValue;
             ICollection<PoliceOfficer> policeOfficers = gameSession.PoliceOfficers.Select(officer =>
-                new PoliceOfficer(new PoliceOfficerId(officer.Id), officer.Name)).ToList();
+                new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId), officer.Name)).ToList();
             var session = new GameSession(
                 gameSession.Name,
                 new GameSessionId(gameSession.GameSessionId),

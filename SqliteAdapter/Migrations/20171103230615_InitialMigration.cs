@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
+using System.Collections.Generic;
 
 namespace SqliteAdapter.Migrations
 {
@@ -44,14 +45,14 @@ namespace SqliteAdapter.Migrations
                 name: "PoliceOfficers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    PoliceOfficerId = table.Column<string>(type: "TEXT", nullable: false),
                     CurrentStationId = table.Column<string>(type: "TEXT", nullable: true),
                     GameSessionDbId = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PoliceOfficers", x => x.Id);
+                    table.PrimaryKey("PK_PoliceOfficers", x => x.PoliceOfficerId);
                     table.ForeignKey(
                         name: "FK_PoliceOfficers_GameSessions_GameSessionDbId",
                         column: x => x.GameSessionDbId,
@@ -108,7 +109,7 @@ namespace SqliteAdapter.Migrations
                 {
                     MoveId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    PoliceOfficerDbId = table.Column<string>(type: "TEXT", nullable: true),
+                    PoliceOfficerDbPoliceOfficerId = table.Column<string>(type: "TEXT", nullable: true),
                     StationId = table.Column<string>(type: "TEXT", nullable: true),
                     VehicleType = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -116,10 +117,10 @@ namespace SqliteAdapter.Migrations
                 {
                     table.PrimaryKey("PK_MovePoliceOfficers", x => x.MoveId);
                     table.ForeignKey(
-                        name: "FK_MovePoliceOfficers_PoliceOfficers_PoliceOfficerDbId",
-                        column: x => x.PoliceOfficerDbId,
+                        name: "FK_MovePoliceOfficers_PoliceOfficers_PoliceOfficerDbPoliceOfficerId",
+                        column: x => x.PoliceOfficerDbPoliceOfficerId,
                         principalTable: "PoliceOfficers",
-                        principalColumn: "Id",
+                        principalColumn: "PoliceOfficerId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -129,9 +130,9 @@ namespace SqliteAdapter.Migrations
                 column: "MrxDbMrxId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MovePoliceOfficers_PoliceOfficerDbId",
+                name: "IX_MovePoliceOfficers_PoliceOfficerDbPoliceOfficerId",
                 table: "MovePoliceOfficers",
-                column: "PoliceOfficerDbId");
+                column: "PoliceOfficerDbPoliceOfficerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MrXs_GameSessionDbId",

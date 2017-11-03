@@ -17,12 +17,14 @@ namespace EventStoring
         private readonly IRnvRepository _rnvRepository;
         private readonly ICollection<GameSession> _gameSessions;
         private readonly IMrxRepository _mrxRepository;
+        private IPoliceOfficerRepository _policeOfficerRepository;
 
-        public EventStore(IGameSessionRepository gameSessionRepository, IRnvRepository rnvRepository, IMrxRepository mrxRepository)
+        public EventStore(IGameSessionRepository gameSessionRepository, IRnvRepository rnvRepository, IMrxRepository mrxRepository, IPoliceOfficerRepository policeOfficerRepository)
         {
             _gameSessionRepository = gameSessionRepository;
             _rnvRepository = rnvRepository;
             _mrxRepository = mrxRepository;
+            _policeOfficerRepository = policeOfficerRepository;
 
             _gameSessions = _gameSessionRepository.GetSessions();
             GameSession.GameSessionCreated += OnGameSessionCreated;
@@ -39,9 +41,9 @@ namespace EventStoring
             _mrxRepository.UpdateMrX(mrX);
         }
 
-        private void OnPoliceOfficerMoved(Move move, PoliceOfficer policeOfficer)
+        private void OnPoliceOfficerMoved(PoliceOfficer policeOfficer)
         {
-            throw new NotImplementedException();
+            _policeOfficerRepository.UpdatePoliceOfficer(policeOfficer);
         }
 
         private void GameSessionOnPoliceOfficerDeleted(PoliceOfficer policeOfficer)
