@@ -51,8 +51,8 @@ namespace Domain
             return DomainValidationResult.OkResult();
         }
 
-        public Station LastKnownStation { get; private set; }
+        public Station LastKnownStation { get; private set; } = Station.NullStation;
 
-        public Station CurrentStationHidden { get; private set; }
+        public Station CurrentStationHidden { get; private set; } = Station.NullStation;
     }
 }

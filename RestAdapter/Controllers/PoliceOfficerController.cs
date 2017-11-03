@@ -45,8 +45,8 @@ namespace RestAdapter.Controllers
             return Ok(new PoliceOfficerHto(policeOfficer));
         }
 
-        [HttpDelete("{gameSessionId}/police-officers/{policeOfficerId}")]
-        public IActionResult DeletePoliceOfficerMrX(string gameSessionId, string policeOfficerId)
+        [HttpGet("{gameSessionId}/police-officers/{policeOfficerId}")]
+        public IActionResult GetPoliceOfficer(string gameSessionId, string policeOfficerId)
         {
             var gameSession = _eventStore.GetSession(new GameSessionId(gameSessionId), out var validationResult);
             if (!validationResult.Ok)
@@ -55,11 +55,24 @@ namespace RestAdapter.Controllers
             }
 
             var policeOfficer = gameSession.GetPoliceOfficer(new PoliceOfficerId(policeOfficerId), out validationResult);
-            validationResult = policeOfficer.Delete();
             if (!validationResult.Ok)
             {
-                return BadRequest(validationResult);
+                return NotFound(validationResult);
             }
+            return Ok(new PoliceOfficerHto(policeOfficer));
+        }
+
+        [HttpDelete("{gameSessionId}/police-officers/{policeOfficerId}")]
+        public IActionResult DeletePoliceOfficer(string gameSessionId, string policeOfficerId)
+        {
+            var gameSession = _eventStore.GetSession(new GameSessionId(gameSessionId), out var validationResult);
+            if (!validationResult.Ok)
+            {
+                return NotFound(validationResult);
+            }
+
+            var policeOfficer = gameSession.GetPoliceOfficer(new PoliceOfficerId(policeOfficerId), out validationResult);
+            policeOfficer.Delete();
             return Ok();
         }
 

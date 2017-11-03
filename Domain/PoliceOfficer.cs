@@ -10,7 +10,7 @@ namespace Domain
         public event Action<PoliceOfficer> PoliceOfficerDeleted;
         public event Action<Move, PoliceOfficer> PoliceOfficerMoved;
         public PoliceOfficerId PoliceOfficerId { get; }
-        public Station CurrentStation { get; protected set; }
+        public Station CurrentStation { get; protected set; } = Station.NullStation;
 
 
         public PoliceOfficer(PoliceOfficerId id, string name) : base(name)
