@@ -63,21 +63,6 @@ namespace SqliteAdapter.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task DeletePoliceOfficer(PoliceOfficer policeOfficer)
-        {
-            var officerJoin = _db.PoliceOfficers.Include(officer => officer.MoveHistory);
-            var policeOfficerDbs = officerJoin.SingleOrDefault(po => po.PoliceOfficerId == policeOfficer.PoliceOfficerId.Id);
-
-            //Todo find a better way to reset the lists, this sucks
-            foreach (var move in policeOfficerDbs.MoveHistory)
-            {
-                _db.MovePoliceOfficers.Remove(move);
-            }
-
-            _db.PoliceOfficers.Remove(policeOfficerDbs);
-            await _db.SaveChangesAsync();
-        }
-
         private GameSession GameSessionMapper(GameSessionDb gameSession)
         {
             //Todo clean up this startup mapping crap

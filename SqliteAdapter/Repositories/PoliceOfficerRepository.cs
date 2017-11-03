@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Domain;
 using Domain.ValueTypes;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,21 @@ namespace SqliteAdapter.Repositories
             officerDb.MoveHistory = policeOfficer.MoveHistory.Select(MoveDbMapper).ToList();
 
             _db.SaveChanges();
+        }
+
+        public async Task DeletePoliceOfficer(PoliceOfficer policeOfficer)
+        {
+            var officerJoin = _db.PoliceOfficers.Include(officer => officer.MoveHistory);
+            var policeOfficerDbs = officerJoin.SingleOrDefault(po => po.PoliceOfficerId == policeOfficer.PoliceOfficerId.Id);
+
+            //Todo find a better way to reset the lists, this sucks
+            foreach (var move in policeOfficerDbs.MoveHistory)
+            {
+                _db.MovePoliceOfficers.Remove(move);
+            }
+
+            _db.PoliceOfficers.Remove(policeOfficerDbs);
+            await _db.SaveChangesAsync();
         }
 
         private MovePoliceOfficerDb MoveDbMapper(Move move)

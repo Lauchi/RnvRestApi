@@ -48,7 +48,7 @@ namespace EventStoring
 
         private void GameSessionOnPoliceOfficerDeleted(PoliceOfficer policeOfficer)
         {
-            _gameSessionRepository.DeletePoliceOfficer(policeOfficer);
+            _policeOfficerRepository.DeletePoliceOfficer(policeOfficer);
         }
 
         private void GameSessionOnMrXDeleted(MrX mrX)
