@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Domain.Validation;
 using Domain.ValueTypes;
 using Domain.ValueTypes.Ids;
@@ -9,18 +10,20 @@ namespace Domain
 {
     public class MrX : Player
     {
-        public static MrX NullValue { get; } = new MrX(new MrXId(new Guid().ToString()), "NaN");
+        public static MrX NullValue { get; } = new MrX(new MrXId(new Guid().ToString()), "NaN", new Collection<Move>(), new Collection<Move>());
 
-        public ICollection<Move> OpenMoves { get; } = new Collection<Move>();
-        public ICollection<VehicelType> UsedVehicles { get; } = new Collection<VehicelType>();
+        public ICollection<Move> OpenMoves { get; }
+        public IEnumerable<VehicelType> UsedVehicles => MoveHistory.Select(move => move.Type);
 
         public MrXId MrXId { get; }
         public static event Action MrxDeleted;
         public static event Action<Move, MrX> MrxMoved;
 
-        public MrX(MrXId mrXId, string name) : base(name)
+        public MrX(MrXId mrXId, string name, ICollection<Move> moveHistory, ICollection<Move> openMoves) : base(name)
         {
             MrXId = mrXId;
+            OpenMoves = openMoves;
+            MoveHistory = moveHistory;
         }
 
         public MrX(string name) : base(name)
@@ -45,7 +48,6 @@ namespace Domain
                 LastKnownStation = station;
             }
 
-            UsedVehicles.Add(vehicelType);
             MrxMoved?.Invoke(move, this);
             return DomainValidationResult.OkResult();
         }

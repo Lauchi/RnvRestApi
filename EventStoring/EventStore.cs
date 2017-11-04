@@ -15,18 +15,20 @@ namespace EventStoring
     {
         private readonly IGameSessionRepository _gameSessionRepository;
         private readonly IRnvRepository _rnvRepository;
-        private readonly ICollection<GameSession> _gameSessions;
+        private readonly ICollection<GameSession> _startGameSessionsFromDb;
         private readonly IMrxRepository _mrxRepository;
         private IPoliceOfficerRepository _policeOfficerRepository;
 
-        public EventStore(IGameSessionRepository gameSessionRepository, IRnvRepository rnvRepository, IMrxRepository mrxRepository, IPoliceOfficerRepository policeOfficerRepository)
+        public EventStore(IGameSessionRepository gameSessionRepository, IRnvRepository rnvRepository,
+            IMrxRepository mrxRepository, IPoliceOfficerRepository policeOfficerRepository,
+            ICollection<GameSession> startGameSessionsFromDb)
         {
             _gameSessionRepository = gameSessionRepository;
             _rnvRepository = rnvRepository;
             _mrxRepository = mrxRepository;
             _policeOfficerRepository = policeOfficerRepository;
+            _startGameSessionsFromDb = startGameSessionsFromDb;
 
-            _gameSessions = _gameSessionRepository.GetSessions();
             GameSession.GameSessionCreated += OnGameSessionCreated;
             GameSession.MrxAdded += GameSessionOnMrxAdded;
             GameSession.PoliceOfficerAdded += GameSessionOnPoliceOfficerAdded;
@@ -68,18 +70,18 @@ namespace EventStoring
 
         private void OnGameSessionCreated(GameSession gameSession)
         {
-            _gameSessions.Add(gameSession);
+            _startGameSessionsFromDb.Add(gameSession);
             _gameSessionRepository.Add(gameSession);
         }
 
         public IEnumerable<GameSession> GetSessions()
         {
-            return _gameSessions;
+            return _startGameSessionsFromDb;
         }
 
         public GameSession GetSession(GameSessionId gameSessionId, out DomainValidationResult validationResult)
         {
-            var session = _gameSessions.FirstOrDefault(gs => gs.GameSessionId == gameSessionId);
+            var session = _startGameSessionsFromDb.FirstOrDefault(gs => gs.GameSessionId == gameSessionId);
             validationResult = session == null ? new DomainValidationResult("Game Session not found") : DomainValidationResult.OkResult();
             return session;
         }

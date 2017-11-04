@@ -13,7 +13,7 @@ namespace Domain
             MoveHistory = new Collection<Move>();
         }
 
-        public ICollection<Move> MoveHistory { get; }
+        public ICollection<Move> MoveHistory { get; protected set; }
 
         public abstract DomainValidationResult Move(Station station, VehicelType vehicelType);
 
