@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain;
@@ -16,18 +15,20 @@ namespace EventStoring
         private readonly IGameSessionRepository _gameSessionRepository;
         private readonly IRnvRepository _rnvRepository;
         private readonly ICollection<GameSession> _startGameSessionsFromDb;
+        private readonly IStartupLoadRepository _loadRepository;
         private readonly IMrxRepository _mrxRepository;
         private IPoliceOfficerRepository _policeOfficerRepository;
 
         public EventStore(IGameSessionRepository gameSessionRepository, IRnvRepository rnvRepository,
-            IMrxRepository mrxRepository, IPoliceOfficerRepository policeOfficerRepository,
-            ICollection<GameSession> startGameSessionsFromDb)
+            IMrxRepository mrxRepository, IPoliceOfficerRepository policeOfficerRepository, IStartupLoadRepository loadRepository)
         {
             _gameSessionRepository = gameSessionRepository;
             _rnvRepository = rnvRepository;
             _mrxRepository = mrxRepository;
             _policeOfficerRepository = policeOfficerRepository;
-            _startGameSessionsFromDb = startGameSessionsFromDb;
+            _loadRepository = loadRepository;
+
+            _startGameSessionsFromDb = _loadRepository.GetSessions().Result;
 
             GameSession.GameSessionCreated += OnGameSessionCreated;
             GameSession.MrxAdded += GameSessionOnMrxAdded;

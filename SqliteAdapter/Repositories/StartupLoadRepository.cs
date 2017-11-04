@@ -66,9 +66,4 @@ namespace SqliteAdapter.Repositories
             return move;
         }
     }
-
-    public interface IStartupLoadRepository
-    {
-        Task<ICollection<GameSession>> GetSessions();
-    }
 }
