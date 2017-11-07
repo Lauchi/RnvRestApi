@@ -38,6 +38,7 @@ namespace RnvRestApi
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             var startupLoadRepository = app.ApplicationServices.GetService<IStartupLoadRepository>();
+            //Todo make this call immediatly, not on the first request
             app.UseMvc(async context =>
             {
                 await startupLoadRepository.LoadSessions();
