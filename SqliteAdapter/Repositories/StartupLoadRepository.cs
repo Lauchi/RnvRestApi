@@ -15,6 +15,7 @@ namespace SqliteAdapter.Repositories
     {
         private RnvScotlandYardContext _db;
         private IRnvRepository _rnvRepository;
+        private ICollection<GameSession> _gameSessions;
 
         public StartupLoadRepository(RnvScotlandYardContext db, IRnvRepository rnvRepository)
         {
@@ -22,11 +23,15 @@ namespace SqliteAdapter.Repositories
             _rnvRepository = rnvRepository;
         }
 
-        public async Task<ICollection<GameSession>> GetSessions()
+        public ICollection<GameSession> GetSessions()
+        {
+            return _gameSessions;
+        }
+
+        public async Task LoadSessions()
         {
             var dbGameSessions = _db.GameSessions.Include(gs => gs.PoliceOfficers).Include(gs => gs.Mrx);
-            var gameSessions = await Task.WhenAll(dbGameSessions.Select(dbSession => GameSessionMapper(dbSession)));
-            return gameSessions;
+            _gameSessions = await Task.WhenAll(dbGameSessions.Select(dbSession => GameSessionMapper(dbSession)));
         }
 
         private async Task<GameSession> GameSessionMapper(GameSessionDb gameSession)

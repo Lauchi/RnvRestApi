@@ -15,7 +15,6 @@ namespace EventStoring
         private readonly IGameSessionRepository _gameSessionRepository;
         private readonly IRnvRepository _rnvRepository;
         private readonly ICollection<GameSession> _startGameSessionsFromDb;
-        private readonly IStartupLoadRepository _loadRepository;
         private readonly IMrxRepository _mrxRepository;
         private IPoliceOfficerRepository _policeOfficerRepository;
 
@@ -26,9 +25,8 @@ namespace EventStoring
             _rnvRepository = rnvRepository;
             _mrxRepository = mrxRepository;
             _policeOfficerRepository = policeOfficerRepository;
-            _loadRepository = loadRepository;
 
-            _startGameSessionsFromDb = _loadRepository.GetSessions().Result;
+            _startGameSessionsFromDb = loadRepository.GetSessions();
 
             GameSession.GameSessionCreated += OnGameSessionCreated;
             GameSession.MrxAdded += GameSessionOnMrxAdded;
