@@ -37,6 +37,14 @@ namespace RnvRestApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var serviceScopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+            using (var serviceScope = serviceScopeFactory.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetService<RnvScotlandYardContext>();
+                dbContext.Database.EnsureCreated();
+                var loader = serviceScope.ServiceProvider.GetService<IStartupLoadRepository>();
+                loader.LoadSessions().Wait();
+            }
             app.UseMvc();
         }
     }
