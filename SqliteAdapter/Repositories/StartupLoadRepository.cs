@@ -25,7 +25,8 @@ namespace SqliteAdapter.Repositories
 
         public ICollection<GameSession> GetSessions()
         {
-            return _gameSessions;
+            List<GameSession> sessionCopied = _gameSessions.ToList();
+            return sessionCopied;
         }
 
         public async Task LoadSessions()
