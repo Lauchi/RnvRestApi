@@ -26,6 +26,8 @@ namespace EventStoring
             _mrxRepository = mrxRepository;
             _policeOfficerRepository = policeOfficerRepository;
 
+            //Todo make this not here, but bug is in the empty db
+            loadRepository.LoadSessions().Wait();
             _startGameSessionsFromDb = loadRepository.GetSessions();
 
             GameSession.GameSessionCreated += OnGameSessionCreated;

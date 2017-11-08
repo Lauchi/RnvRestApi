@@ -37,12 +37,7 @@ namespace RnvRestApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            var startupLoadRepository = app.ApplicationServices.GetService<IStartupLoadRepository>();
-            //Todo make this call immediatly, not on the first request
-            app.UseMvc(async context =>
-            {
-                await startupLoadRepository.LoadSessions();
-            });
+            app.UseMvc();
         }
     }
 }
