@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.0.0
-MinimumVisualStudioVersion = 10.0.0.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RnvRestApi", "RnvRestApi/RnvRestApi.csproj", "{93B11064-3B7F-4330-A7DA-1973462337FB}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RnvRestApi", "RnvRestApi\RnvRestApi.csproj", "{93B11064-3B7F-4330-A7DA-1973462337FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RnvTriasAdapter.Tests", "RnvTriasAdapter.Tests\RnvTriasAdapter.Tests.csproj", "{759979FB-EF64-41B4-A058-E1AF8948D662}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RnvTriasAdapter.Tests", "RnvTriasAdapter.Tests\RnvTriasAdapter.Tests.csproj", "{759979FB-EF64-41B4-A058-E1AF8948D662}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqliteAdapter", "SqliteAdapter\SqliteAdapter.csproj", "{28B5DC9E-3C22-4D83-AA67-63EE678EB470}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqliteAdapter", "SqliteAdapter\SqliteAdapter.csproj", "{28B5DC9E-3C22-4D83-AA67-63EE678EB470}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RnvTriasAdapter", "RnvTriasAdapter\RnvTriasAdapter.csproj", "{DBBB5AAF-F199-43DB-B94D-18E500389DD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RnvTriasAdapter", "RnvTriasAdapter\RnvTriasAdapter.csproj", "{DBBB5AAF-F199-43DB-B94D-18E500389DD4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TriasAdapter", "TriasAdapter", "{05DD570F-1DA3-4261-AC69-15EFF13883BF}"
 EndProject
@@ -17,15 +17,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SqliteAdapter", "SqliteAdap
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RestAdapter", "RestAdapter", "{9803B5EC-F53F-4EB2-8F33-85A1629FF541}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestAdapter", "RestAdapter\RestAdapter.csproj", "{1A14AACF-7847-4063-9B78-405549A069F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestAdapter", "RestAdapter\RestAdapter.csproj", "{1A14AACF-7847-4063-9B78-405549A069F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{5C8C87B6-F290-4DE8-A509-EAC02AD652E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{5C8C87B6-F290-4DE8-A509-EAC02AD652E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStoring", "EventStoring\EventStoring.csproj", "{006F9A26-8C03-45EA-A563-32E765D8275C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStoring", "EventStoring\EventStoring.csproj", "{006F9A26-8C03-45EA-A563-32E765D8275C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StationAsJsonAdapter", "StationAsJsonAdapter\StationAsJsonAdapter.csproj", "{218CF37A-325F-44C3-97CC-A750EBBF4A2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StationAsJsonAdapter", "StationAsJsonAdapter\StationAsJsonAdapter.csproj", "{218CF37A-325F-44C3-97CC-A750EBBF4A2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StationAsJsonAdapter.Tests", "StationAsJsonAdapter.Tests\StationAsJsonAdapter.Tests.csproj", "{995ED8AC-82CC-46E4-A3D9-FDF90E917A10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StationAsJsonAdapter.Tests", "StationAsJsonAdapter.Tests\StationAsJsonAdapter.Tests.csproj", "{995ED8AC-82CC-46E4-A3D9-FDF90E917A10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,11 +74,14 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{DBBB5AAF-F199-43DB-B94D-18E500389DD4} = {05DD570F-1DA3-4261-AC69-15EFF13883BF}
 		{759979FB-EF64-41B4-A058-E1AF8948D662} = {05DD570F-1DA3-4261-AC69-15EFF13883BF}
 		{28B5DC9E-3C22-4D83-AA67-63EE678EB470} = {DE515EE0-4EF7-4666-A50D-87C77BB1F484}
+		{DBBB5AAF-F199-43DB-B94D-18E500389DD4} = {05DD570F-1DA3-4261-AC69-15EFF13883BF}
 		{1A14AACF-7847-4063-9B78-405549A069F4} = {9803B5EC-F53F-4EB2-8F33-85A1629FF541}
 		{218CF37A-325F-44C3-97CC-A750EBBF4A2A} = {05DD570F-1DA3-4261-AC69-15EFF13883BF}
 		{995ED8AC-82CC-46E4-A3D9-FDF90E917A10} = {05DD570F-1DA3-4261-AC69-15EFF13883BF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {102717A5-4767-4FEA-9E11-621DDD755548}
 	EndGlobalSection
 EndGlobal
