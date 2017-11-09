@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Domain.Validation;
+using Domain.ValueTypes;
 using Domain.ValueTypes.Ids;
+using static Domain.ValueTypes.WinnerEnum;
 
 namespace Domain
 {
@@ -14,6 +16,17 @@ namespace Domain
         public static event Action<PoliceOfficer, GameSession> PoliceOfficerAdded;
         public static event Action<MrX> MrXDeleted;
         public static event Action<PoliceOfficer> PoliceOfficerDeleted;
+        public static event Action<List<PoliceOfficer>> MrXCatched;
+        public static event Action<MrX> MrXEscaped;
+
+        public WinnerEnum Winner { get; private set; }
+        public GameSessionId GameSessionId { get; }
+        public string Name { get;  }
+        public DateTimeOffset StartTime { get; }
+        public MrX MrX { get; private set; }
+        public ICollection<PoliceOfficer> PoliceOfficers { get; }
+        public List<PoliceOfficer> Winners { get; private set; }
+        public TimeSpan GameLength { get; } = new TimeSpan(1, 0, 0);
 
         public static GameSession Create(string name, out DomainValidationResult result)
         {
@@ -30,6 +43,8 @@ namespace Domain
             PoliceOfficers = new Collection<PoliceOfficer>();
             StartTime = DateTimeOffset.Now;
             MrX = MrX.NullValue;
+            Winners = new List<PoliceOfficer>();
+            Winner = None;
         }
 
         private void OnMrxDeleted()
@@ -48,7 +63,31 @@ namespace Domain
             PoliceOfficers = policeOfficers;
 
             MrX.MrxDeleted += OnMrxDeleted;
+            MrX.MrxMoved += MrXOnMrxMoved;
             PoliceOfficer.PoliceOfficerDeleted += PoliceOfficerOnPoliceOfficerDeleted;
+            PoliceOfficer.PoliceOfficerMoved += PoliceOfficerOnPoliceOfficerMoved;
+        }
+
+        private void PoliceOfficerOnPoliceOfficerMoved(PoliceOfficer policeOfficer1)
+        {
+            PlayerMoved();
+        }
+
+        private void PlayerMoved()
+        {
+            var officerCatchingMrX = PoliceOfficers.Where(officer => officer.CurrentStation.StationId == MrX.CurrentStationHidden.StationId).ToList();
+            if (officerCatchingMrX.Any())
+            {
+                Winner = Police;
+                Winners = officerCatchingMrX;
+                MrXCatched?.Invoke(officerCatchingMrX);
+            }
+        }
+
+        private void MrXOnMrxMoved(Move move, MrX x)
+        {
+            if (StartTime - DateTimeOffset.Now  > GameLength ) MrXEscaped?.Invoke(MrX);
+            else PlayerMoved();
         }
 
         private void PoliceOfficerOnPoliceOfficerDeleted(PoliceOfficer policeOfficer)
@@ -80,12 +119,6 @@ namespace Domain
             validationResult = DomainValidationResult.OkResult();
             return officer;
         }
-
-        public GameSessionId GameSessionId { get; }
-        public string Name { get;  }
-        public DateTimeOffset StartTime { get; }
-        public MrX MrX { get; private set; }
-        public ICollection<PoliceOfficer> PoliceOfficers { get; }
 
         public PoliceOfficer GetPoliceOfficer(PoliceOfficerId policeOfficerId, out DomainValidationResult validationResult)
         {
