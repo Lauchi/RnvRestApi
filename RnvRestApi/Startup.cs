@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Net.Http;
+using System.Security.Claims;
 using EventStoring;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using RestAdapter.Controllers;
 using RnvTriasAdapter;
 using RnvTriasAdapter.Mapper;
 using SqliteAdapter.Model;
@@ -30,9 +34,15 @@ namespace RnvRestApi
                 .AddSingleton<IPoliceOfficerRepository, PoliceOfficerRepository>()
                 .AddSingleton<IStartupLoadRepository, StartupLoadRepository>()
                 .AddSingleton<IEventStore, EventStore>()
-                .AddMvc();
+                .AddAuthorization()
+                .AddMvc(config =>
+                {
+                    var policy = new AuthorizationPolicyBuilder()
+                        .AddRequirements(new ApiKeyRequirement())
+                        .Build();
+                    config.Filters.Add(new AuthorizeFilter(policy));
+                });
         }
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -42,6 +52,7 @@ namespace RnvRestApi
             {
                 var dbContext = serviceScope.ServiceProvider.GetService<RnvScotlandYardContext>();
                 dbContext.Database.EnsureCreated();
+
                 var loader = serviceScope.ServiceProvider.GetService<IStartupLoadRepository>();
                 loader.LoadSessions().Wait();
             }
