@@ -9,7 +9,7 @@ namespace RestAdapter.DomainHtos
     {
         public GameSessionHto(GameSession gameSession)
         {
-            Id = gameSession.GameSessionId.Id;
+            Id = "CHANGEdLOLOLOLOLOL " + gameSession.GameSessionId.Id;
             Name = gameSession.Name;
             StartTime = gameSession.StartTime;
             MrXId = gameSession.MrX == MrX.NullValue ? null : gameSession.MrX.MrXId.Id;
