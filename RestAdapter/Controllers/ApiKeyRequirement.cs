@@ -12,21 +12,18 @@ namespace RestAdapter.Controllers
             var authorizationHandlerContext = context.Resource as AuthorizationFilterContext;
             if (authorizationHandlerContext != null)
             {
-                if (authorizationHandlerContext.HttpContext.Authentication != null)
+                var headerDictionary = authorizationHandlerContext.HttpContext.Request.Headers;
+                var apiKey = headerDictionary["Authorization"].ToString();
+                if (apiKey == "81ef63c8-7d9d-44e3-a06d-328eedd88676")
                 {
-                    var headerDictionary = authorizationHandlerContext.HttpContext.Authentication.HttpContext.Request.Headers;
-                    var apiKey = headerDictionary["Authorization"].ToString();
-                    if (apiKey == "81ef63c8-7d9d-44e3-a06d-328eedd88676")
-                    {
-                        context.Succeed(requirement);
-                    }
-                    else
-                    {
-                        authorizationHandlerContext.Result = new UnauthorizedResult();
-                        context.Succeed(requirement);
-                    }
-                    return Task.CompletedTask;
+                    context.Succeed(requirement);
                 }
+                else
+                {
+                    authorizationHandlerContext.Result = new UnauthorizedResult();
+                    context.Succeed(requirement);
+                }
+                return Task.CompletedTask;
             }
 
             context.Fail();
