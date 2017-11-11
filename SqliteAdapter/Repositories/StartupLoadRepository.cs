@@ -31,7 +31,13 @@ namespace SqliteAdapter.Repositories
 
         public async Task LoadSessions()
         {
-            var dbGameSessions = _db.GameSessions.Include(gs => gs.PoliceOfficers).Include(gs => gs.Mrx);
+            var dbGameSessions = _db.GameSessions
+                .Include(gs => gs.PoliceOfficers)
+                    .ThenInclude(po => po.MoveHistory)
+                .Include(gs => gs.Mrx)
+                    .ThenInclude(po => po.MoveHistory)
+                .Include(gs => gs.Mrx)
+                    .ThenInclude(po => po.OpenMoves);
             _gameSessions = await Task.WhenAll(dbGameSessions.Select(dbSession => GameSessionMapper(dbSession)));
         }
 
