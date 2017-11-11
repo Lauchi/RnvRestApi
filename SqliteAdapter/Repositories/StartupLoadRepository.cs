@@ -51,6 +51,7 @@ namespace SqliteAdapter.Repositories
 
             var session = new GameSession(
                 gameSession.Name,
+                gameSession.MaxPoliceOfficers,
                 new GameSessionId(gameSession.GameSessionId),
                 gameSession.StartTime,
                 mrX,

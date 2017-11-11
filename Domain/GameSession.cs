@@ -56,13 +56,14 @@ namespace Domain
             MrXDeleted?.Invoke(mrxTemp);
         }
 
-        public GameSession(string name, GameSessionId id, DateTimeOffset startTime, MrX mrX, ICollection<PoliceOfficer> policeOfficers)
+        public GameSession(string name, int maxPoliceOfficers, GameSessionId id, DateTimeOffset startTime, MrX mrX, ICollection<PoliceOfficer> policeOfficers)
         {
             Name = name;
             GameSessionId = id;
             StartTime = startTime;
             MrX = mrX;
             PoliceOfficers = policeOfficers;
+            MaxPoliceOfficers = maxPoliceOfficers;
 
             MrX.MrxDeleted += OnMrxDeleted;
             MrX.MrxMoved += MrXOnMrxMoved;
