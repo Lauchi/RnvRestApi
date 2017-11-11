@@ -11,7 +11,7 @@ using System;
 namespace SqliteAdapter.Migrations
 {
     [DbContext(typeof(RnvScotlandYardContext))]
-    [Migration("20171103230615_InitialMigration")]
+    [Migration("20171111140509_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,8 @@ namespace SqliteAdapter.Migrations
                 {
                     b.Property<string>("GameSessionId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("MaxPoliceOfficers");
 
                     b.Property<string>("Name");
 

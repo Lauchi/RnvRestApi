@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
+using System.Collections.Generic;
 
 namespace SqliteAdapter.Migrations
 {
@@ -12,6 +13,7 @@ namespace SqliteAdapter.Migrations
                 columns: table => new
                 {
                     GameSessionId = table.Column<string>(type: "TEXT", nullable: false),
+                    MaxPoliceOfficers = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     StartTime = table.Column<DateTimeOffset>(type: "TEXT", nullable: false)
                 },
