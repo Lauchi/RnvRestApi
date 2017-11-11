@@ -23,6 +23,7 @@ namespace SqliteAdapter.Repositories
                 Name = gameSession.Name,
                 StartTime = gameSession.StartTime,
                 Mrx = null,
+                MaxPoliceOfficers = gameSession.MaxPoliceOfficers,
                 PoliceOfficers = new List<PoliceOfficerDb>()
             };
             _db.GameSessions.Add(gameSessionDb);

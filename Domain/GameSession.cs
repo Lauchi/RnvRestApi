@@ -19,6 +19,7 @@ namespace Domain
         public static event Action<List<PoliceOfficer>> MrXCatched;
         public static event Action<MrX> MrXEscaped;
 
+        public int MaxPoliceOfficers { get; }
         public WinnerEnum Winner { get; private set; }
         public GameSessionId GameSessionId { get; }
         public string Name { get;  }
@@ -28,17 +29,18 @@ namespace Domain
         public List<PoliceOfficer> Winners { get; private set; }
         public TimeSpan GameLength { get; } = new TimeSpan(1, 0, 0);
 
-        public static GameSession Create(string name, out DomainValidationResult result)
+        public static GameSession Create(string name, int maxPoliceOfficers, out DomainValidationResult result)
         {
-            var session = new GameSession(name, new GameSessionId(Guid.NewGuid().ToString()));
+            var session = new GameSession(name, maxPoliceOfficers, new GameSessionId(Guid.NewGuid().ToString()));
             GameSessionCreated?.Invoke(session);
             result = DomainValidationResult.OkResult();
             return session;
         }
 
-        private GameSession(string name, GameSessionId id)
+        private GameSession(string name, int maxPoliceOfficers, GameSessionId id)
         {
             Name = name;
+            MaxPoliceOfficers = maxPoliceOfficers;
             GameSessionId = id;
             PoliceOfficers = new Collection<PoliceOfficer>();
             StartTime = DateTimeOffset.Now;

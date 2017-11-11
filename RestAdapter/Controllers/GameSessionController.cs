@@ -40,7 +40,7 @@ namespace RestAdapter.Controllers
         [HttpPost]
         public IActionResult CreateGameSession([FromBody] GameSessionHtoPost session)
         {
-            var gameSession = GameSession.Create(session.Name, out var validationResult);
+            var gameSession = GameSession.Create(session.Name, session.MaxPoliceOfficers, out var validationResult);
             if (!validationResult.Ok)
             {
                 return BadRequest(validationResult);

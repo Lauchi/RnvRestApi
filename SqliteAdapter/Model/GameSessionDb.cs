@@ -9,6 +9,7 @@ namespace SqliteAdapter.Model
         [Key]
         public string GameSessionId { get; set; }
         public string Name { get; set; }
+        public int MaxPoliceOfficers { get; set; }
         public DateTimeOffset StartTime { get; set; }
 
         public List<PoliceOfficerDb> PoliceOfficers { get; set; }
