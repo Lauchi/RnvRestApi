@@ -29,6 +29,8 @@ namespace Domain
         public MrX(string name) : base(name)
         {
             MrXId = new MrXId(Guid.NewGuid().ToString());
+            OpenMoves = new Collection<Move>();
+            MoveHistory = new Collection<Move>();
         }
 
         public DomainValidationResult Delete()
