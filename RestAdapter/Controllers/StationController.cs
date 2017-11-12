@@ -28,17 +28,14 @@ namespace RestAdapter.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchStation([FromQuery] string name, [FromQuery] double longitude, [FromQuery] double latitude)
+        public async Task<IActionResult> SearchStation([FromQuery] string name, [FromQuery] double longitude,
+            [FromQuery] double latitude, [FromQuery] int distance)
         {
             IEnumerable<Station> stationDtos;
             if (name == null)
-            {
-                stationDtos = await _repository.SearchStation(new GeoLocation(longitude, latitude));
-            }
+                stationDtos = await _repository.SearchStation(new GeoLocation(longitude, latitude), distance);
             else
-            {
                 stationDtos = await _repository.SearchStation(name);
-            }
             return Ok(stationDtos.Select(dto => new StationHto(dto)));
         }
     }

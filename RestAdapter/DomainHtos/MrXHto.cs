@@ -16,7 +16,6 @@ namespace RestAdapter.DomainHtos
             LastKnownLocation = mrX.LastKnownStation == Station.NullStation ? null : new StationHto(mrX.LastKnownStation);
         }
 
-
         public StationHto LastKnownLocation { get; }
         public IEnumerable<MoveHto> LocationsMadePublic { get; }
         public IEnumerable<string> UsedVehicles { get; }

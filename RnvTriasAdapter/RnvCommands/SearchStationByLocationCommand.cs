@@ -6,10 +6,12 @@ namespace RnvTriasAdapter.RnvCommands
     internal class SearchStationByLocationCommand : RnvCommand
     {
         private readonly GeoLocation _geoLocation;
+        private readonly int _distance;
 
-        public SearchStationByLocationCommand(GeoLocation geoLocation)
+        public SearchStationByLocationCommand(GeoLocation geoLocation, int distance = 50)
         {
             _geoLocation = geoLocation;
+            _distance = distance;
         }
 
         public override string GetXmlRepresentation()
@@ -28,7 +30,7 @@ namespace RnvTriasAdapter.RnvCommands
                                                 <Longitude>{_geoLocation.Longitude}</Longitude>
                                                 <Latitude>{_geoLocation.Latitude}</Latitude>
                                             </Center>
-                                            <Radius>10</Radius>
+                                            <Radius>{_distance}</Radius>
                                         </Circle>
                                     </GeoRestriction>
                                 </InitialInput>

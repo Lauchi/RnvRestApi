@@ -9,6 +9,6 @@ namespace RnvTriasAdapter
     {
         Task<Station> GetStation(StationId stationId);
         Task<IEnumerable<Station>> SearchStation(string stationName);
-        Task<IEnumerable<Station>> SearchStation(GeoLocation geoLocation);
+        Task<IEnumerable<Station>> SearchStation(GeoLocation geoLocation, int distance);
     }
 }
