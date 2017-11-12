@@ -25,7 +25,7 @@ namespace SqliteAdapter.Repositories
 
         public ICollection<GameSession> GetSessions()
         {
-            List<GameSession> sessionCopied = _gameSessions.ToList();
+            var sessionCopied = _gameSessions.ToArray();
             return sessionCopied;
         }
 
@@ -49,7 +49,9 @@ namespace SqliteAdapter.Repositories
             {
                 ICollection<Move> moveHistory = await Task.WhenAll(gameSession.Mrx.MoveHistory.Select(MoveMapper));
                 ICollection<Move> openMoves = await Task.WhenAll(gameSession.Mrx.OpenMoves.Select(MoveMapper));
-                mrX = new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name, openMoves, moveHistory);
+                var historyy = moveHistory.ToList();
+                var moves = openMoves.ToList();
+                mrX = new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name, moves, historyy);
             }
 
             ICollection<PoliceOfficer> policeOfficers = gameSession.PoliceOfficers.Select(officer =>
