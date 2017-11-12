@@ -49,7 +49,8 @@ namespace SqliteAdapter.Repositories
             {
                 var moveHistory = (await Task.WhenAll(gameSession.Mrx.MoveHistory.Select(MoveMapper))).ToList();
                 var openMoves = (await Task.WhenAll(gameSession.Mrx.OpenMoves.Select(MoveMapper))).ToList();
-                mrX = new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name, openMoves, moveHistory);
+                var station = await _rnvRepository.GetStation(new StationId(gameSession.Mrx.LastKnownStation));
+                mrX = new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name, openMoves, moveHistory, station);
             }
 
             ICollection<PoliceOfficer> policeOfficers = gameSession.PoliceOfficers.Select(officer =>
