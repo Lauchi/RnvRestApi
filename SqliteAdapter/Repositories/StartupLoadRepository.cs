@@ -47,11 +47,9 @@ namespace SqliteAdapter.Repositories
             var mrX = MrX.NullValue;
             if (gameSession.Mrx != null)
             {
-                ICollection<Move> moveHistory = await Task.WhenAll(gameSession.Mrx.MoveHistory.Select(MoveMapper));
-                ICollection<Move> openMoves = await Task.WhenAll(gameSession.Mrx.OpenMoves.Select(MoveMapper));
-                var historyy = moveHistory.ToList();
-                var moves = openMoves.ToList();
-                mrX = new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name, moves, historyy);
+                var moveHistory = (await Task.WhenAll(gameSession.Mrx.MoveHistory.Select(MoveMapper))).ToList();
+                var openMoves = (await Task.WhenAll(gameSession.Mrx.OpenMoves.Select(MoveMapper))).ToList();
+                mrX = new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name, openMoves, moveHistory);
             }
 
             ICollection<PoliceOfficer> policeOfficers = gameSession.PoliceOfficers.Select(officer =>
