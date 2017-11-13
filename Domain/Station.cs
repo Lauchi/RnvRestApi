@@ -16,7 +16,10 @@ namespace Domain
         public string Name { get; }
         public GeoLocation GeoLocation { get; }
 
-        public static Station NullStation { get; } =
-            new Station(new StationId(new Guid().ToString()), "NAN", new GeoLocation(0, 0));
+        public static Station NullStation(GeoLocation geoLocation = null)
+        {
+            if (geoLocation == null) geoLocation = new GeoLocation(0, 0);
+            return new Station(new StationId(new Guid().ToString()), "-", geoLocation);
+        }
     }
 }

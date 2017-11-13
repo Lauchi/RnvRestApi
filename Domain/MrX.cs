@@ -19,24 +19,26 @@ namespace Domain
             LastKnownStation = lastKnownStation;
         }
 
-        public MrX(string name) : base(name)
+        public MrX(string name, GeoLocation startLocation) : base(name)
         {
             MrXId = new MrXId(Guid.NewGuid().ToString());
+            CurrentStationHidden = Station.NullStation(startLocation);
+            LastKnownStation = Station.NullStation(startLocation);
             OpenMoves = new Collection<Move>();
             MoveHistory = new Collection<Move>();
         }
 
         public static MrX NullValue { get; } = new MrX(new MrXId(new Guid().ToString()), "NaN", new Collection<Move>(),
-            new Collection<Move>(), Station.NullStation);
+            new Collection<Move>(), Station.NullStation());
 
         public ICollection<Move> OpenMoves { get; }
         public IEnumerable<VehicelType> UsedVehicles => MoveHistory.Select(move => move.Type);
 
         public MrXId MrXId { get; }
 
-        public Station LastKnownStation { get; private set; } = Station.NullStation;
+        public Station LastKnownStation { get; private set; }
 
-        public Station CurrentStationHidden { get; private set; } = Station.NullStation;
+        public Station CurrentStationHidden { get; private set; }
         public static event Action MrxDeleted;
         public static event Action<Move, MrX> MrxMoved;
 

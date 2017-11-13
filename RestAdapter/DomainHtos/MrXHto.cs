@@ -13,7 +13,7 @@ namespace RestAdapter.DomainHtos
                 move.Type.ToString(), move.MovedToStation.Name, move.MovedToStation.GeoLocation));
             UsedVehicles = mrX.UsedVehicles.Select(vehicle => vehicle.ToString());
 
-            LastKnownLocation = mrX.LastKnownStation == Station.NullStation ? null : new StationHto(mrX.LastKnownStation);
+            LastKnownLocation = mrX.LastKnownStation == Station.NullStation() ? null : new StationHto(mrX.LastKnownStation);
         }
 
         public StationHto LastKnownLocation { get; }

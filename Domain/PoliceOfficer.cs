@@ -10,7 +10,7 @@ namespace Domain
         public static event Action<PoliceOfficer> PoliceOfficerDeleted;
         public static event Action<PoliceOfficer> PoliceOfficerMoved;
         public PoliceOfficerId PoliceOfficerId { get; }
-        public Station CurrentStation { get; protected set; } = Station.NullStation;
+        public Station CurrentStation { get; protected set; }
 
 
         public PoliceOfficer(PoliceOfficerId id, string name) : base(name)
@@ -18,9 +18,10 @@ namespace Domain
             PoliceOfficerId = id;
         }
 
-        public PoliceOfficer(string name) : base(name)
+        public PoliceOfficer(string name, GeoLocation startLocation) : base(name)
         {
             PoliceOfficerId = new PoliceOfficerId(Guid.NewGuid().ToString());
+            CurrentStation = Station.NullStation(startLocation);
         }
 
         public DomainValidationResult Delete()

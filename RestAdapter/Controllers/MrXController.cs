@@ -36,7 +36,7 @@ namespace RestAdapter.Controllers
                 return NotFound(validationResultSession);
             }
 
-            var newMrX = gameSession.AddNewMrX(playerPost.Name, out var validationResult);
+            var newMrX = gameSession.AddNewMrX(playerPost.Name, playerPost.StartLocation, out var validationResult);
             if (!validationResult.Ok)
             {
                 return BadRequest(validationResult);

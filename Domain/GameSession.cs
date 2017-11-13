@@ -99,9 +99,9 @@ namespace Domain
             PoliceOfficerDeleted?.Invoke(policeOfficer);
         }
 
-        public MrX AddNewMrX(string mrXName, out DomainValidationResult validationResult)
+        public MrX AddNewMrX(string mrXName, GeoLocation playerPostLocation, out DomainValidationResult validationResult)
         {
-            var mrX = new MrX(mrXName);
+            var mrX = new MrX(mrXName, playerPostLocation);
             if (MrX != MrX.NullValue)
             {
                 validationResult =
@@ -114,9 +114,9 @@ namespace Domain
             return mrX;
         }
 
-        public PoliceOfficer AddNewOfficer(string officerName, out DomainValidationResult validationResult)
+        public PoliceOfficer AddNewOfficer(string officerName, GeoLocation playerPostStartLocation, out DomainValidationResult validationResult)
         {
-            var officer = new PoliceOfficer(officerName);
+            var officer = new PoliceOfficer(officerName, playerPostStartLocation);
             PoliceOfficers.Add(officer);
             PoliceOfficerAdded?.Invoke(officer, this);
             validationResult = DomainValidationResult.OkResult();

@@ -25,7 +25,7 @@ namespace SqliteAdapter.Repositories
 
         public ICollection<GameSession> GetSessions()
         {
-            var sessionCopied = _gameSessions.ToArray();
+            var sessionCopied = _gameSessions.ToList();
             return sessionCopied;
         }
 

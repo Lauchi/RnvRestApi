@@ -11,7 +11,7 @@ namespace RestAdapter.DomainHtos
             Id = policeOfficer.PoliceOfficerId.Id;
             VisitedLocations = policeOfficer.MoveHistory.Select(move => new MoveHto(move.MovedToStation.StationId.Id,
                 move.Type.ToString(), move.MovedToStation.Name, move.MovedToStation.GeoLocation));
-            CurrentLocation = policeOfficer.CurrentStation == Station.NullStation ? null : new StationHto(policeOfficer.CurrentStation);
+            CurrentLocation = policeOfficer.CurrentStation == Station.NullStation() ? null : new StationHto(policeOfficer.CurrentStation);
         }
 
         public StationHto CurrentLocation { get; }

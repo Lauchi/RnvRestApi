@@ -37,7 +37,7 @@ namespace RestAdapter.Controllers
                 return NotFound(validationResultSession);
             }
 
-            var policeOfficer = gameSession.AddNewOfficer(playerPost.Name, out var validationResult);
+            var policeOfficer = gameSession.AddNewOfficer(playerPost.Name, playerPost.StartLocation, out var validationResult);
             if (!validationResult.Ok)
             {
                 return BadRequest(validationResult);
