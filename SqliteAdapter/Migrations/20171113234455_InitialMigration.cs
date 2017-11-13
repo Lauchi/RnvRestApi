@@ -23,12 +23,26 @@ namespace SqliteAdapter.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StationDb",
+                columns: table => new
+                {
+                    StationId = table.Column<string>(type: "TEXT", nullable: false),
+                    Latitude = table.Column<double>(type: "REAL", nullable: false),
+                    Longitude = table.Column<double>(type: "REAL", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StationDb", x => x.StationId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MrXs",
                 columns: table => new
                 {
                     MrxId = table.Column<string>(type: "TEXT", nullable: false),
                     GameSessionDbId = table.Column<string>(type: "TEXT", nullable: true),
-                    LastKnownStation = table.Column<string>(type: "TEXT", nullable: true),
+                    LastKnownStationStationId = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -40,6 +54,12 @@ namespace SqliteAdapter.Migrations
                         principalTable: "GameSessions",
                         principalColumn: "GameSessionId",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MrXs_StationDb_LastKnownStationStationId",
+                        column: x => x.LastKnownStationStationId,
+                        principalTable: "StationDb",
+                        principalColumn: "StationId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -47,13 +67,19 @@ namespace SqliteAdapter.Migrations
                 columns: table => new
                 {
                     PoliceOfficerId = table.Column<string>(type: "TEXT", nullable: false),
-                    CurrentStationId = table.Column<string>(type: "TEXT", nullable: true),
+                    CurrentStationStationId = table.Column<string>(type: "TEXT", nullable: true),
                     GameSessionDbId = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PoliceOfficers", x => x.PoliceOfficerId);
+                    table.ForeignKey(
+                        name: "FK_PoliceOfficers_StationDb_CurrentStationStationId",
+                        column: x => x.CurrentStationStationId,
+                        principalTable: "StationDb",
+                        principalColumn: "StationId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PoliceOfficers_GameSessions_GameSessionDbId",
                         column: x => x.GameSessionDbId,
@@ -63,62 +89,34 @@ namespace SqliteAdapter.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MoveMrX",
+                name: "MoveDb",
                 columns: table => new
                 {
                     MoveId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     MrxDbMrxId = table.Column<string>(type: "TEXT", nullable: true),
-                    StationId = table.Column<string>(type: "TEXT", nullable: true),
-                    VehicleType = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MoveMrX", x => x.MoveId);
-                    table.ForeignKey(
-                        name: "FK_MoveMrX_MrXs_MrxDbMrxId",
-                        column: x => x.MrxDbMrxId,
-                        principalTable: "MrXs",
-                        principalColumn: "MrxId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OpenMoveMrx",
-                columns: table => new
-                {
-                    MoveId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    MrxDbMrxId = table.Column<string>(type: "TEXT", nullable: true),
-                    StationId = table.Column<string>(type: "TEXT", nullable: true),
-                    VehicleType = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OpenMoveMrx", x => x.MoveId);
-                    table.ForeignKey(
-                        name: "FK_OpenMoveMrx_MrXs_MrxDbMrxId",
-                        column: x => x.MrxDbMrxId,
-                        principalTable: "MrXs",
-                        principalColumn: "MrxId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MovePoliceOfficers",
-                columns: table => new
-                {
-                    MoveId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    MrxDbMrxId1 = table.Column<string>(type: "TEXT", nullable: true),
                     PoliceOfficerDbPoliceOfficerId = table.Column<string>(type: "TEXT", nullable: true),
                     StationId = table.Column<string>(type: "TEXT", nullable: true),
                     VehicleType = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MovePoliceOfficers", x => x.MoveId);
+                    table.PrimaryKey("PK_MoveDb", x => x.MoveId);
                     table.ForeignKey(
-                        name: "FK_MovePoliceOfficers_PoliceOfficers_PoliceOfficerDbPoliceOfficerId",
+                        name: "FK_MoveDb_MrXs_MrxDbMrxId",
+                        column: x => x.MrxDbMrxId,
+                        principalTable: "MrXs",
+                        principalColumn: "MrxId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MoveDb_MrXs_MrxDbMrxId1",
+                        column: x => x.MrxDbMrxId1,
+                        principalTable: "MrXs",
+                        principalColumn: "MrxId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MoveDb_PoliceOfficers_PoliceOfficerDbPoliceOfficerId",
                         column: x => x.PoliceOfficerDbPoliceOfficerId,
                         principalTable: "PoliceOfficers",
                         principalColumn: "PoliceOfficerId",
@@ -126,13 +124,18 @@ namespace SqliteAdapter.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_MoveMrX_MrxDbMrxId",
-                table: "MoveMrX",
+                name: "IX_MoveDb_MrxDbMrxId",
+                table: "MoveDb",
                 column: "MrxDbMrxId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MovePoliceOfficers_PoliceOfficerDbPoliceOfficerId",
-                table: "MovePoliceOfficers",
+                name: "IX_MoveDb_MrxDbMrxId1",
+                table: "MoveDb",
+                column: "MrxDbMrxId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MoveDb_PoliceOfficerDbPoliceOfficerId",
+                table: "MoveDb",
                 column: "PoliceOfficerDbPoliceOfficerId");
 
             migrationBuilder.CreateIndex(
@@ -142,9 +145,14 @@ namespace SqliteAdapter.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_OpenMoveMrx_MrxDbMrxId",
-                table: "OpenMoveMrx",
-                column: "MrxDbMrxId");
+                name: "IX_MrXs_LastKnownStationStationId",
+                table: "MrXs",
+                column: "LastKnownStationStationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PoliceOfficers_CurrentStationStationId",
+                table: "PoliceOfficers",
+                column: "CurrentStationStationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PoliceOfficers_GameSessionDbId",
@@ -155,19 +163,16 @@ namespace SqliteAdapter.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "MoveMrX");
+                name: "MoveDb");
 
             migrationBuilder.DropTable(
-                name: "MovePoliceOfficers");
-
-            migrationBuilder.DropTable(
-                name: "OpenMoveMrx");
+                name: "MrXs");
 
             migrationBuilder.DropTable(
                 name: "PoliceOfficers");
 
             migrationBuilder.DropTable(
-                name: "MrXs");
+                name: "StationDb");
 
             migrationBuilder.DropTable(
                 name: "GameSessions");

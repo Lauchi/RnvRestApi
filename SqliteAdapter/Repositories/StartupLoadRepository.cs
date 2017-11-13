@@ -16,11 +16,13 @@ namespace SqliteAdapter.Repositories
         private RnvScotlandYardContext _db;
         private IRnvRepository _rnvRepository;
         private ICollection<GameSession> _gameSessions;
+        private IDbMapping _dbMapping;
 
-        public StartupLoadRepository(RnvScotlandYardContext db, IRnvRepository rnvRepository)
+        public StartupLoadRepository(RnvScotlandYardContext db, IRnvRepository rnvRepository, IDbMapping dbMapping)
         {
             _db = db;
             _rnvRepository = rnvRepository;
+            _dbMapping = dbMapping;
         }
 
         public ICollection<GameSession> GetSessions()
@@ -47,9 +49,10 @@ namespace SqliteAdapter.Repositories
             var mrX = MrX.NullValue;
             if (gameSession.Mrx != null)
             {
-                var moveHistory = (await Task.WhenAll(gameSession.Mrx.MoveHistory.Select(MoveMapper))).ToList();
-                var openMoves = (await Task.WhenAll(gameSession.Mrx.OpenMoves.Select(MoveMapper))).ToList();
-                var station = await _rnvRepository.GetStation(new StationId(gameSession.Mrx.LastKnownStation));
+                var moveHistory = (await Task.WhenAll(gameSession.Mrx.MoveHistory.Select(_dbMapping.MoveMapper))).ToList();
+                var openMoves = (await Task.WhenAll(gameSession.Mrx.OpenMoves.Select(_dbMapping.MoveMapper))).ToList();
+                var mappedStation = _dbMapping.StationMapper(gameSession.Mrx.LastKnownStation);
+                var station = await _rnvRepository.GetStation(mappedStation.StationId);
                 mrX = new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name, openMoves, moveHistory, station);
             }
 
@@ -64,20 +67,6 @@ namespace SqliteAdapter.Repositories
                 mrX,
                 policeOfficers);
             return session;
-        }
-
-        private async Task<Move> MoveMapper(MoveMrXDb moveDb)
-        {
-            var station = await _rnvRepository.GetStation(new StationId(moveDb.StationId));
-            var move = new Move(station, Enum.Parse<VehicelType>(moveDb.VehicleType));
-            return move;
-        }
-
-        private async Task<Move> MoveMapper(OpenMoveMrxDb moveDb)
-        {
-            var station = await _rnvRepository.GetStation(new StationId(moveDb.StationId));
-            var move = new Move(station, Enum.Parse<VehicelType>(moveDb.VehicleType));
-            return move;
         }
     }
 }

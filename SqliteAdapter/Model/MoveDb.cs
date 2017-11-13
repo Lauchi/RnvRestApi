@@ -1,9 +1,8 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SqliteAdapter.Model
 {
-    public class MovePoliceOfficerDb
+    public class MoveDb
     {
         [Key]
         public int MoveId { get; set; }

@@ -12,8 +12,8 @@ namespace SqliteAdapter.Model
         public DbSet<GameSessionDb> GameSessions { get; set; }
         public DbSet<MrxDb> MrXs { get; set; }
         public DbSet<PoliceOfficerDb> PoliceOfficers { get; set; }
-        public DbSet<MovePoliceOfficerDb> MovePoliceOfficers { get; set; }
-        public DbSet<MoveMrXDb> MoveMrX { get; set; }
-        public DbSet<OpenMoveMrxDb> OpenMoveMrx { get; set; }
+        public DbSet<MoveDb> MovePoliceOfficers { get; set; }
+        public DbSet<MoveDb> MoveMrX { get; set; }
+        public DbSet<MoveDb> OpenMoveMrx { get; set; }
     }
 }

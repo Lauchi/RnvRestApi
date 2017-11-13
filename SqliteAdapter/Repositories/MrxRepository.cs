@@ -10,10 +10,12 @@ namespace SqliteAdapter.Repositories
     public class MrxRepository : IMrxRepository
     {
         private readonly RnvScotlandYardContext _db;
+        private IDbMapping _dbMapping;
 
-        public MrxRepository(RnvScotlandYardContext db)
+        public MrxRepository(RnvScotlandYardContext db, IDbMapping dbMapping)
         {
             _db = db;
+            _dbMapping = dbMapping;
         }
 
         public void UpdateMrX(MrX mrX)
@@ -24,7 +26,7 @@ namespace SqliteAdapter.Repositories
 
             mrxDb.Name = mrX.Name;
             var mrXLastKnownStation = mrX.LastKnownStation;
-            mrxDb.LastKnownStation = mrXLastKnownStation.StationId.Id;
+            mrxDb.LastKnownStation = _dbMapping.StationMapper(mrXLastKnownStation);
             //Todo find a better way to reset the lists, this sucks
             foreach (var move in mrxDb.MoveHistory)
             {
@@ -36,8 +38,8 @@ namespace SqliteAdapter.Repositories
                 _db.OpenMoveMrx.Remove(move);
             }
 
-            mrxDb.MoveHistory = mrX.MoveHistory.Select(MoveDbMapper).ToList();
-            mrxDb.OpenMoves = mrX.OpenMoves.Select(OpenMoveDbMapper).ToList();
+            mrxDb.MoveHistory = mrX.MoveHistory.Select(_dbMapping.MoveMapper).ToList();
+            mrxDb.OpenMoves = mrX.OpenMoves.Select(_dbMapping.MoveMapper).ToList();
 
             _db.SaveChanges();
         }
@@ -60,26 +62,6 @@ namespace SqliteAdapter.Repositories
             _db.MrXs.Remove(mrxDb);
 
             await _db.SaveChangesAsync();
-        }
-
-        private MoveMrXDb MoveDbMapper(Move move)
-        {
-            var moveMovedToStation = move.MovedToStation;
-            return new MoveMrXDb
-            {
-                StationId = moveMovedToStation.StationId.Id,
-                VehicleType = move.Type.ToString()
-            };
-        }
-
-        private OpenMoveMrxDb OpenMoveDbMapper(Move move)
-        {
-            var moveMovedToStation = move.MovedToStation;
-            return new OpenMoveMrxDb
-            {
-                StationId = moveMovedToStation.StationId.Id,
-                VehicleType = move.Type.ToString()
-            };
         }
     }
 }

@@ -28,6 +28,7 @@ namespace RnvRestApi
             services.AddSingleton(rnvClient)
                 .AddDbContext<RnvScotlandYardContext>(option => option.UseSqlite("Data Source=rnvScotlandYard.db"))
                 .AddSingleton<IStationMapper, StationMapper>()
+                .AddSingleton<IDbMapping, DbMapping>()
                 .AddSingleton<IRnvRepository, RnvRepository>()
                 .AddSingleton<IGameSessionRepository, GameSessionRepository>()
                 .AddSingleton<IMrxRepository, MrxRepository>()

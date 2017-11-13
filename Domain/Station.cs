@@ -19,7 +19,7 @@ namespace Domain
         public static Station NullStation(GeoLocation geoLocation = null)
         {
             if (geoLocation == null) geoLocation = new GeoLocation(0, 0);
-            return new Station(new StationId(new Guid().ToString()), "-", geoLocation);
+            return new Station(new StationId(Guid.NewGuid().ToString()), "-", geoLocation);
         }
     }
 }

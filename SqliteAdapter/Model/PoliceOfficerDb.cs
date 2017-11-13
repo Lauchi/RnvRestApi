@@ -9,8 +9,8 @@ namespace SqliteAdapter.Model
         public string PoliceOfficerId { get; set; }
         public string Name { get; set; }
 
-        public ICollection<MovePoliceOfficerDb> MoveHistory { get; set; }
-        public string CurrentStationId { get; set; }
+        public ICollection<MoveDb> MoveHistory { get; set; }
+        public StationDb CurrentStation { get; set; }
 
         public string GameSessionDbId { get; set; }
         public GameSessionDb GameSessionDb { get; set; }

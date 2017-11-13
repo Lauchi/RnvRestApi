@@ -9,10 +9,12 @@ namespace SqliteAdapter.Repositories
     public class GameSessionRepository : IGameSessionRepository
     {
         private readonly RnvScotlandYardContext _db;
+        private IDbMapping _dbMapping;
 
-        public GameSessionRepository(RnvScotlandYardContext db)
+        public GameSessionRepository(RnvScotlandYardContext db, IDbMapping dbMapping)
         {
             _db = db;
+            _dbMapping = dbMapping;
         }
 
         public async Task Add(GameSession gameSession)
@@ -37,7 +39,8 @@ namespace SqliteAdapter.Repositories
             var policeOfficerDb = new PoliceOfficerDb
             {
                 PoliceOfficerId = policeOfficer.PoliceOfficerId.Id,
-                Name = policeOfficer.Name
+                Name = policeOfficer.Name,
+                CurrentStation = _dbMapping.StationMapper(policeOfficer.CurrentStation)
             };
             gameSessionInDb.PoliceOfficers.Add(policeOfficerDb);
             await _db.SaveChangesAsync();
@@ -49,7 +52,8 @@ namespace SqliteAdapter.Repositories
             var mrxDb = new MrxDb
             {
                 MrxId = mrX.MrXId.Id,
-                Name = mrX.Name
+                Name = mrX.Name,
+                LastKnownStation = _dbMapping.StationMapper(mrX.LastKnownStation)
             };
             gameSessionInDb.Mrx = mrxDb;
             await _db.SaveChangesAsync();
