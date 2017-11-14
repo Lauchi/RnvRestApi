@@ -26,11 +26,18 @@ namespace SqliteAdapter.Repositories
 
             officerDb.Name = policeOfficer.Name;
             var officerStation = policeOfficer.CurrentStation;
-            officerDb.CurrentStation = _dbMapping.StationMapper(officerStation);
+            officerDb.CurrentStation = officerStation == null ? null : _dbMapping.StationMapper(officerStation);
+
+            if (policeOfficer.CurrentStation != null)
+            {
+                var stationFromDb = _db.Stations.SingleOrDefault(station => station.StationId == policeOfficer.CurrentStation.StationId.Id);
+                officerDb.CurrentStation = stationFromDb ?? _dbMapping.StationMapper(policeOfficer.CurrentStation);
+            }
+
             //Todo find a better way to reset the lists, this sucks
             foreach (var move in officerDb.MoveHistory)
             {
-                _db.MovePoliceOfficers.Remove(move);
+                _db.Moves.Remove(move);
             }
 
             officerDb.MoveHistory = policeOfficer.MoveHistory.Select(_dbMapping.MoveMapper).ToList();
@@ -46,7 +53,7 @@ namespace SqliteAdapter.Repositories
             //Todo find a better way to reset the lists, this sucks
             foreach (var move in policeOfficerDbs.MoveHistory)
             {
-                _db.MovePoliceOfficers.Remove(move);
+                _db.Moves.Remove(move);
             }
 
             _db.PoliceOfficers.Remove(policeOfficerDbs);

@@ -75,31 +75,5 @@ namespace RestAdapter.Controllers
             policeOfficer.Delete();
             return Ok();
         }
-
-        [HttpPost("{gameSessionId}/police-officers/{policeOfficerId}/move")]
-        public async Task<IActionResult> MovePoliceOfficer(string gameSessionId, string policeOfficerId, [FromBody] MoveHtoPost movePost)
-        {
-            var gameSession = _eventStore.GetSession(new GameSessionId(gameSessionId), out var validationResult);
-            if (!validationResult.Ok)
-            {
-                return NotFound(validationResult);
-            }
-
-            var station = await _eventStore.GetStation(new StationId(movePost.StationId));
-            if (station == null)
-            {
-                return NotFound("Station not found");
-            }
-
-            var policeOfficer = gameSession.GetPoliceOfficer(new PoliceOfficerId(policeOfficerId), out validationResult);
-            var type = (VehicelType) Enum.Parse(typeof(VehicelType), movePost.VehicleType);
-
-            validationResult = policeOfficer.Move(station, type);
-            if (!validationResult.Ok)
-            {
-                return BadRequest(validationResult);
-            }
-            return Ok();
-        }
     }
 }

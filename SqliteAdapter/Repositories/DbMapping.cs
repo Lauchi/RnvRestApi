@@ -37,6 +37,7 @@ namespace SqliteAdapter.Repositories
 
         public StationDb StationMapper(Station station)
         {
+            if (station == null) return null;
             return new StationDb
             {
                 Latitude = station.GeoLocation.Latitude,
@@ -48,6 +49,7 @@ namespace SqliteAdapter.Repositories
 
         public Station StationMapper(StationDb stationDb)
         {
+            if (stationDb == null) return Station.NullStation();
             return new Station(new StationId(stationDb.StationId), stationDb.Name,
                 new GeoLocation(stationDb.Longitude, stationDb.Latitude));
         }

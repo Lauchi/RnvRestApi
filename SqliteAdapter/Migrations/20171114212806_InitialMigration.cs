@@ -23,7 +23,7 @@ namespace SqliteAdapter.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StationDb",
+                name: "Stations",
                 columns: table => new
                 {
                     StationId = table.Column<string>(type: "TEXT", nullable: false),
@@ -33,7 +33,7 @@ namespace SqliteAdapter.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StationDb", x => x.StationId);
+                    table.PrimaryKey("PK_Stations", x => x.StationId);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,9 +55,9 @@ namespace SqliteAdapter.Migrations
                         principalColumn: "GameSessionId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_MrXs_StationDb_LastKnownStationStationId",
+                        name: "FK_MrXs_Stations_LastKnownStationStationId",
                         column: x => x.LastKnownStationStationId,
-                        principalTable: "StationDb",
+                        principalTable: "Stations",
                         principalColumn: "StationId",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -75,9 +75,9 @@ namespace SqliteAdapter.Migrations
                 {
                     table.PrimaryKey("PK_PoliceOfficers", x => x.PoliceOfficerId);
                     table.ForeignKey(
-                        name: "FK_PoliceOfficers_StationDb_CurrentStationStationId",
+                        name: "FK_PoliceOfficers_Stations_CurrentStationStationId",
                         column: x => x.CurrentStationStationId,
-                        principalTable: "StationDb",
+                        principalTable: "Stations",
                         principalColumn: "StationId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -89,7 +89,7 @@ namespace SqliteAdapter.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MoveDb",
+                name: "Moves",
                 columns: table => new
                 {
                     MoveId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -102,21 +102,21 @@ namespace SqliteAdapter.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MoveDb", x => x.MoveId);
+                    table.PrimaryKey("PK_Moves", x => x.MoveId);
                     table.ForeignKey(
-                        name: "FK_MoveDb_MrXs_MrxDbMrxId",
+                        name: "FK_Moves_MrXs_MrxDbMrxId",
                         column: x => x.MrxDbMrxId,
                         principalTable: "MrXs",
                         principalColumn: "MrxId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_MoveDb_MrXs_MrxDbMrxId1",
+                        name: "FK_Moves_MrXs_MrxDbMrxId1",
                         column: x => x.MrxDbMrxId1,
                         principalTable: "MrXs",
                         principalColumn: "MrxId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_MoveDb_PoliceOfficers_PoliceOfficerDbPoliceOfficerId",
+                        name: "FK_Moves_PoliceOfficers_PoliceOfficerDbPoliceOfficerId",
                         column: x => x.PoliceOfficerDbPoliceOfficerId,
                         principalTable: "PoliceOfficers",
                         principalColumn: "PoliceOfficerId",
@@ -124,18 +124,18 @@ namespace SqliteAdapter.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_MoveDb_MrxDbMrxId",
-                table: "MoveDb",
+                name: "IX_Moves_MrxDbMrxId",
+                table: "Moves",
                 column: "MrxDbMrxId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MoveDb_MrxDbMrxId1",
-                table: "MoveDb",
+                name: "IX_Moves_MrxDbMrxId1",
+                table: "Moves",
                 column: "MrxDbMrxId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MoveDb_PoliceOfficerDbPoliceOfficerId",
-                table: "MoveDb",
+                name: "IX_Moves_PoliceOfficerDbPoliceOfficerId",
+                table: "Moves",
                 column: "PoliceOfficerDbPoliceOfficerId");
 
             migrationBuilder.CreateIndex(
@@ -163,7 +163,7 @@ namespace SqliteAdapter.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "MoveDb");
+                name: "Moves");
 
             migrationBuilder.DropTable(
                 name: "MrXs");
@@ -172,7 +172,7 @@ namespace SqliteAdapter.Migrations
                 name: "PoliceOfficers");
 
             migrationBuilder.DropTable(
-                name: "StationDb");
+                name: "Stations");
 
             migrationBuilder.DropTable(
                 name: "GameSessions");

@@ -78,19 +78,19 @@ namespace Domain
 
         private void PlayerMoved()
         {
-            var officerCatchingMrX = PoliceOfficers.Where(officer => officer.CurrentStation.StationId == MrX.CurrentStationHidden.StationId).ToList();
-            if (officerCatchingMrX.Any())
-            {
-                Winner = Police;
-                Winners = officerCatchingMrX;
-                MrXCatched?.Invoke(officerCatchingMrX);
-            }
+//            var officerCatchingMrX = PoliceOfficers.Where(officer => officer.CurrentStation.StationId == MrX.CurrentStationHidden.StationId).ToList();
+//            if (officerCatchingMrX.Any())
+//            {
+//                Winner = Police;
+//                Winners = officerCatchingMrX;
+//                MrXCatched?.Invoke(officerCatchingMrX);
+//            }
         }
 
         private void MrXOnMrxMoved(Move move, MrX x)
         {
-            if (StartTime - DateTimeOffset.Now  > GameLength ) MrXEscaped?.Invoke(MrX);
-            else PlayerMoved();
+//            if (StartTime - DateTimeOffset.Now  > GameLength ) MrXEscaped?.Invoke(MrX);
+//            else PlayerMoved();
         }
 
         private void PoliceOfficerOnPoliceOfficerDeleted(PoliceOfficer policeOfficer)

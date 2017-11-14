@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Domain;
-using Domain.ValueTypes;
 using Microsoft.EntityFrameworkCore;
 using SqliteAdapter.Model;
 
@@ -10,7 +9,7 @@ namespace SqliteAdapter.Repositories
     public class MrxRepository : IMrxRepository
     {
         private readonly RnvScotlandYardContext _db;
-        private IDbMapping _dbMapping;
+        private readonly IDbMapping _dbMapping;
 
         public MrxRepository(RnvScotlandYardContext db, IDbMapping dbMapping)
         {
@@ -25,18 +24,18 @@ namespace SqliteAdapter.Repositories
             var mrxDb = mrxWithAllFields.SingleOrDefault(m => m.MrxId == mrX.MrXId.Id);
 
             mrxDb.Name = mrX.Name;
-            var mrXLastKnownStation = mrX.LastKnownStation;
-            mrxDb.LastKnownStation = _dbMapping.StationMapper(mrXLastKnownStation);
-            //Todo find a better way to reset the lists, this sucks
-            foreach (var move in mrxDb.MoveHistory)
+            if (mrX.LastKnownStation != null)
             {
-                _db.MoveMrX.Remove(move);
+                var stationFromDb = _db.Stations.SingleOrDefault(station => station.StationId == mrX.LastKnownStation.StationId.Id);
+                mrxDb.LastKnownStation = stationFromDb ?? _dbMapping.StationMapper(mrX.LastKnownStation);
             }
 
+            //Todo find a better way to reset the lists, this sucks
+            foreach (var move in mrxDb.MoveHistory)
+                _db.Moves.Remove(move);
+
             foreach (var move in mrxDb.OpenMoves)
-            {
-                _db.OpenMoveMrx.Remove(move);
-            }
+                _db.Moves.Remove(move);
 
             mrxDb.MoveHistory = mrX.MoveHistory.Select(_dbMapping.MoveMapper).ToList();
             mrxDb.OpenMoves = mrX.OpenMoves.Select(_dbMapping.MoveMapper).ToList();
@@ -51,14 +50,10 @@ namespace SqliteAdapter.Repositories
             var mrxDb = mrxJoin.SingleOrDefault(gs => gs.MrxId == mrX.MrXId.Id);
             //Todo find a better way to reset the lists, this sucks
             foreach (var move in mrxDb.MoveHistory)
-            {
-                _db.MoveMrX.Remove(move);
-            }
+                _db.Moves.Remove(move);
 
             foreach (var move in mrxDb.OpenMoves)
-            {
-                _db.OpenMoveMrx.Remove(move);
-            }
+                _db.Moves.Remove(move);
             _db.MrXs.Remove(mrxDb);
 
             await _db.SaveChangesAsync();
