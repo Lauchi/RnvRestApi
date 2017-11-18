@@ -56,7 +56,7 @@ namespace SqliteAdapter.Repositories
                 var moveHistory = gameSession.Mrx.MoveHistory.Select(_dbMapping.MoveMapper).ToList();
                 var openMoves = gameSession.Mrx.OpenMoves.Select(_dbMapping.MoveMapper).ToList();
                 var mappedStation = _dbMapping.StationMapper(gameSession.Mrx.LastKnownStation);
-                mrX = new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name, openMoves, moveHistory, mappedStation);
+                mrX = new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name, moveHistory, openMoves, mappedStation);
             }
 
             ICollection<PoliceOfficer> policeOfficers = gameSession.PoliceOfficers.Select(officer =>
