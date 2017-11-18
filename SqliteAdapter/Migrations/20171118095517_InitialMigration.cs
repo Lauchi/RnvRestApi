@@ -121,6 +121,12 @@ namespace SqliteAdapter.Migrations
                         principalTable: "PoliceOfficers",
                         principalColumn: "PoliceOfficerId",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Moves_Stations_StationId",
+                        column: x => x.StationId,
+                        principalTable: "Stations",
+                        principalColumn: "StationId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -137,6 +143,11 @@ namespace SqliteAdapter.Migrations
                 name: "IX_Moves_PoliceOfficerDbPoliceOfficerId",
                 table: "Moves",
                 column: "PoliceOfficerDbPoliceOfficerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Moves_StationId",
+                table: "Moves",
+                column: "StationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MrXs_GameSessionDbId",

@@ -7,6 +7,6 @@ namespace SqliteAdapter.Repositories
     public interface IStartupLoadRepository
     {
         ICollection<GameSession> GetSessions();
-        Task LoadSessions();
+        void LoadSessions();
     }
 }

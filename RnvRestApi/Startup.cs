@@ -55,7 +55,7 @@ namespace RnvRestApi
                 dbContext.Database.EnsureCreated();
 
                 var loader = serviceScope.ServiceProvider.GetService<IStartupLoadRepository>();
-                loader.LoadSessions().Wait();
+                loader.LoadSessions();
             }
             app.UseMvc();
         }

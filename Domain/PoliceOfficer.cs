@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Domain.Validation;
 using Domain.ValueTypes;
 using Domain.ValueTypes.Ids;
@@ -13,9 +14,11 @@ namespace Domain
         public Station CurrentStation { get; private set; }
 
 
-        public PoliceOfficer(PoliceOfficerId id, string name) : base(name)
+        public PoliceOfficer(PoliceOfficerId id, string name, ICollection<Move> moves, Station currentStation) : base(name)
         {
             PoliceOfficerId = id;
+            CurrentStation = currentStation;
+            MoveHistory = moves;
         }
 
         public PoliceOfficer(string name, GeoLocation startLocation) : base(name)

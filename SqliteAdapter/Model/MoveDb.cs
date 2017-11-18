@@ -6,7 +6,7 @@ namespace SqliteAdapter.Model
     {
         [Key]
         public int MoveId { get; set; }
-        public string StationId { get; set; }
+        public StationDb Station { get; set; }
         public string VehicleType { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace SqliteAdapter.Repositories
             return sessionCopied;
         }
 
-        public async Task LoadSessions()
+        public void LoadSessions()
         {
             var dbGameSessions = _db.GameSessions
                 .Include(gs => gs.PoliceOfficers)
@@ -44,24 +44,27 @@ namespace SqliteAdapter.Repositories
                     .ThenInclude(po => po.OpenMoves)
                 .Include(gs => gs.Mrx)
                     .ThenInclude(po => po.LastKnownStation);
-            _gameSessions = await Task.WhenAll(dbGameSessions.Select(dbSession => GameSessionMapper(dbSession)));
+            _gameSessions = dbGameSessions.Select(dbSession => GameSessionMapper(dbSession)).ToList();
         }
 
-        private async Task<GameSession> GameSessionMapper(GameSessionDb gameSession)
+        private GameSession GameSessionMapper(GameSessionDb gameSession)
         {
             //Todo clean up this startup mapping crap
             var mrX = MrX.NullValue;
             if (gameSession.Mrx != null)
             {
-                var moveHistory = (await Task.WhenAll(gameSession.Mrx.MoveHistory.Select(_dbMapping.MoveMapper))).ToList();
-                var openMoves = (await Task.WhenAll(gameSession.Mrx.OpenMoves.Select(_dbMapping.MoveMapper))).ToList();
+                var moveHistory = gameSession.Mrx.MoveHistory.Select(_dbMapping.MoveMapper).ToList();
+                var openMoves = gameSession.Mrx.OpenMoves.Select(_dbMapping.MoveMapper).ToList();
                 var mappedStation = _dbMapping.StationMapper(gameSession.Mrx.LastKnownStation);
-                var station = await _rnvRepository.GetStation(mappedStation.StationId);
-                mrX = new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name, openMoves, moveHistory, station);
+                mrX = new MrX(new MrXId(gameSession.Mrx.MrxId), gameSession.Mrx.Name, openMoves, moveHistory, mappedStation);
             }
 
             ICollection<PoliceOfficer> policeOfficers = gameSession.PoliceOfficers.Select(officer =>
-                new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId), officer.Name)).ToList();
+            {
+                var moveHistory = officer.MoveHistory.Select(_dbMapping.MoveMapper).ToList();
+                var mappedStation = _dbMapping.StationMapper(gameSession.Mrx.LastKnownStation);
+                return new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId), officer.Name, moveHistory, mappedStation);
+            }).ToList();
 
             var session = new GameSession(
                 gameSession.Name,

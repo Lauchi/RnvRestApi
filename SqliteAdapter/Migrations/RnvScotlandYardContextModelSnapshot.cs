@@ -58,6 +58,8 @@ namespace SqliteAdapter.Migrations
 
                     b.HasIndex("PoliceOfficerDbPoliceOfficerId");
 
+                    b.HasIndex("StationId");
+
                     b.ToTable("Moves");
                 });
 
@@ -131,6 +133,10 @@ namespace SqliteAdapter.Migrations
                     b.HasOne("SqliteAdapter.Model.PoliceOfficerDb")
                         .WithMany("MoveHistory")
                         .HasForeignKey("PoliceOfficerDbPoliceOfficerId");
+
+                    b.HasOne("SqliteAdapter.Model.StationDb", "Station")
+                        .WithMany()
+                        .HasForeignKey("StationId");
                 });
 
             modelBuilder.Entity("SqliteAdapter.Model.MrxDb", b =>

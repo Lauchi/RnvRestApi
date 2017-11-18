@@ -10,27 +10,28 @@ namespace SqliteAdapter.Repositories
 {
     public class DbMapping : IDbMapping
     {
-        private IRnvRepository _rnvRepository;
-
-        public DbMapping(IRnvRepository rnvRepository)
-        {
-            _rnvRepository = rnvRepository;
-        }
-
-        //move to interface
         public MoveDb MoveMapper(Move move)
         {
             var moveMovedToStation = move.MovedToStation;
-            return new MoveDb
+            var stationDb = new StationDb
             {
                 StationId = moveMovedToStation.StationId.Id,
+                Name    = moveMovedToStation.Name,
+                Latitude = moveMovedToStation.GeoLocation.Latitude,
+                Longitude = moveMovedToStation.GeoLocation.Longitude
+            };
+            return new MoveDb
+            {
+                Station = stationDb,
                 VehicleType = move.Type.ToString()
             };
         }
 
-        public async Task<Move> MoveMapper(MoveDb moveDb)
+        public Move MoveMapper(MoveDb moveDb)
         {
-            var station = await _rnvRepository.GetStation(new StationId(moveDb.StationId));
+            var moveDbStation = moveDb.Station;
+            var station = new Station(new StationId(moveDbStation.StationId), moveDbStation.Name,
+                new GeoLocation(moveDbStation.Longitude, moveDbStation.Latitude));
             var move = new Move(station, Enum.Parse<VehicelType>(moveDb.VehicleType));
             return move;
         }
