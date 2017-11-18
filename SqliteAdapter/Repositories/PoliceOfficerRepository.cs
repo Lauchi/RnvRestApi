@@ -26,7 +26,11 @@ namespace SqliteAdapter.Repositories
 
             officerDb.Name = policeOfficer.Name;
             var officerStation = policeOfficer.CurrentStation;
-            officerDb.CurrentStation = officerStation == null ? null : _dbMapping.StationMapper(officerStation);
+            if (officerStation != null)
+            {
+                var stationDb = _db.Stations.Find(policeOfficer.CurrentStation.StationId.Id);
+                officerDb.CurrentStation = stationDb ?? _dbMapping.StationMapper(officerStation);
+            }
 
             if (policeOfficer.CurrentStation != null)
             {
