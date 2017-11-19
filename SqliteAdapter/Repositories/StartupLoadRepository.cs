@@ -37,11 +37,16 @@ namespace SqliteAdapter.Repositories
                 .Include(gs => gs.PoliceOfficers)
                     .ThenInclude(po => po.MoveHistory)
                 .Include(gs => gs.PoliceOfficers)
+                    .ThenInclude(po => po.MoveHistory)
+                        .ThenInclude(po => po.Station)
+                .Include(gs => gs.PoliceOfficers)
                     .ThenInclude(po => po.CurrentStation)
                 .Include(gs => gs.Mrx)
                     .ThenInclude(po => po.MoveHistory)
+                        .ThenInclude(po => po.Station)
                 .Include(gs => gs.Mrx)
                     .ThenInclude(po => po.OpenMoves)
+                        .ThenInclude(po => po.Station)
                 .Include(gs => gs.Mrx)
                     .ThenInclude(po => po.LastKnownStation);
             _gameSessions = dbGameSessions.Select(dbSession => GameSessionMapper(dbSession)).ToList();

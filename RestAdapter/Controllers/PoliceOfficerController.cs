@@ -42,7 +42,7 @@ namespace RestAdapter.Controllers
             {
                 return BadRequest(validationResult);
             }
-            return Ok(new PoliceOfficerHto(policeOfficer));
+            return Created("weirdUri", new PoliceOfficerHto(policeOfficer));
         }
 
         [HttpGet("{gameSessionId}/police-officers/{policeOfficerId}")]

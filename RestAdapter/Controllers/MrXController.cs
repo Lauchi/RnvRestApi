@@ -42,7 +42,7 @@ namespace RestAdapter.Controllers
                 return BadRequest(validationResult);
             }
             var mrXHto = new MrXHto(newMrX);
-            return Ok(mrXHto);
+            return Created("weirdURis", mrXHto);
         }
 
         [HttpDelete("{gameSessionId}/mr-x")]

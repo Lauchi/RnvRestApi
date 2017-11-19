@@ -51,7 +51,7 @@ namespace RestAdapter.Controllers
             {
                 return NotFound(validationResult);
             }
-            return Ok();
+            return Created("weirdURis", movePost);
         }
     }
 }
