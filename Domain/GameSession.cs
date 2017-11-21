@@ -80,12 +80,10 @@ namespace Domain
         {
             var officerCatchingMrX = PoliceOfficers
                 .FirstOrDefault(officer => officer.CurrentStation.StationId == MrX.CurrentStationHidden.StationId);
-            if (officerCatchingMrX != null)
-            {
-                Winner = Police;
-                PlayerWinning = officerCatchingMrX;
-                MrXCatched?.Invoke(officerCatchingMrX);
-            }
+            if (officerCatchingMrX == null) return;
+            Winner = Police;
+            PlayerWinning = officerCatchingMrX;
+            MrXCatched?.Invoke(officerCatchingMrX);
         }
 
         private void MrXOnMrxMoved(Move move, MrX x)
