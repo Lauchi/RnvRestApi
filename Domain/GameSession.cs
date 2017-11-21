@@ -11,32 +11,6 @@ namespace Domain
 {
     public class GameSession
     {
-        public static event Action<GameSession> GameSessionCreated;
-        public static event Action<MrX, GameSession> MrxAdded;
-        public static event Action<PoliceOfficer, GameSession> PoliceOfficerAdded;
-        public static event Action<MrX> MrXDeleted;
-        public static event Action<PoliceOfficer> PoliceOfficerDeleted;
-        public static event Action<List<PoliceOfficer>> MrXCatched;
-        public static event Action<MrX> MrXEscaped;
-
-        public int MaxPoliceOfficers { get; }
-        public WinnerEnum Winner { get; private set; }
-        public GameSessionId GameSessionId { get; }
-        public string Name { get;  }
-        public DateTimeOffset StartTime { get; }
-        public MrX MrX { get; private set; }
-        public ICollection<PoliceOfficer> PoliceOfficers { get; }
-        public List<PoliceOfficer> Winners { get; private set; }
-        public TimeSpan GameLength { get; } = new TimeSpan(1, 0, 0);
-
-        public static GameSession Create(string name, int maxPoliceOfficers, out DomainValidationResult result)
-        {
-            var session = new GameSession(name, maxPoliceOfficers, new GameSessionId(Guid.NewGuid().ToString()));
-            GameSessionCreated?.Invoke(session);
-            result = DomainValidationResult.OkResult();
-            return session;
-        }
-
         private GameSession(string name, int maxPoliceOfficers, GameSessionId id)
         {
             Name = name;
@@ -45,18 +19,12 @@ namespace Domain
             PoliceOfficers = new Collection<PoliceOfficer>();
             StartTime = DateTimeOffset.Now;
             MrX = MrX.NullValue;
-            Winners = new List<PoliceOfficer>();
+            PlayerWinning = null;
             Winner = None;
         }
 
-        private void OnMrxDeleted()
-        {
-            var mrxTemp = MrX;
-            MrX = MrX.NullValue;
-            MrXDeleted?.Invoke(mrxTemp);
-        }
-
-        public GameSession(string name, int maxPoliceOfficers, GameSessionId id, DateTimeOffset startTime, MrX mrX, ICollection<PoliceOfficer> policeOfficers)
+        public GameSession(string name, int maxPoliceOfficers, GameSessionId id, DateTimeOffset startTime, MrX mrX,
+            ICollection<PoliceOfficer> policeOfficers)
         {
             Name = name;
             GameSessionId = id;
@@ -71,6 +39,38 @@ namespace Domain
             PoliceOfficer.PoliceOfficerMoved += PoliceOfficerOnPoliceOfficerMoved;
         }
 
+        public int MaxPoliceOfficers { get; }
+        public WinnerEnum Winner { get; private set; }
+        public GameSessionId GameSessionId { get; }
+        public string Name { get; }
+        public DateTimeOffset StartTime { get; }
+        public MrX MrX { get; private set; }
+        public ICollection<PoliceOfficer> PoliceOfficers { get; }
+        public Player PlayerWinning { get; private set; }
+        public TimeSpan GameLength { get; } = new TimeSpan(1, 0, 0);
+        public static event Action<GameSession> GameSessionCreated;
+        public static event Action<MrX, GameSession> MrxAdded;
+        public static event Action<PoliceOfficer, GameSession> PoliceOfficerAdded;
+        public static event Action<MrX> MrXDeleted;
+        public static event Action<PoliceOfficer> PoliceOfficerDeleted;
+        public static event Action<Player> MrXCatched;
+        public static event Action<MrX> MrXEscaped;
+
+        public static GameSession Create(string name, int maxPoliceOfficers, out DomainValidationResult result)
+        {
+            var session = new GameSession(name, maxPoliceOfficers, new GameSessionId(Guid.NewGuid().ToString()));
+            GameSessionCreated?.Invoke(session);
+            result = DomainValidationResult.OkResult();
+            return session;
+        }
+
+        private void OnMrxDeleted()
+        {
+            var mrxTemp = MrX;
+            MrX = MrX.NullValue;
+            MrXDeleted?.Invoke(mrxTemp);
+        }
+
         private void PoliceOfficerOnPoliceOfficerMoved(PoliceOfficer policeOfficer1)
         {
             PlayerMoved();
@@ -78,13 +78,14 @@ namespace Domain
 
         private void PlayerMoved()
         {
-//            var officerCatchingMrX = PoliceOfficers.Where(officer => officer.CurrentStation.StationId == MrX.CurrentStationHidden.StationId).ToList();
-//            if (officerCatchingMrX.Any())
-//            {
-//                Winner = Police;
-//                Winners = officerCatchingMrX;
-//                MrXCatched?.Invoke(officerCatchingMrX);
-//            }
+            var officerCatchingMrX = PoliceOfficers
+                .FirstOrDefault(officer => officer.CurrentStation.StationId == MrX.CurrentStationHidden.StationId);
+            if (officerCatchingMrX != null)
+            {
+                Winner = Police;
+                PlayerWinning = officerCatchingMrX;
+                MrXCatched?.Invoke(officerCatchingMrX);
+            }
         }
 
         private void MrXOnMrxMoved(Move move, MrX x)
@@ -99,7 +100,8 @@ namespace Domain
             PoliceOfficerDeleted?.Invoke(policeOfficer);
         }
 
-        public MrX AddNewMrX(string mrXName, GeoLocation playerPostLocation, out DomainValidationResult validationResult)
+        public MrX AddNewMrX(string mrXName, GeoLocation playerPostLocation,
+            out DomainValidationResult validationResult)
         {
             var mrX = new MrX(mrXName, playerPostLocation);
             if (MrX != MrX.NullValue)
@@ -114,7 +116,8 @@ namespace Domain
             return mrX;
         }
 
-        public PoliceOfficer AddNewOfficer(string officerName, GeoLocation playerPostStartLocation, out DomainValidationResult validationResult)
+        public PoliceOfficer AddNewOfficer(string officerName, GeoLocation playerPostStartLocation,
+            out DomainValidationResult validationResult)
         {
             var officer = new PoliceOfficer(officerName, playerPostStartLocation);
             PoliceOfficers.Add(officer);
@@ -123,10 +126,13 @@ namespace Domain
             return officer;
         }
 
-        public PoliceOfficer GetPoliceOfficer(PoliceOfficerId policeOfficerId, out DomainValidationResult validationResult)
+        public PoliceOfficer GetPoliceOfficer(PoliceOfficerId policeOfficerId,
+            out DomainValidationResult validationResult)
         {
             var policeOfficer = PoliceOfficers.SingleOrDefault(officer => officer.PoliceOfficerId == policeOfficerId);
-            validationResult = policeOfficer == null ? new DomainValidationResult("Police Officer not found") : DomainValidationResult.OkResult();
+            validationResult = policeOfficer == null
+                ? new DomainValidationResult("Police Officer not found")
+                : DomainValidationResult.OkResult();
             return policeOfficer;
         }
     }

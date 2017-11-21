@@ -17,6 +17,8 @@ namespace Domain
             OpenMoves = openMoves;
             MoveHistory = moveHistory;
             LastKnownStation = lastKnownStation;
+            var lastMove = MoveHistory.LastOrDefault();
+            CurrentStationHidden = lastMove?.MovedToStation ?? Station.NullStation();
         }
 
         public MrX(string name, GeoLocation startLocation) : base(name)

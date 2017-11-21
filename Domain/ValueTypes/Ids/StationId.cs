@@ -1,12 +1,9 @@
 ﻿namespace Domain.ValueTypes.Ids
 {
-    public class StationId
+    public class StationId : DomainId
     {
-        public string Id { get; }
-
-        public StationId(string id)
+        public StationId(string id) : base(id)
         {
-            Id = id;
         }
     }
 }

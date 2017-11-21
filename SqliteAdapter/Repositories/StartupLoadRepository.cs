@@ -35,20 +35,20 @@ namespace SqliteAdapter.Repositories
         {
             var dbGameSessions = _db.GameSessions
                 .Include(gs => gs.PoliceOfficers)
-                    .ThenInclude(po => po.MoveHistory)
+                .ThenInclude(po => po.MoveHistory)
                 .Include(gs => gs.PoliceOfficers)
-                    .ThenInclude(po => po.MoveHistory)
-                        .ThenInclude(po => po.Station)
+                .ThenInclude(po => po.MoveHistory)
+                .ThenInclude(po => po.Station)
                 .Include(gs => gs.PoliceOfficers)
-                    .ThenInclude(po => po.CurrentStation)
+                .ThenInclude(po => po.CurrentStation)
                 .Include(gs => gs.Mrx)
-                    .ThenInclude(po => po.MoveHistory)
-                        .ThenInclude(po => po.Station)
+                .ThenInclude(po => po.MoveHistory)
+                .ThenInclude(po => po.Station)
                 .Include(gs => gs.Mrx)
-                    .ThenInclude(po => po.OpenMoves)
-                        .ThenInclude(po => po.Station)
+                .ThenInclude(po => po.OpenMoves)
+                .ThenInclude(po => po.Station)
                 .Include(gs => gs.Mrx)
-                    .ThenInclude(po => po.LastKnownStation);
+                .ThenInclude(po => po.LastKnownStation);
             _gameSessions = dbGameSessions.Select(dbSession => GameSessionMapper(dbSession)).ToList();
         }
 

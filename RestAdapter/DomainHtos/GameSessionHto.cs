@@ -15,8 +15,12 @@ namespace RestAdapter.DomainHtos
             StartTime = gameSession.StartTime;
             MrXId = gameSession.MrX == MrX.NullValue ? null : gameSession.MrX.MrXId.Id;
             PoliceOfficerIds = gameSession.PoliceOfficers.Select(officer => officer.PoliceOfficerId.Id);
+            GameSessionWinner = gameSession.Winner.ToString();
+            PlayerWinningName = gameSession.PlayerWinning?.Name;
         }
 
+        public string GameSessionWinner { get; }
+        public string PlayerWinningName { get; }
         public string Id { get; }
         public int MaxPoliceOfficers { get; }
         public string Name { get; }
