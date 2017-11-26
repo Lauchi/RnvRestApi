@@ -11,7 +11,7 @@ using System;
 namespace SqliteAdapter.Migrations
 {
     [DbContext(typeof(RnvScotlandYardContext))]
-    [Migration("20171118095517_InitialMigration")]
+    [Migration("20171126203132_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -115,6 +115,8 @@ namespace SqliteAdapter.Migrations
                     b.Property<double>("Longitude");
 
                     b.Property<string>("Name");
+
+                    b.Property<string>("StationType");
 
                     b.HasKey("StationId");
 

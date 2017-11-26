@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Domain;
 using Domain.ValueTypes;
 using Domain.ValueTypes.Ids;
-using RnvTriasAdapter;
 using SqliteAdapter.Model;
 
 namespace SqliteAdapter.Repositories
@@ -16,7 +14,7 @@ namespace SqliteAdapter.Repositories
             var stationDb = new StationDb
             {
                 StationId = moveMovedToStation.StationId.Id,
-                Name    = moveMovedToStation.Name,
+                Name = moveMovedToStation.Name,
                 Latitude = moveMovedToStation.GeoLocation.Latitude,
                 Longitude = moveMovedToStation.GeoLocation.Longitude
             };
@@ -31,7 +29,8 @@ namespace SqliteAdapter.Repositories
         {
             var moveDbStation = moveDb.Station;
             var station = new Station(new StationId(moveDbStation.StationId), moveDbStation.Name,
-                new GeoLocation(moveDbStation.Longitude, moveDbStation.Latitude));
+                new GeoLocation(moveDbStation.Longitude, moveDbStation.Latitude),
+                Enum.Parse<VehicelType>(moveDbStation.StationType));
             var move = new Move(station, Enum.Parse<VehicelType>(moveDb.VehicleType));
             return move;
         }
@@ -44,7 +43,8 @@ namespace SqliteAdapter.Repositories
                 Latitude = station.GeoLocation.Latitude,
                 Longitude = station.GeoLocation.Longitude,
                 Name = station.Name,
-                StationId = station.StationId.Id
+                StationId = station.StationId.Id,
+                StationType = station.Type.ToString()
             };
         }
 
@@ -52,7 +52,8 @@ namespace SqliteAdapter.Repositories
         {
             if (stationDb == null) return Station.NullStation();
             return new Station(new StationId(stationDb.StationId), stationDb.Name,
-                new GeoLocation(stationDb.Longitude, stationDb.Latitude));
+                new GeoLocation(stationDb.Longitude, stationDb.Latitude),
+                Enum.Parse<VehicelType>(stationDb.StationType));
         }
     }
 }

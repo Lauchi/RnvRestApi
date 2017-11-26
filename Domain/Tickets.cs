@@ -14,8 +14,6 @@ namespace Domain
             Pool.Add(VehicelType.Taxi, taxiTicket);
             Pool.Add(VehicelType.Bus, busTicket);
             Pool.Add(VehicelType.Metro, metroTicket);
-            Pool.Add(VehicelType.DoubleTicket, doubleTicket);
-            Pool.Add(VehicelType.BlackTicket, blackTicket);
         }
 
         public int GetAmmount(VehicelType vehicle)

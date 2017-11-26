@@ -6,7 +6,6 @@ using Domain;
 using Domain.ValueTypes;
 using Domain.ValueTypes.Ids;
 using Microsoft.EntityFrameworkCore;
-using RnvTriasAdapter;
 using SqliteAdapter.Model;
 
 namespace SqliteAdapter.Repositories
@@ -14,14 +13,12 @@ namespace SqliteAdapter.Repositories
     public class StartupLoadRepository : IStartupLoadRepository
     {
         private RnvScotlandYardContext _db;
-        private IRnvRepository _rnvRepository;
         private ICollection<GameSession> _gameSessions;
         private IDbMapping _dbMapping;
 
-        public StartupLoadRepository(RnvScotlandYardContext db, IRnvRepository rnvRepository, IDbMapping dbMapping)
+        public StartupLoadRepository(RnvScotlandYardContext db, IDbMapping dbMapping)
         {
             _db = db;
-            _rnvRepository = rnvRepository;
             _dbMapping = dbMapping;
         }
 

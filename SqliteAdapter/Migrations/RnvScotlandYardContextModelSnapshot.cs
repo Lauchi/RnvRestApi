@@ -115,6 +115,8 @@ namespace SqliteAdapter.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("StationType");
+
                     b.HasKey("StationId");
 
                     b.ToTable("Stations");

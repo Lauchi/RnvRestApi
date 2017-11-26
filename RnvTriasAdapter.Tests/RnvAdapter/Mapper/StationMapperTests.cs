@@ -15,13 +15,13 @@ namespace RnvTriasAdapter.Tests.RnvAdapter.Mapper
         [Fact]
         public async Task MapToStation_HappyPath()
         {
-            var stationMapper = new StationMapper();
+            var stationMapper = new StationMapper(null);
             var httpResponseMessage = new HttpResponseMessage();
             httpResponseMessage.Content = new StringContent(SuccessContent);
             var parsedStation = (await stationMapper.MapToStation(new RnvResponse(httpResponseMessage))).SingleOrDefault();
 
             var expectedStation = new Station(new StationId("de:08222:2417"), "Mannheim, Hauptbahnhof",
-                new GeoLocation(8.46994, 49.47975));
+                new GeoLocation(8.46994, 49.47975), VehicelType.NotSetYet);
 
             expectedStation.Should().BeEquivalentTo(parsedStation);
         }
@@ -29,7 +29,7 @@ namespace RnvTriasAdapter.Tests.RnvAdapter.Mapper
         [Fact]
         public async Task MapToStation_MultipleStations()
         {
-            var stationMapper = new StationMapper();
+            var stationMapper = new StationMapper(null);
             var httpResponseMessage = new HttpResponseMessage();
             httpResponseMessage.Content = new StringContent(SuccessContentMultipleLocations);
             var parsedStation = await stationMapper.MapToStation(new RnvResponse(httpResponseMessage));

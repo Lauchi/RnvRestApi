@@ -7,5 +7,9 @@
       <Project>{5C8C87B6-F290-4DE8-A509-EAC02AD652E1}</Project>
       <Name>Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SqliteAdapter\SqliteAdapter.csproj">
+      <Project>{28B5DC9E-3C22-4D83-AA67-63EE678EB470}</Project>
+      <Name>SqliteAdapter</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

@@ -15,10 +15,6 @@
       <Project>{5C8C87B6-F290-4DE8-A509-EAC02AD652E1}</Project>
       <Name>Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RnvTriasAdapter\RnvTriasAdapter.csproj">
-      <Project>{DBBB5AAF-F199-43DB-B94D-18E500389DD4}</Project>
-      <Name>RnvTriasAdapter</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Remove="rnvScotlandYard.db" />

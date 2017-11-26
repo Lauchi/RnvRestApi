@@ -29,7 +29,8 @@ namespace SqliteAdapter.Migrations
                     StationId = table.Column<string>(type: "TEXT", nullable: false),
                     Latitude = table.Column<double>(type: "REAL", nullable: false),
                     Longitude = table.Column<double>(type: "REAL", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: true)
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    StationType = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
