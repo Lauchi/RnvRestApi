@@ -32,20 +32,20 @@ namespace SqliteAdapter.Repositories
         {
             var dbGameSessions = _db.GameSessions
                 .Include(gs => gs.PoliceOfficers)
-                .ThenInclude(po => po.MoveHistory)
+                    .ThenInclude(po => po.MoveHistory)
                 .Include(gs => gs.PoliceOfficers)
-                .ThenInclude(po => po.MoveHistory)
-                .ThenInclude(po => po.Station)
+                    .ThenInclude(po => po.MoveHistory)
+                    .ThenInclude(po => po.Station)
                 .Include(gs => gs.PoliceOfficers)
-                .ThenInclude(po => po.CurrentStation)
+                    .ThenInclude(po => po.CurrentStation)
                 .Include(gs => gs.Mrx)
-                .ThenInclude(po => po.MoveHistory)
-                .ThenInclude(po => po.Station)
+                    .ThenInclude(po => po.MoveHistory)
+                    .ThenInclude(po => po.Station)
                 .Include(gs => gs.Mrx)
-                .ThenInclude(po => po.OpenMoves)
-                .ThenInclude(po => po.Station)
+                    .ThenInclude(po => po.OpenMoves)
+                    .ThenInclude(po => po.Station)
                 .Include(gs => gs.Mrx)
-                .ThenInclude(po => po.LastKnownStation);
+                    .ThenInclude(po => po.LastKnownStation);
             _gameSessions = dbGameSessions.Select(dbSession => GameSessionMapper(dbSession)).ToList();
         }
 
@@ -64,7 +64,7 @@ namespace SqliteAdapter.Repositories
             ICollection<PoliceOfficer> policeOfficers = gameSession.PoliceOfficers.Select(officer =>
             {
                 var moveHistory = officer.MoveHistory.Select(_dbMapping.MoveMapper).ToList();
-                var mappedStation = _dbMapping.StationMapper(gameSession.Mrx.LastKnownStation);
+                var mappedStation = _dbMapping.StationMapper(officer.CurrentStation);
                 return new PoliceOfficer(new PoliceOfficerId(officer.PoliceOfficerId), officer.Name, moveHistory, mappedStation);
             }).ToList();
 

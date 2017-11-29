@@ -35,7 +35,7 @@ namespace SqliteAdapter.Repositories
             if (policeOfficer.CurrentStation != null)
             {
                 var stationFromDb = _db.Stations.SingleOrDefault(station => station.StationId == policeOfficer.CurrentStation.StationId.Id);
-                officerDb.CurrentStation = stationFromDb ?? _dbMapping.StationMapper(policeOfficer.CurrentStation);
+                officerDb.CurrentStation = stationFromDb;
             }
 
             //Todo find a better way to reset the lists, this sucks
