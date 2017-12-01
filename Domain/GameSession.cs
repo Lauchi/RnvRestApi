@@ -118,6 +118,13 @@ namespace Domain
             out DomainValidationResult validationResult)
         {
             var officer = new PoliceOfficer(officerName, playerPostStartLocation);
+            if (PoliceOfficers.Count == MaxPoliceOfficers)
+            {
+                validationResult =
+                    new DomainValidationResult("Rached maxiumum of police officers");
+                return officer;
+            }
+
             PoliceOfficers.Add(officer);
             PoliceOfficerAdded?.Invoke(officer, this);
             validationResult = DomainValidationResult.OkResult();
