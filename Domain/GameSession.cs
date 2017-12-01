@@ -102,12 +102,12 @@ namespace Domain
             out DomainValidationResult validationResult)
         {
             var mrX = new MrX(mrXName, playerPostLocation);
-//            if (MrX != MrX.NullValue)
-//            {
-//                validationResult =
-//                    new DomainValidationResult("Game Session can only have one MrX, delete the old one first");
-//                return MrX;
-//            }
+            if (MrX != MrX.NullValue)
+            {
+                validationResult =
+                    new DomainValidationResult("Game Session can only have one MrX, delete the old one first");
+                return MrX;
+            }
             MrX = mrX;
             MrxAdded?.Invoke(mrX, this);
             validationResult = DomainValidationResult.OkResult();
