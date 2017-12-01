@@ -1,10 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Domain;
-using Domain.ValueTypes;
 using Microsoft.EntityFrameworkCore;
 using SqliteAdapter.Model;
-using Move = Domain.ValueTypes.Move;
 
 namespace SqliteAdapter.Repositories
 {

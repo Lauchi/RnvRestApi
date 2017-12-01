@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Http;
-using System.Security.Claims;
 using EventStoring;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;

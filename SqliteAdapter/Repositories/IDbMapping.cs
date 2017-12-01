@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Domain;
+﻿using Domain;
 using Domain.ValueTypes;
 using SqliteAdapter.Model;
 

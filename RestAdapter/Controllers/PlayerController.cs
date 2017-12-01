@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Domain;
-using Domain.Validation;
 using Domain.ValueTypes.Ids;
 using EventStoring;
 using Microsoft.AspNetCore.Mvc;
