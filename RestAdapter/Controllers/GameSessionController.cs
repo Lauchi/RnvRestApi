@@ -46,7 +46,7 @@ namespace RestAdapter.Controllers
                 return BadRequest(validationResult);
             }
             var gameSessionHto = new GameSessionHto(gameSession);
-            return Ok(gameSessionHto);
+            return Created("uri", gameSessionHto);
         }
     }
 }
