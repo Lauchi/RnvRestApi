@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain;
@@ -13,19 +14,20 @@ namespace EventStoring
     public class EventStore : IEventStore
     {
         private readonly IGameSessionRepository _gameSessionRepository;
+        private readonly IMrxRepository _mrxRepository;
+        private readonly IPoliceOfficerRepository _policeOfficerRepository;
         private readonly IRnvRepository _rnvRepository;
         private readonly ICollection<GameSession> _startGameSessionsFromDb;
-        private readonly IMrxRepository _mrxRepository;
-        private IPoliceOfficerRepository _policeOfficerRepository;
 
         public EventStore(IGameSessionRepository gameSessionRepository, IRnvRepository rnvRepository,
-            IMrxRepository mrxRepository, IPoliceOfficerRepository policeOfficerRepository, IStartupLoadRepository loadRepository)
+            IMrxRepository mrxRepository, IPoliceOfficerRepository policeOfficerRepository,
+            IStartupLoadRepository loadRepository)
         {
             _gameSessionRepository = gameSessionRepository;
             _rnvRepository = rnvRepository;
             _mrxRepository = mrxRepository;
             _policeOfficerRepository = policeOfficerRepository;
-            
+
             _startGameSessionsFromDb = loadRepository.GetSessions();
 
             GameSession.GameSessionCreated += OnGameSessionCreated;
@@ -35,6 +37,34 @@ namespace EventStoring
             GameSession.PoliceOfficerDeleted += GameSessionOnPoliceOfficerDeleted;
             PoliceOfficer.PoliceOfficerMoved += OnPoliceOfficerMoved;
             MrX.MrxMoved += MrXOnMrxMoved;
+        }
+
+        public GameSession GetSession(GameSessionId gameSessionId, out DomainValidationResult validationResult)
+        {
+            var session = _startGameSessionsFromDb.FirstOrDefault(gs => gs.GameSessionId == gameSessionId);
+            validationResult = session == null
+                ? new DomainValidationResult("Game Session not found")
+                : DomainValidationResult.OkResult();
+            return session;
+        }
+
+        public MrX GetMrX(GameSessionId gameSessionId, out DomainValidationResult validationResult)
+        {
+            var gameSession = GetSession(gameSessionId, out validationResult);
+            return !validationResult.Ok ? null : gameSession.MrX;
+        }
+
+        public IEnumerable<PoliceOfficer> GetPoliceOfficers(GameSessionId gameSessionId,
+            out DomainValidationResult validationResult)
+        {
+            var gameSession = GetSession(gameSessionId, out validationResult);
+            return !validationResult.Ok ? null : gameSession.PoliceOfficers;
+        }
+
+        public async Task<Station> GetStation(StationId stationId)
+        {
+            var station = await _rnvRepository.GetStation(stationId);
+            return station;
         }
 
         private void MrXOnMrxMoved(Move move, MrX mrX)
@@ -73,34 +103,10 @@ namespace EventStoring
             _gameSessionRepository.Add(gameSession);
         }
 
-        public IEnumerable<GameSession> GetSessions()
+        public IEnumerable<GameSession> GetSessions(int timeDistanceInHours = 24)
         {
-            return _startGameSessionsFromDb;
-        }
-
-        public GameSession GetSession(GameSessionId gameSessionId, out DomainValidationResult validationResult)
-        {
-            var session = _startGameSessionsFromDb.FirstOrDefault(gs => gs.GameSessionId == gameSessionId);
-            validationResult = session == null ? new DomainValidationResult("Game Session not found") : DomainValidationResult.OkResult();
-            return session;
-        }
-
-        public MrX GetMrX(GameSessionId gameSessionId, out DomainValidationResult validationResult)
-        {
-            var gameSession = GetSession(gameSessionId, out validationResult);
-            return !validationResult.Ok ? null : gameSession.MrX;
-        }
-
-        public IEnumerable<PoliceOfficer> GetPoliceOfficers(GameSessionId gameSessionId, out DomainValidationResult validationResult)
-        {
-            var gameSession = GetSession(gameSessionId, out validationResult);
-            return !validationResult.Ok ? null : gameSession.PoliceOfficers;
-        }
-
-        public async Task<Station> GetStation(StationId stationId)
-        {
-            var station = await _rnvRepository.GetStation(stationId);
-            return station;
+            return _startGameSessionsFromDb.Where(session =>
+                session.StartTime > DateTime.Now.AddHours(-timeDistanceInHours) && session.StartTime <= DateTime.Now);
         }
     }
 }

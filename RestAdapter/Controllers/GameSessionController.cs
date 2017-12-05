@@ -18,9 +18,9 @@ namespace RestAdapter.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetGameSessions()
+        public IActionResult GetGameSessions([FromQuery] int timeDistanceInHours = 24)
         {
-            var gameSessions = _eventStore.GetSessions();
+            var gameSessions = _eventStore.GetSessions(timeDistanceInHours);
             var gameSessionHtos = gameSessions.Select(session => new GameSessionHto(session));
             return Ok(gameSessionHtos);
         }

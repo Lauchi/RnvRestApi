@@ -8,7 +8,7 @@ namespace EventStoring
 {
     public interface IEventStore
     {
-        IEnumerable<GameSession> GetSessions();
+        IEnumerable<GameSession> GetSessions(int timeDistanceInHours = 24);
         GameSession GetSession(GameSessionId gameSessionId, out DomainValidationResult validationResult);
         MrX GetMrX(GameSessionId gameSessionId, out DomainValidationResult validationResult);
         IEnumerable<PoliceOfficer> GetPoliceOfficers(GameSessionId gameSessionId, out DomainValidationResult validationResult);
